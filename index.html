@@ -8,104 +8,158 @@
 <style>
 :root{
 --bg:#0a0d1a;--panel:#0f1328;--panel2:#12173a;--line:#1e2450;
---pri:#7b86ff;--pri2:#9fb0ff;--txt:#eef1ff;--mut:#b7bdff;
+--pri:#7b86ff;--pri2:#9fb0ff;--txt:#eef1ff;
 }
 *{box-sizing:border-box}
 body{margin:0;font-family:Inter;background:var(--bg);color:var(--txt)}
-section{max-width:1100px;margin:auto;padding:80px 16px}
-.title{text-align:center;font-size:34px;margin-bottom:40px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px}
+a{text-decoration:none;color:inherit}
+nav{position:sticky;top:0;background:#0a0d1ae6;border-bottom:1px solid var(--line)}
+nav .wrap{max-width:1200px;margin:auto;display:flex;justify-content:space-between;align-items:center;padding:14px}
+.brand{font-weight:800;letter-spacing:2px}
+.links a{margin:0 10px}
+.links .cta{background:linear-gradient(90deg,var(--pri),var(--pri2));color:#000;padding:10px 16px;border-radius:10px;font-weight:800}
+
+section{max-width:1200px;margin:auto;padding:80px 16px}
+.title{text-align:center;font-size:36px;margin-bottom:40px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:22px}
+
 input,textarea{width:100%;padding:12px;margin:8px 0;border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:var(--txt)}
 button{padding:14px;border-radius:12px;border:none;background:linear-gradient(90deg,var(--pri),var(--pri2));font-weight:800;cursor:pointer}
-small{opacity:.7}
-.admin{display:none}
+
+.hero{min-height:90vh;display:grid;place-items:center}
+.hero h1{font-size:70px;letter-spacing:6px;margin:0}
+.ip{background:var(--panel);padding:14px 18px;border-radius:12px;font-weight:800;margin-top:16px;display:inline-block}
+footer{text-align:center;opacity:.6;padding:24px;border-top:1px solid var(--line)}
 </style>
 </head>
 <body>
 
-<section>
-<h2 class="title">🎫 Ticket</h2>
+<nav>
+<div class="wrap">
+<div class="brand">SUNONW</div>
+<div class="links">
+<a href="#mods">Oyun Modu</a>
+<a href="#market">Market</a>
+<a href="#support">Ticket</a>
+<a href="#staff">Yetkili</a>
+<a href="#login" class="cta">Giriş / Kayıt</a>
+</div>
+</div>
+</nav>
+
+<div class="hero">
+<div style="text-align:center">
+<h1>SUNONW</h1>
+<p>Rekabetçi • Akıcı • Modern</p>
+<div class="ip">sunonw.aternos.me</div>
+<br><br>
+<a href="https://discord.gg/JJvHprPs" target="_blank">Discord</a>
+</div>
+</div>
+
+<section id="mods">
+<h2 class="title">Oyun Modu</h2>
 <div class="grid">
-<div class="card">
-<input id="tNick" placeholder="Kullanıcı Adı">
-<input id="tKonu" placeholder="Konu">
-<textarea id="tMesaj" placeholder="Sorun"></textarea>
-<button onclick="ticketGonder()">Gönder</button>
-<small id="tDurum"></small>
+<div class="card" style="text-align:center">
+<h3>📦 BoxMining</h3>
+<p>Kaz • Sandık • Rekabet</p>
 </div>
 </div>
 </section>
 
-<section>
-<h2 class="title">🛡️ Yetkili Başvuru</h2>
+<section id="market">
+<h2 class="title">Market</h2>
 <div class="grid">
 <div class="card">
-<input id="yNick" placeholder="Oyun Nick">
+<h3>VIP</h3><p>₺49.99</p>
+<button onclick="satinAl('VIP')">Satın Al</button>
+</div>
+<div class="card">
+<h3>MVIP</h3><p>₺79.99</p>
+<button onclick="satinAl('MVIP')">Satın Al</button>
+</div>
+<div class="card">
+<h3>SVIP</h3><p>₺129.99</p>
+<button onclick="satinAl('SVIP')">Satın Al</button>
+</div>
+</div>
+</section>
+
+<section id="support">
+<h2 class="title">Ticket</h2>
+<div class="grid">
+<div class="card">
+<input id="tNick" placeholder="Nick">
+<input id="tKonu" placeholder="Konu">
+<textarea id="tMesaj" placeholder="Mesaj"></textarea>
+<button onclick="ticketGonder()">Gönder</button>
+<p id="tDurum"></p>
+</div>
+</div>
+</section>
+
+<section id="staff">
+<h2 class="title">Yetkili Başvuru</h2>
+<div class="grid">
+<div class="card">
+<input id="yNick" placeholder="Nick">
 <input id="yYas" placeholder="Yaş">
 <textarea id="yDeneyim" placeholder="Deneyim"></textarea>
-<button onclick="yetkiliBasvur()">Başvur</button>
-<small id="yDurum"></small>
+<button onclick="yetkiliGonder()">Başvur</button>
+<p id="yDurum"></p>
 </div>
 </div>
 </section>
 
-<section>
-<h2 class="title">👥 Aktif Oyuncu</h2>
-<div class="card" style="text-align:center">
-<h1 id="online">0</h1>
-<small>Şu an çevrimiçi</small>
-</div>
-</section>
-
-<section class="admin" id="admin">
-<h2 class="title">🔒 Admin Panel</h2>
+<section id="login">
+<h2 class="title">Giriş / Kayıt</h2>
 <div class="grid">
 <div class="card">
-<h3>Ticketlar</h3>
-<ul id="ticketListe"></ul>
+<h3>Giriş</h3>
+<input id="gNick" placeholder="Kullanıcı">
+<input id="gSifre" type="password" placeholder="Şifre">
+<button onclick="giris()">Giriş Yap</button>
+<p id="gDurum"></p>
 </div>
 <div class="card">
-<h3>Yetkili Başvuruları</h3>
-<ul id="yetkiliListe"></ul>
+<h3>Kayıt</h3>
+<input id="kNick" placeholder="Kullanıcı">
+<input id="kMail" placeholder="E-posta">
+<input id="kSifre" type="password" placeholder="Şifre">
+<button onclick="kayit()">Kayıt Ol</button>
+<p id="kDurum"></p>
 </div>
 </div>
 </section>
 
+<footer>© 2026 SUNONW</footer>
+
 <script>
-/* TICKET */
+function kayit(){
+const u={nick:kNick.value,mail:kMail.value,sifre:kSifre.value};
+localStorage.setItem("user_"+u.nick,JSON.stringify(u));
+kDurum.innerText="Kayıt başarılı";
+}
+function giris(){
+const u=JSON.parse(localStorage.getItem("user_"+gNick.value));
+gDurum.innerText=(u&&u.sifre===gSifre.value)?"Giriş başarılı":"Hatalı bilgi";
+}
 function ticketGonder(){
-const t={nick:tNick.value,konu:tKonu.value,mesaj:tMesaj.value};
-const list=JSON.parse(localStorage.getItem("tickets")||"[]");
-list.push(t);localStorage.setItem("tickets",JSON.stringify(list));
-tDurum.innerText="Gönderildi";
-tNick.value=tKonu.value=tMesaj.value="";
+const t=JSON.parse(localStorage.getItem("tickets")||"[]");
+t.push({nick:tNick.value,konu:tKonu.value,mesaj:tMesaj.value});
+localStorage.setItem("tickets",JSON.stringify(t));
+tDurum.innerText="Ticket gönderildi";
 }
-
-/* YETKILI */
-function yetkiliBasvur(){
-const y={nick:yNick.value,yas:yYas.value,deneyim:yDeneyim.value};
-const list=JSON.parse(localStorage.getItem("yetkililer")||"[]");
-list.push(y);localStorage.setItem("yetkililer",JSON.stringify(list));
+function yetkiliGonder(){
+const y=JSON.parse(localStorage.getItem("yetkili")||"[]");
+y.push({nick:yNick.value,yas:yYas.value,deneyim:yDeneyim.value});
+localStorage.setItem("yetkili",JSON.stringify(y));
 yDurum.innerText="Başvuru alındı";
-yNick.value=yYas.value=yDeneyim.value="";
 }
-
-/* ADMIN (ŞİFRE: admin123) */
-const pass=prompt("Admin misin? Şifre gir (iptal geç):");
-if(pass==="admin123"){
-admin.style.display="block";
-JSON.parse(localStorage.getItem("tickets")||"[]")
-.forEach(t=>ticketListe.innerHTML+=`<li>${t.nick} - ${t.konu}</li>`);
-JSON.parse(localStorage.getItem("yetkililer")||"[]")
-.forEach(y=>yetkiliListe.innerHTML+=`<li>${y.nick} (${y.yas})</li>`);
+function satinAl(paket){
+alert(paket+" satın alma isteği alındı (demo)");
 }
-
-/* ONLINE */
-setInterval(()=>{
-document.getElementById("online").innerText=
-Math.floor(Math.random()*20)+5;
-},3000);
 </script>
 
 </body>
