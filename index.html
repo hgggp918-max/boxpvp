@@ -13,57 +13,61 @@
 *{box-sizing:border-box}
 body{margin:0;font-family:Inter;background:var(--bg);color:var(--txt)}
 a{text-decoration:none;color:inherit}
-nav{position:sticky;top:0;background:#0a0d1ae6;border-bottom:1px solid var(--line)}
-nav .wrap{max-width:1200px;margin:auto;display:flex;justify-content:space-between;align-items:center;padding:14px}
-.brand{font-weight:800;letter-spacing:2px}
-.links a{margin:0 10px}
-.links .cta{background:linear-gradient(90deg,var(--pri),var(--pri2));color:#000;padding:10px 16px;border-radius:10px;font-weight:800}
-
-section{max-width:1200px;margin:auto;padding:80px 16px}
+.nav{position:sticky;top:0;background:#0a0d1acc;border-bottom:1px solid var(--line)}
+.nav .wrap{max-width:1200px;margin:auto;display:flex;justify-content:space-between;padding:14px}
+.links a{margin:0 10px;font-weight:600}
+.hero{padding:80px 20px;text-align:center}
+h1{font-size:70px;letter-spacing:6px}
+.ip{background:var(--panel);display:inline-block;padding:14px 20px;border-radius:12px;font-weight:800}
+section{max-width:1200px;margin:auto;padding:80px 20px}
 .title{text-align:center;font-size:36px;margin-bottom:40px}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:22px}
-
+.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:24px}
+.btn{padding:12px 18px;border-radius:10px;border:none;font-weight:700;background:linear-gradient(90deg,var(--pri),var(--pri2));cursor:pointer}
 input,textarea{width:100%;padding:12px;margin:8px 0;border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:var(--txt)}
-button{padding:14px;border-radius:12px;border:none;background:linear-gradient(90deg,var(--pri),var(--pri2));font-weight:800;cursor:pointer}
-
-.hero{min-height:90vh;display:grid;place-items:center}
-.hero h1{font-size:70px;letter-spacing:6px;margin:0}
-.ip{background:var(--panel);padding:14px 18px;border-radius:12px;font-weight:800;margin-top:16px;display:inline-block}
-footer{text-align:center;opacity:.6;padding:24px;border-top:1px solid var(--line)}
+footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.7}
+.stat{font-size:42px;font-weight:800;color:var(--pri)}
 </style>
 </head>
+
 <body>
 
-<nav>
+<nav class="nav">
 <div class="wrap">
-<div class="brand">SUNONW</div>
+<b>SUNONW</b>
 <div class="links">
 <a href="#mods">Oyun Modu</a>
 <a href="#market">Market</a>
-<a href="#support">Ticket</a>
-<a href="#staff">Yetkili</a>
-<a href="#login" class="cta">Giriş / Kayıt</a>
+<a href="#players">Oyuncular</a>
+<a href="#ticket">Ticket</a>
+<a href="#apply">Yetkili Başvuru</a>
+<a href="#login">Giriş</a>
 </div>
 </div>
 </nav>
 
 <div class="hero">
-<div style="text-align:center">
 <h1>SUNONW</h1>
-<p>Rekabetçi • Akıcı • Modern</p>
+<p>Rekabetçi • BoxMining</p>
 <div class="ip">sunonw.aternos.me</div>
-<br><br>
-<a href="https://discord.gg/JJvHprPs" target="_blank">Discord</a>
+</div>
+
+<section id="players">
+<h2 class="title">Aktif Oyuncular</h2>
+<div class="grid">
+<div class="card" style="text-align:center">
+<div class="stat" id="online">23</div>
+<p>Online Oyuncu</p>
 </div>
 </div>
+</section>
 
 <section id="mods">
 <h2 class="title">Oyun Modu</h2>
 <div class="grid">
-<div class="card" style="text-align:center">
+<div class="card">
 <h3>📦 BoxMining</h3>
-<p>Kaz • Sandık • Rekabet</p>
+<p>Kaz • Kasa Aç • Rank Atla • Rekabet Et</p>
 </div>
 </div>
 </section>
@@ -72,42 +76,46 @@ footer{text-align:center;opacity:.6;padding:24px;border-top:1px solid var(--line
 <h2 class="title">Market</h2>
 <div class="grid">
 <div class="card">
-<h3>VIP</h3><p>₺49.99</p>
-<button onclick="satinAl('VIP')">Satın Al</button>
+<h3>VIP</h3>
+<p>Prefix • Günlük Ödül</p>
+<b>₺49</b><br><br>
+<button class="btn" onclick="buy('VIP')">Satın Al</button>
 </div>
 <div class="card">
-<h3>MVIP</h3><p>₺79.99</p>
-<button onclick="satinAl('MVIP')">Satın Al</button>
+<h3>MVIP</h3>
+<p>VIP + Fly</p>
+<b>₺79</b><br><br>
+<button class="btn" onclick="buy('MVIP')">Satın Al</button>
 </div>
 <div class="card">
-<h3>SVIP</h3><p>₺129.99</p>
-<button onclick="satinAl('SVIP')">Satın Al</button>
+<h3>SVIP</h3>
+<p>Tüm Özellikler</p>
+<b>₺129</b><br><br>
+<button class="btn" onclick="buy('SVIP')">Satın Al</button>
 </div>
 </div>
 </section>
 
-<section id="support">
+<section id="ticket">
 <h2 class="title">Ticket</h2>
 <div class="grid">
 <div class="card">
-<input id="tNick" placeholder="Nick">
-<input id="tKonu" placeholder="Konu">
-<textarea id="tMesaj" placeholder="Mesaj"></textarea>
-<button onclick="ticketGonder()">Gönder</button>
-<p id="tDurum"></p>
+<input placeholder="Kullanıcı Adı">
+<input placeholder="Konu">
+<textarea placeholder="Sorunun"></textarea>
+<button class="btn" onclick="alert('Ticket gönderildi (demo)')">Gönder</button>
 </div>
 </div>
 </section>
 
-<section id="staff">
+<section id="apply">
 <h2 class="title">Yetkili Başvuru</h2>
 <div class="grid">
 <div class="card">
-<input id="yNick" placeholder="Nick">
-<input id="yYas" placeholder="Yaş">
-<textarea id="yDeneyim" placeholder="Deneyim"></textarea>
-<button onclick="yetkiliGonder()">Başvur</button>
-<p id="yDurum"></p>
+<input placeholder="Kullanıcı Adı">
+<input placeholder="Yaş">
+<textarea placeholder="Neden yetkili olmak istiyorsun?"></textarea>
+<button class="btn" onclick="alert('Başvuru alındı (demo)')">Başvur</button>
 </div>
 </div>
 </section>
@@ -117,18 +125,16 @@ footer{text-align:center;opacity:.6;padding:24px;border-top:1px solid var(--line
 <div class="grid">
 <div class="card">
 <h3>Giriş</h3>
-<input id="gNick" placeholder="Kullanıcı">
-<input id="gSifre" type="password" placeholder="Şifre">
-<button onclick="giris()">Giriş Yap</button>
-<p id="gDurum"></p>
+<input placeholder="Kullanıcı Adı">
+<input type="password" placeholder="Şifre">
+<button class="btn">Giriş Yap</button>
 </div>
 <div class="card">
 <h3>Kayıt</h3>
-<input id="kNick" placeholder="Kullanıcı">
-<input id="kMail" placeholder="E-posta">
-<input id="kSifre" type="password" placeholder="Şifre">
-<button onclick="kayit()">Kayıt Ol</button>
-<p id="kDurum"></p>
+<input placeholder="Kullanıcı Adı">
+<input placeholder="E-posta">
+<input type="password" placeholder="Şifre">
+<button class="btn">Kayıt Ol</button>
 </div>
 </div>
 </section>
@@ -136,29 +142,8 @@ footer{text-align:center;opacity:.6;padding:24px;border-top:1px solid var(--line
 <footer>© 2026 SUNONW</footer>
 
 <script>
-function kayit(){
-const u={nick:kNick.value,mail:kMail.value,sifre:kSifre.value};
-localStorage.setItem("user_"+u.nick,JSON.stringify(u));
-kDurum.innerText="Kayıt başarılı";
-}
-function giris(){
-const u=JSON.parse(localStorage.getItem("user_"+gNick.value));
-gDurum.innerText=(u&&u.sifre===gSifre.value)?"Giriş başarılı":"Hatalı bilgi";
-}
-function ticketGonder(){
-const t=JSON.parse(localStorage.getItem("tickets")||"[]");
-t.push({nick:tNick.value,konu:tKonu.value,mesaj:tMesaj.value});
-localStorage.setItem("tickets",JSON.stringify(t));
-tDurum.innerText="Ticket gönderildi";
-}
-function yetkiliGonder(){
-const y=JSON.parse(localStorage.getItem("yetkili")||"[]");
-y.push({nick:yNick.value,yas:yYas.value,deneyim:yDeneyim.value});
-localStorage.setItem("yetkili",JSON.stringify(y));
-yDurum.innerText="Başvuru alındı";
-}
-function satinAl(paket){
-alert(paket+" satın alma isteği alındı (demo)");
+function buy(pkg){
+alert(pkg+" satın alma demo. Gerçek satış için Tebex gerekir.");
 }
 </script>
 
