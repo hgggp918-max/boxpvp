@@ -14,19 +14,21 @@
 body{margin:0;font-family:Inter;background:var(--bg);color:var(--txt)}
 a{text-decoration:none;color:inherit}
 .nav{position:sticky;top:0;background:#0a0d1acc;border-bottom:1px solid var(--line)}
-.nav .wrap{max-width:1200px;margin:auto;display:flex;justify-content:space-between;padding:14px}
+.nav .wrap{max-width:1200px;margin:auto;display:flex;justify-content:space-between;align-items:center;padding:14px}
 .links a{margin:0 10px;font-weight:600}
-.hero{padding:80px 20px;text-align:center}
-h1{font-size:70px;letter-spacing:6px}
-.ip{background:var(--panel);display:inline-block;padding:14px 20px;border-radius:12px;font-weight:800}
-section{max-width:1200px;margin:auto;padding:80px 20px}
-.title{text-align:center;font-size:36px;margin-bottom:40px}
+.hero{padding:90px 20px;text-align:center}
+h1{font-size:72px;letter-spacing:6px;margin:0}
+.ip{display:inline-block;margin-top:20px;background:var(--panel);padding:14px 22px;border-radius:12px;font-weight:800}
+.btn{padding:12px 18px;border-radius:10px;border:none;font-weight:800;cursor:pointer;
+background:linear-gradient(90deg,var(--pri),var(--pri2));color:#0a0d1a}
+section{max-width:1200px;margin:auto;padding:90px 20px}
+.title{text-align:center;font-size:38px;margin-bottom:40px}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:24px}
-.btn{padding:12px 18px;border-radius:10px;border:none;font-weight:700;background:linear-gradient(90deg,var(--pri),var(--pri2));cursor:pointer}
-input,textarea{width:100%;padding:12px;margin:8px 0;border-radius:10px;border:1px solid var(--line);background:var(--panel2);color:var(--txt)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:26px}
+input,textarea{width:100%;padding:12px;margin:8px 0;border-radius:10px;border:1px solid var(--line);
+background:var(--panel2);color:var(--txt)}
+.stat{font-size:48px;font-weight:800;color:var(--pri)}
 footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.7}
-.stat{font-size:42px;font-weight:800;color:var(--pri)}
 </style>
 </head>
 
@@ -41,22 +43,24 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
 <a href="#players">Oyuncular</a>
 <a href="#ticket">Ticket</a>
 <a href="#apply">Yetkili Başvuru</a>
-<a href="#login">Giriş</a>
+<a href="#login">Giriş / Kayıt</a>
+<a href="https://discord.gg/JJvHprPs" target="_blank">Discord</a>
 </div>
 </div>
 </nav>
 
 <div class="hero">
 <h1>SUNONW</h1>
-<p>Rekabetçi • BoxMining</p>
-<div class="ip">sunonw.aternos.me</div>
+<p>Modern • Rekabetçi • BoxMining</p>
+<div class="ip">sunonw.aternos.me</div><br><br>
+<a class="btn" href="https://discord.gg/JJvHprPs" target="_blank">Discord’a Katıl</a>
 </div>
 
 <section id="players">
 <h2 class="title">Aktif Oyuncular</h2>
 <div class="grid">
 <div class="card" style="text-align:center">
-<div class="stat" id="online">23</div>
+<div class="stat" id="online">27</div>
 <p>Online Oyuncu</p>
 </div>
 </div>
@@ -67,7 +71,7 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
 <div class="grid">
 <div class="card">
 <h3>📦 BoxMining</h3>
-<p>Kaz • Kasa Aç • Rank Atla • Rekabet Et</p>
+<p>Kaz • Kasa Aç • Rank Atla • Etkinlikler • Özel Enchantlar</p>
 </div>
 </div>
 </section>
@@ -76,19 +80,19 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
 <h2 class="title">Market</h2>
 <div class="grid">
 <div class="card">
-<h3>VIP</h3>
+<h3>💎 VIP</h3>
 <p>Prefix • Günlük Ödül</p>
 <b>₺49</b><br><br>
 <button class="btn" onclick="buy('VIP')">Satın Al</button>
 </div>
 <div class="card">
-<h3>MVIP</h3>
+<h3>🔥 MVIP</h3>
 <p>VIP + Fly</p>
 <b>₺79</b><br><br>
 <button class="btn" onclick="buy('MVIP')">Satın Al</button>
 </div>
 <div class="card">
-<h3>SVIP</h3>
+<h3>👑 SVIP</h3>
 <p>Tüm Özellikler</p>
 <b>₺129</b><br><br>
 <button class="btn" onclick="buy('SVIP')">Satın Al</button>
@@ -97,12 +101,12 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
 </section>
 
 <section id="ticket">
-<h2 class="title">Ticket</h2>
+<h2 class="title">Destek / Ticket</h2>
 <div class="grid">
 <div class="card">
 <input placeholder="Kullanıcı Adı">
 <input placeholder="Konu">
-<textarea placeholder="Sorunun"></textarea>
+<textarea placeholder="Sorununuzu yazın"></textarea>
 <button class="btn" onclick="alert('Ticket gönderildi (demo)')">Gönder</button>
 </div>
 </div>
@@ -124,13 +128,13 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
 <h2 class="title">Giriş / Kayıt</h2>
 <div class="grid">
 <div class="card">
-<h3>Giriş</h3>
+<h3>Giriş Yap</h3>
 <input placeholder="Kullanıcı Adı">
 <input type="password" placeholder="Şifre">
 <button class="btn">Giriş Yap</button>
 </div>
 <div class="card">
-<h3>Kayıt</h3>
+<h3>Kayıt Ol</h3>
 <input placeholder="Kullanıcı Adı">
 <input placeholder="E-posta">
 <input type="password" placeholder="Şifre">
@@ -139,11 +143,11 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
 </div>
 </section>
 
-<footer>© 2026 SUNONW</footer>
+<footer>© 2026 SUNONW • Discord: discord.gg/JJvHprPs</footer>
 
 <script>
-function buy(pkg){
-alert(pkg+" satın alma demo. Gerçek satış için Tebex gerekir.");
+function buy(paket){
+alert(paket + " satın alma DEMO. Gerçek satış için Tebex/Shopier gerekir.");
 }
 </script>
 
