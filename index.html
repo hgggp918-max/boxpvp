@@ -38,10 +38,9 @@ background:var(--panel);padding:8px 14px;border-radius:14px
 .profile img{width:36px;height:36px;border-radius:8px}
 footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.7}
 .hidden{display:none}
-.vote-msg{margin-top:10px;color:#ffd56b;text-align:center;}
+.vote-msg{margin-top:10px;color:#ffd56b;text-align:center;font-weight:700;}
 </style>
 </head>
-
 <body>
 
 <nav>
@@ -108,12 +107,11 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
 </div>
 </section>
 
-<section id="vote">
-<h2 style="text-align:center">Vote</h2>
-<div>
-  <button class="btn primary" id="voteBtn">Vote & Kasa Al</button>
+<!-- ================== VOTE BÖLÜMÜ ================== -->
+<section id="vote" style="padding:50px 20px;text-align:center;">
+  <h2 style="margin-bottom:20px;">🎉 Vote & Kasa Al</h2>
+  <button class="btn primary" id="voteBtn" style="font-size:18px;padding:12px 24px;">Vote & Kasa Al</button>
   <p id="voteMsg" class="vote-msg"></p>
-</div>
 </section>
 
 <section id="auth">
@@ -220,8 +218,6 @@ document.getElementById("voteBtn").onclick = function() {
         headers:{"Content-Type":"application/json"},
         body:JSON.stringify({content:`🎉 **VOTE**\n👤 ${player} site üzerinden vote yaptı ve kasa aldı!`})
     });
-
-    // İstersen VotingPlugin entegrasyonu ile sunucuya direkt komut gönderebilirsin
 }
 </script>
 
