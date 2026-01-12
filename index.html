@@ -61,7 +61,6 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
   <h1>WARZONE</h1>
   <p>En sert BoxPvP deneyimi</p>
   <div class="ip">warzonebox.aternos.me</div>
-  <button class="btn primary" onclick="copyIP()">IP KOPYALA</button>
 </section>
 
 <section id="mode">
@@ -107,26 +106,17 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
 <script>
 const WEBHOOK_URL = "https://discord.com/api/webhooks/1460226084225290384/Gho1_pIzUhT9Kfe815m85AkyiOzVIswriVsWIis8IOWiCsDXN4HsWb8Ub9RQWtca3aV9";
 
-function copyIP(){
-  navigator.clipboard.writeText("warzone.aternos.me");
-  alert("IP kopyalandı");
-}
-
 function sendTicket(){
-  const name = t_name.value;
-  const msg = t_msg.value;
-  if(!name || !msg){ alert("Boş bırakma"); return; }
-
+  if(!t_name.value || !t_msg.value){ alert("Boş bırakma"); return; }
   fetch(WEBHOOK_URL,{
     method:"POST",
     headers:{"Content-Type":"application/json"},
     body:JSON.stringify({
       embeds:[{
         title:"🎫 WARZONE TICKET",
-        color:3447003,
         fields:[
-          {name:"Oyuncu",value:name},
-          {name:"Mesaj",value:msg}
+          {name:"Oyuncu",value:t_name.value},
+          {name:"Mesaj",value:t_msg.value}
         ]
       }]
     })
@@ -135,22 +125,17 @@ function sendTicket(){
 }
 
 function sendStaff(){
-  const name = s_name.value;
-  const age = s_age.value;
-  const why = s_reason.value;
-  if(!name||!age||!why){ alert("Boş bırakma"); return; }
-
+  if(!s_name.value || !s_age.value || !s_reason.value){ alert("Boş bırakma"); return; }
   fetch(WEBHOOK_URL,{
     method:"POST",
     headers:{"Content-Type":"application/json"},
     body:JSON.stringify({
       embeds:[{
         title:"🛡️ YETKİLİ BAŞVURUSU",
-        color:15105570,
         fields:[
-          {name:"Oyuncu",value:name},
-          {name:"Yaş",value:age},
-          {name:"Açıklama",value:why}
+          {name:"Oyuncu",value:s_name.value},
+          {name:"Yaş",value:s_age.value},
+          {name:"Açıklama",value:s_reason.value}
         ]
       }]
     })
@@ -161,4 +146,3 @@ function sendStaff(){
 
 </body>
 </html>
-
