@@ -5,7 +5,6 @@
 <title>WARZONE | BoxPvP</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-
 <style>
 :root{
 --bg:#0a0d1a;--panel:#0f1328;--panel2:#12173a;--line:#1e2450;
@@ -52,11 +51,11 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
       <a href="#market">Market</a>
       <a href="#ticket">Ticket</a>
       <a href="#staff">Yetkili</a>
-      <a href="#auth" id="authBtn">Giriş / Kayıt</a>
+      <a href="#auth">Giriş / Kayıt</a>
       <a class="cta" href="https://discord.gg/pHemx3jf" target="_blank">Discord</a>
     </div>
     <div class="profile hidden" id="profile">
-      <img id="mcHead" src="">
+      <img id="mcHead">
       <span id="mcName"></span>
       <button class="btn" onclick="logout()">Çıkış</button>
     </div>
@@ -75,7 +74,7 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
 <div class="grid">
   <div class="card" style="text-align:center">
     <h3>⚔️ BoxPvP</h3>
-    <p>Tek oyun modu • Rekabet • Event</p>
+    <p>Tek oyun modu</p>
   </div>
 </div>
 </section>
@@ -83,9 +82,9 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
 <section id="market">
 <h2 style="text-align:center">Market</h2>
 <div class="grid">
-  <div class="card"><h3>VIP</h3><p>Ek komutlar</p><b>₺49.99</b></div>
-  <div class="card"><h3>MVIP</h3><p>Daha fazla yetki</p><b>₺79.99</b></div>
-  <div class="card"><h3>SVIP</h3><p>Tüm ayrıcalıklar</p><b>₺129.99</b></div>
+  <div class="card"><h3>VIP</h3><b>₺49.99</b></div>
+  <div class="card"><h3>MVIP</h3><b>₺79.99</b></div>
+  <div class="card"><h3>SVIP</h3><b>₺129.99</b></div>
 </div>
 </section>
 
@@ -101,7 +100,7 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
 <section id="staff">
 <h2 style="text-align:center">Yetkili Başvuru</h2>
 <div class="card">
-  <input id="dc_name" placeholder="Discord İsmin (zorunlu)">
+  <input id="dc_name" placeholder="Discord İsmin">
   <textarea id="why" placeholder="Neden yetkili olmak istiyorsun?"></textarea>
   <textarea id="benefit" placeholder="Sunucuya katkıların"></textarea>
   <button class="btn primary" onclick="sendStaff()">Başvur</button>
@@ -126,7 +125,7 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
 </div>
 </section>
 
-<footer>© 2026 WARZONE • BoxPvP</footer>
+<footer>© 2026 WARZONE</footer>
 
 <script>
 const WEBHOOK_MAIN="https://discord.com/api/webhooks/1460226084225290384/Gho1_pIzUhT9Kfe815m85AkyiOzVIswriVsWIis8IOWiCsDXN4HsWb8Ub9RQWtca3aV9";
@@ -134,48 +133,29 @@ const WEBHOOK_REGISTER="https://discord.com/api/webhooks/1460299783473467565/-3z
 
 function copyIP(){
   navigator.clipboard.writeText("warzonebox.aternos.me");
-  alert("IP kopyalandı");
 }
 
 function sendTicket(){
-  if(!t_name.value||!t_msg.value)return alert("Boş bırakma");
   fetch(WEBHOOK_MAIN,{
     method:"POST",
     headers:{"Content-Type":"application/json"},
     body:JSON.stringify({
-      embeds:[{
-        title:"🎫 TICKET",
-        fields:[
-          {name:"Oyuncu",value:t_name.value},
-          {name:"Mesaj",value:t_msg.value}
-        ]
-      }]
+      content:`🎫 **TICKET**\n👤 ${t_name.value}\n📝 ${t_msg.value}`
     })
   });
-  alert("Ticket gönderildi");
 }
 
 function sendStaff(){
-  if(!dc_name.value||!why.value||!benefit.value)return alert("Boş bırakma");
   fetch(WEBHOOK_MAIN,{
     method:"POST",
     headers:{"Content-Type":"application/json"},
     body:JSON.stringify({
-      embeds:[{
-        title:"🛡️ YETKİLİ BAŞVURU",
-        fields:[
-          {name:"Discord",value:dc_name.value},
-          {name:"Neden?",value:why.value},
-          {name:"Katkılar",value:benefit.value}
-        ]
-      }]
+      content:`🛡️ **YETKİLİ BAŞVURU**\n👤 ${dc_name.value}\n❓ ${why.value}\n⭐ ${benefit.value}`
     })
   });
-  alert("Başvuru gönderildi");
 }
 
 function register(){
-  if(!r_user.value||!r_pass.value)return alert("Boş bırakma");
   localStorage.setItem("user_"+r_user.value,r_pass.value);
   localStorage.setItem("logged",r_user.value);
 
@@ -183,12 +163,7 @@ function register(){
     method:"POST",
     headers:{"Content-Type":"application/json"},
     body:JSON.stringify({
-      embeds:[{
-        title:"🆕 SİTEDEN KAYIT",
-        fields:[
-          {name:"Minecraft Adı",value:r_user.value}
-        ]
-      }]
+      content:`🎉 **ARAMIZA HOŞ GELDİN!**\n👤 ${r_user.value} siteden kayıt oldu.`
     })
   });
 
@@ -196,8 +171,7 @@ function register(){
 }
 
 function login(){
-  const p=localStorage.getItem("user_"+l_user.value);
-  if(p!==l_pass.value)return alert("Hatalı bilgi");
+  if(localStorage.getItem("user_"+l_user.value)!==l_pass.value)return;
   localStorage.setItem("logged",l_user.value);
   showProfile(l_user.value);
 }
@@ -206,13 +180,12 @@ function showProfile(name){
   document.getElementById("auth").classList.add("hidden");
   document.getElementById("navLinks").classList.add("hidden");
   document.getElementById("profile").classList.remove("hidden");
-  document.getElementById("mcName").innerText=name;
-  document.getElementById("mcHead").src=
-    "https://mc-heads.net/avatar/"+name+"/64";
+  mcName.innerText=name;
+  mcHead.src="https://mc-heads.net/avatar/"+name+"/64";
 }
 
 function logout(){
-  localStorage.removeItem("logged");
+  localStorage.clear();
   location.reload();
 }
 
@@ -224,3 +197,4 @@ window.onload=()=>{
 
 </body>
 </html>
+
