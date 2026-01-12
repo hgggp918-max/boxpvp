@@ -27,7 +27,7 @@ section{max-width:1200px;margin:auto;padding:80px 20px}
 .primary{background:linear-gradient(90deg,var(--pri),var(--pri2));color:#000}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:24px}
-input,textarea,select{
+input,textarea{
 width:100%;padding:12px;margin:8px 0;
 background:var(--panel2);border:1px solid var(--line);
 color:white;border-radius:10px
@@ -45,7 +45,8 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
       <a href="#mode">Oyun Modu</a>
       <a href="#market">Market</a>
       <a href="#ticket">Ticket</a>
-      <a href="#staff">Yetkili Başvuru</a>
+      <a href="#staff">Yetkili</a>
+      <a href="#auth">Giriş / Kayıt</a>
       <a class="cta" href="https://discord.gg/pHemx3jf" target="_blank">Discord</a>
     </div>
   </div>
@@ -54,7 +55,8 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
 <section class="hero">
   <h1>WARZONE</h1>
   <p>En sert BoxPvP deneyimi</p>
-  <div class="ip">warzonebox.aternos.me</div>
+  <div class="ip" id="ip">warzonebox.aternos.me</div>
+  <button class="btn primary" onclick="copyIP()">IP KOPYALA</button>
 </section>
 
 <section id="mode">
@@ -62,7 +64,7 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
 <div class="grid">
   <div class="card" style="text-align:center">
     <h3>⚔️ BoxPvP</h3>
-    <p>Rekabet • Özel Enchant • Kasa • Eventler</p>
+    <p>Tek oyun modu • Rekabet • Event</p>
   </div>
 </div>
 </section>
@@ -89,60 +91,71 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
 <h2 style="text-align:center">Yetkili Başvuru</h2>
 <div class="card">
   <input id="dc_name" placeholder="Discord İsmin (zorunlu)">
-  <select id="dc_know">
-    <option value="">Discord biliyor musun?</option>
-    <option value="Evet">Evet</option>
-    <option value="Hayır">Hayır</option>
-  </select>
-  <textarea id="why_us" placeholder="Neden bizi seçtin?"></textarea>
-  <textarea id="contribute" placeholder="Bize ne katkıların olur?"></textarea>
+  <textarea id="why" placeholder="Neden yetkili olmak istiyorsun?"></textarea>
+  <textarea id="benefit" placeholder="Sunucuya katkıların"></textarea>
   <button class="btn primary" onclick="sendStaff()">Başvur</button>
+</div>
+</section>
+
+<section id="auth">
+<h2 style="text-align:center">Giriş / Kayıt</h2>
+<div class="grid">
+  <div class="card">
+    <h3>Kayıt Ol</h3>
+    <input id="r_user" placeholder="Kullanıcı adı">
+    <input id="r_pass" type="password" placeholder="Şifre">
+    <button class="btn primary" onclick="register()">Kayıt Ol</button>
+  </div>
+  <div class="card">
+    <h3>Giriş Yap</h3>
+    <input id="l_user" placeholder="Kullanıcı adı">
+    <input id="l_pass" type="password" placeholder="Şifre">
+    <button class="btn primary" onclick="login()">Giriş Yap</button>
+  </div>
 </div>
 </section>
 
 <footer>© 2026 WARZONE • BoxPvP</footer>
 
 <script>
-const WEBHOOK_URL = "https://discord.com/api/webhooks/1460226084225290384/Gho1_pIzUhT9Kfe815m85AkyiOzVIswriVsWIis8IOWiCsDXN4HsWb8Ub9RQWtca3aV9";
+const WEBHOOK_URL="https://discord.com/api/webhooks/1460226084225290384/Gho1_pIzUhT9Kfe815m85AkyiOzVIswriVsWIis8IOWiCsDXN4HsWb8Ub9RQWtca3aV9";
+
+function copyIP(){
+  navigator.clipboard.writeText("warzonebox.aternos.me");
+  alert("IP kopyalandı");
+}
 
 function sendTicket(){
-  if(!t_name.value || !t_msg.value){ alert("Boş bırakma"); return; }
-  fetch(WEBHOOK_URL,{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({
-      embeds:[{
-        title:"🎫 WARZONE TICKET",
-        fields:[
-          {name:"Oyuncu",value:t_name.value},
-          {name:"Mesaj",value:t_msg.value}
-        ]
-      }]
-    })
-  });
-  alert("Ticket gönderildi");
+  if(!t_name.value||!t_msg.value)return alert("Boş bırakma");
+  fetch(WEBHOOK_URL,{method:"POST",headers:{"Content-Type":"application/json"},
+  body:JSON.stringify({embeds:[{title:"🎫 TICKET",fields:[
+    {name:"Oyuncu",value:t_name.value},
+    {name:"Mesaj",value:t_msg.value}
+  ]}]})});
+  alert("Gönderildi");
 }
 
 function sendStaff(){
-  if(!dc_name.value || !dc_know.value || !why_us.value || !contribute.value){
-    alert("Boş bırakma"); return;
-  }
-  fetch(WEBHOOK_URL,{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({
-      embeds:[{
-        title:"🛡️ YETKİLİ BAŞVURUSU",
-        fields:[
-          {name:"Discord",value:dc_name.value},
-          {name:"Discord Bilgisi",value:dc_know.value},
-          {name:"Neden Biz?",value:why_us.value},
-          {name:"Katkılar",value:contribute.value}
-        ]
-      }]
-    })
-  });
+  if(!dc_name.value||!why.value||!benefit.value)return alert("Boş bırakma");
+  fetch(WEBHOOK_URL,{method:"POST",headers:{"Content-Type":"application/json"},
+  body:JSON.stringify({embeds:[{title:"🛡️ YETKİLİ BAŞVURU",fields:[
+    {name:"Discord",value:dc_name.value},
+    {name:"Neden?",value:why.value},
+    {name:"Katkılar",value:benefit.value}
+  ]}]})});
   alert("Başvuru gönderildi");
+}
+
+function register(){
+  if(!r_user.value||!r_pass.value)return alert("Boş bırakma");
+  localStorage.setItem("user_"+r_user.value,r_pass.value);
+  alert("Kayıt başarılı");
+}
+
+function login(){
+  const p=localStorage.getItem("user_"+l_user.value);
+  if(p===l_pass.value) alert("Giriş başarılı");
+  else alert("Hatalı bilgi");
 }
 </script>
 
