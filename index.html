@@ -38,6 +38,7 @@ background:var(--panel);padding:8px 14px;border-radius:14px
 .profile img{width:36px;height:36px;border-radius:8px}
 footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.7}
 .hidden{display:none}
+.vote-msg{margin-top:10px;color:#ffd56b;text-align:center;}
 </style>
 </head>
 
@@ -107,6 +108,14 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
 </div>
 </section>
 
+<section id="vote">
+<h2 style="text-align:center">Vote</h2>
+<div>
+  <button class="btn primary" id="voteBtn">Vote & Kasa Al</button>
+  <p id="voteMsg" class="vote-msg"></p>
+</div>
+</section>
+
 <section id="auth">
 <h2 style="text-align:center">Giriş / Kayıt</h2>
 <div class="grid">
@@ -130,18 +139,15 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
 <script>
 const WEBHOOK_MAIN="https://discord.com/api/webhooks/1460226084225290384/Gho1_pIzUhT9Kfe815m85AkyiOzVIswriVsWIis8IOWiCsDXN4HsWb8Ub9RQWtca3aV9";
 const WEBHOOK_REGISTER="https://discord.com/api/webhooks/1460299783473467565/-3zDPRmI0TYA0ZIMfayGMiJBUHvZ_BiX4tcGz0BmaFW-Kfe5EHZAAEbo3DIjDaUrsgiq";
+const VOTE_WEBHOOK="https://discord.com/api/webhooks/XXXX/XXXX"; // Minecraft ödül webhooku
 
-function copyIP(){
-  navigator.clipboard.writeText("warzonebox.aternos.me");
-}
+function copyIP(){navigator.clipboard.writeText("warzonebox.aternos.me");}
 
 function sendTicket(){
   fetch(WEBHOOK_MAIN,{
     method:"POST",
     headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({
-      content:`🎫 **TICKET**\n👤 ${t_name.value}\n📝 ${t_msg.value}`
-    })
+    body:JSON.stringify({content:`🎫 **TICKET**\n👤 ${t_name.value}\n📝 ${t_msg.value}`})
   });
 }
 
@@ -149,24 +155,18 @@ function sendStaff(){
   fetch(WEBHOOK_MAIN,{
     method:"POST",
     headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({
-      content:`🛡️ **YETKİLİ BAŞVURU**\n👤 ${dc_name.value}\n❓ ${why.value}\n⭐ ${benefit.value}`
-    })
+    body:JSON.stringify({content:`🛡️ **YETKİLİ BAŞVURU**\n👤 ${dc_name.value}\n❓ ${why.value}\n⭐ ${benefit.value}`})
   });
 }
 
 function register(){
   localStorage.setItem("user_"+r_user.value,r_pass.value);
   localStorage.setItem("logged",r_user.value);
-
   fetch(WEBHOOK_REGISTER,{
     method:"POST",
     headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({
-      content:`🎉 **ARAMIZA HOŞ GELDİN!**\n👤 ${r_user.value} siteden kayıt oldu.`
-    })
+    body:JSON.stringify({content:`🎉 **ARAMIZA HOŞ GELDİN!**\n👤 ${r_user.value} siteden kayıt oldu.`})
   });
-
   showProfile(r_user.value);
 }
 
@@ -184,17 +184,46 @@ function showProfile(name){
   mcHead.src="https://mc-heads.net/avatar/"+name+"/64";
 }
 
-function logout(){
-  localStorage.clear();
-  location.reload();
-}
+function logout(){localStorage.clear();location.reload();}
 
 window.onload=()=>{
   const u=localStorage.getItem("logged");
   if(u) showProfile(u);
 }
+
+// ================= VOTE SİSTEMİ =================
+const VOTE_COOLDOWN = 24 * 60 * 60 * 1000; // 24 saat
+
+document.getElementById("voteBtn").onclick = function() {
+    const player = localStorage.getItem("logged");
+    if(!player){
+        document.getElementById("voteMsg").innerText = "Önce giriş yap!";
+        return;
+    }
+
+    const lastVote = localStorage.getItem("vote_"+player);
+    const now = Date.now();
+
+    if(lastVote && now - lastVote < VOTE_COOLDOWN){
+        const remaining = Math.ceil((VOTE_COOLDOWN - (now - lastVote)) / 1000 / 60);
+        document.getElementById("voteMsg").innerText = `Zaten vote aldın! ${remaining} dakika sonra tekrar alabilirsin.`;
+        return;
+    }
+
+    // Vote başarılı, 24 saat kaydet
+    localStorage.setItem("vote_"+player, now);
+    document.getElementById("voteMsg").innerText = "Vote kasanı aldın!";
+
+    // Discord / Sunucu Webhook
+    fetch(VOTE_WEBHOOK,{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({content:`🎉 **VOTE**\n👤 ${player} site üzerinden vote yaptı ve kasa aldı!`})
+    });
+
+    // İstersen VotingPlugin entegrasyonu ile sunucuya direkt komut gönderebilirsin
+}
 </script>
 
 </body>
 </html>
-
