@@ -5,7 +5,6 @@
 <title>WARZONE | BoxPvP</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-
 <style>
 :root{
 --bg:#0a0d1a;--panel:#0f1328;--panel2:#12173a;--line:#1e2450;
@@ -14,30 +13,24 @@
 *{box-sizing:border-box}
 body{margin:0;font-family:Inter;background:var(--bg);color:var(--txt)}
 a{text-decoration:none;color:inherit}
-
 nav{position:sticky;top:0;background:#0a0d1ae6;border-bottom:1px solid var(--line)}
 nav .wrap{max-width:1200px;margin:auto;display:flex;justify-content:space-between;align-items:center;padding:14px}
 .brand{font-weight:800;font-size:22px}
 .links a{margin:0 10px;opacity:.85}
 .links .cta{background:linear-gradient(90deg,var(--pri),var(--pri2));color:#000;padding:8px 14px;border-radius:10px;font-weight:800}
-
 section{max-width:1200px;margin:auto;padding:80px 20px}
 .hero{text-align:center;padding:120px 20px}
 .hero h1{font-size:64px;letter-spacing:6px}
 .ip{font-size:22px;font-weight:800;margin:16px 0}
-
 .btn{padding:14px 22px;border-radius:12px;border:none;font-weight:800;cursor:pointer}
 .primary{background:linear-gradient(90deg,var(--pri),var(--pri2));color:#000}
-
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:24px}
-
 input,textarea{
 width:100%;padding:12px;margin:8px 0;
 background:var(--panel2);border:1px solid var(--line);
 color:white;border-radius:10px
 }
-
 footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.7}
 </style>
 </head>
@@ -60,7 +53,8 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
 <section class="hero">
   <h1>WARZONE</h1>
   <p>En sert BoxPvP deneyimi</p>
-  <div class="ip">warzonebox.aternos.me</div>
+  <div class="ip" id="serverIp">warzonebox.aternos.me</div>
+  <button class="btn primary" onclick="copyIP()">IP KOPYALA</button>
 </section>
 
 <section id="mode">
@@ -104,40 +98,39 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
 <footer>© 2026 WARZONE • BoxPvP</footer>
 
 <script>
-const WEBHOOK_URL = "https://discord.com/api/webhooks/1460226084225290384/Gho1_pIzUhT9Kfe815m85AkyiOzVIswriVsWIis8IOWiCsDXN4HsWb8Ub9RQWtca3aV9";
+const WEBHOOK_URL="https://discord.com/api/webhooks/1460226084225290384/Gho1_pIzUhT9Kfe815m85AkyiOzVIswriVsWIis8IOWiCsDXN4HsWb8Ub9RQWtca3aV9";
+
+function copyIP(){
+  navigator.clipboard.writeText("warzonebox.aternos.me");
+  alert("IP kopyalandı");
+}
 
 function sendTicket(){
-  if(!t_name.value || !t_msg.value){ alert("Boş bırakma"); return; }
+  if(!t_name.value||!t_msg.value){alert("Boş bırakma");return;}
   fetch(WEBHOOK_URL,{
     method:"POST",
     headers:{"Content-Type":"application/json"},
     body:JSON.stringify({
-      embeds:[{
-        title:"🎫 WARZONE TICKET",
-        fields:[
-          {name:"Oyuncu",value:t_name.value},
-          {name:"Mesaj",value:t_msg.value}
-        ]
-      }]
+      embeds:[{title:"🎫 WARZONE TICKET",fields:[
+        {name:"Oyuncu",value:t_name.value},
+        {name:"Mesaj",value:t_msg.value}
+      ]}]
     })
   });
   alert("Ticket gönderildi");
 }
 
 function sendStaff(){
-  if(!s_name.value || !s_age.value || !s_reason.value){ alert("Boş bırakma"); return; }
+  if(!s_name.value||!s_age.value||!s_reason.value){alert("Boş bırakma");return;}
   fetch(WEBHOOK_URL,{
     method:"POST",
     headers:{"Content-Type":"application/json"},
     body:JSON.stringify({
-      embeds:[{
-        title:"🛡️ YETKİLİ BAŞVURUSU",
-        fields:[
-          {name:"Oyuncu",value:s_name.value},
-          {name:"Yaş",value:s_age.value},
-          {name:"Açıklama",value:s_reason.value}
-        ]
-      }]
+      embeds:[{title:"🛡️ YETKİLİ BAŞVURUSU",fields:[
+        {name:"Oyuncu",value:s_name.value},
+        {name:"Yaş",value:s_age.value},
+        {name:"Açıklama",value:s_reason.value}
+      ]}]
     })
   });
   alert("Başvuru gönderildi");
