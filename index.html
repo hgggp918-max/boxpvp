@@ -1,136 +1,77 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-<meta charset="UTF-8">
-<title>WARZONE | BoxPvP</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-<style>
-:root{
---bg:#0a0d1a;--panel:#0f1328;--panel2:#12173a;--line:#1e2450;
---pri:#ff9f43;--pri2:#ffd56b;--txt:#eef1ff;
-}
-*{box-sizing:border-box}
-body{margin:0;font-family:Inter;background:var(--bg);color:var(--txt)}
-a{text-decoration:none;color:inherit}
-nav{position:sticky;top:0;background:#0a0d1ae6;border-bottom:1px solid var(--line)}
-nav .wrap{max-width:1200px;margin:auto;display:flex;justify-content:space-between;align-items:center;padding:14px}
-.brand{font-weight:800;font-size:22px}
-.links a{margin:0 10px;opacity:.85}
-.links .cta{background:linear-gradient(90deg,var(--pri),var(--pri2));color:#000;padding:8px 14px;border-radius:10px;font-weight:800}
-
-section{max-width:1200px;margin:auto;padding:80px 20px}
-.hero{text-align:center;padding:120px 20px}
-.hero h1{font-size:64px;letter-spacing:6px}
-.ip{font-size:22px;font-weight:800;margin:16px 0}
-.btn{padding:14px 22px;border-radius:12px;border:none;font-weight:800;cursor:pointer}
-.primary{background:linear-gradient(90deg,var(--pri),var(--pri2));color:#000}
-
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:24px}
-input,textarea{
-width:100%;padding:12px;margin:8px 0;
-background:var(--panel2);border:1px solid var(--line);
-color:white;border-radius:10px
-}
-
-footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.7}
-</style>
-</head>
-
-<body>
-
-<nav>
-  <div class="wrap">
-    <div class="brand">WARZONE</div>
-    <div class="links">
-      <a href="#mode">Oyun Modu</a>
-      <a href="#market">Market</a>
-      <a href="#ticket">Ticket</a>
-      <a href="#staff">Yetkili Başvuru</a>
-      <a class="cta" href="https://discord.gg/pHemx3jf" target="_blank">Discord</a>
-    </div>
-  </div>
-</nav>
-
-<section class="hero">
-  <h1>WARZONE</h1>
-  <p>En sert BoxPvP deneyimi</p>
-  <div class="ip" id="ip">warzone.aternos.me</div>
-  <button class="btn primary" onclick="copyIP()">IP KOPYALA</button>
-</section>
-
-<section id="mode">
-<h2 style="text-align:center">Oyun Modu</h2>
-<div class="grid">
-<div class="card" style="text-align:center">
-<h3>⚔️ BoxPvP</h3>
-<p>Rekabet • Özel Enchant • Kasa Sistemi • Eventler</p>
-</div>
-</div>
-</section>
-
-<section id="market">
-<h2 style="text-align:center">Market</h2>
-<div class="grid">
-<div class="card"><h3>VIP</h3><p>Ek komutlar • Prefix</p><b>₺49.99</b></div>
-<div class="card"><h3>MVIP</h3><p>Daha fazla yetki</p><b>₺79.99</b></div>
-<div class="card"><h3>SVIP</h3><p>Tüm ayrıcalıklar</p><b>₺129.99</b></div>
-</div>
-</section>
-
-<section id="ticket">
-<h2 style="text-align:center">Ticket</h2>
-<div class="card">
-<input id="t_name" placeholder="Minecraft Adı">
-<textarea id="t_msg" placeholder="Sorunun"></textarea>
-<button class="btn primary" onclick="sendTicket()">Gönder</button>
-</div>
-</section>
-
-<section id="staff">
-<h2 style="text-align:center">Yetkili Başvuru</h2>
-<div class="card">
-<input id="s_name" placeholder="Minecraft Adı">
-<input id="s_age" placeholder="Yaş">
-<textarea id="s_reason" placeholder="Neden yetkili olmak istiyorsun?"></textarea>
-<button class="btn primary" onclick="sendStaff()">Başvur</button>
-</div>
-</section>
-
-<footer>© 2026 WARZONE • BoxPvP</footer>
-
 <script>
-const TICKET_WEBHOOK="DISCORD_TICKET_WEBHOOK";
-const STAFF_WEBHOOK="DISCORD_STAFF_WEBHOOK";
+/* =========================
+   AYARLAR
+========================= */
+const WEBHOOK_URL = "https://discord.com/api/webhooks/1460226084225290384/Gho1_pIzUhT9Kfe815m85AkyiOzVIswriVsWIis8IOWiCsDXN4HsWb8Ub9RQWtca3aV9";
 
+/* =========================
+   IP KOPYALA (GÜVENLİ)
+========================= */
 function copyIP(){
-navigator.clipboard.writeText("warzone.aternos.me");
-alert("IP kopyalandı");
+  navigator.clipboard.writeText("warzone.aternos.me")
+  .then(()=>alert("IP kopyalandı"))
+  .catch(()=>alert("IP kopyalanamadı"));
 }
 
+/* =========================
+   TICKET → DISCORD
+========================= */
 function sendTicket(){
-fetch(TICKET_WEBHOOK,{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({
-content:`🎫 **TICKET**\n👤 ${t_name.value}\n📝 ${t_msg.value}`
-})
-});
-alert("Ticket gönderildi");
+  const name = document.getElementById("t_name").value;
+  const msg  = document.getElementById("t_msg").value;
+
+  if(!name || !msg){
+    alert("Boş bırakma");
+    return;
+  }
+
+  fetch(WEBHOOK_URL,{
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    body:JSON.stringify({
+      embeds:[{
+        title:"🎫 WARZONE TICKET",
+        color:3447003,
+        fields:[
+          {name:"👤 Oyuncu", value:name},
+          {name:"📝 Mesaj", value:msg}
+        ]
+      }]
+    })
+  });
+
+  alert("Ticket Discord'a gönderildi");
 }
 
+/* =========================
+   YETKİLİ BAŞVURU → DISCORD
+========================= */
 function sendStaff(){
-fetch(STAFF_WEBHOOK,{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({
-content:`🛡 **YETKİLİ BAŞVURU**\n👤 ${s_name.value}\n🎂 ${s_age.value}\n📝 ${s_reason.value}`
-})
-});
-alert("Başvuru gönderildi");
+  const name = document.getElementById("s_name").value;
+  const age  = document.getElementById("s_age").value;
+  const why  = document.getElementById("s_reason").value;
+
+  if(!name || !age || !why){
+    alert("Boş bırakma");
+    return;
+  }
+
+  fetch(WEBHOOK_URL,{
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    body:JSON.stringify({
+      embeds:[{
+        title:"🛡️ YETKİLİ BAŞVURUSU",
+        color:15105570,
+        fields:[
+          {name:"👤 Oyuncu", value:name},
+          {name:"🎂 Yaş", value:age},
+          {name:"📜 Açıklama", value:why}
+        ]
+      }]
+    })
+  });
+
+  alert("Yetkili başvurusu Discord'a gönderildi");
 }
 </script>
-
-</body>
-</html>
