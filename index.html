@@ -32,7 +32,13 @@ width:100%;padding:12px;margin:8px 0;
 background:var(--panel2);border:1px solid var(--line);
 color:white;border-radius:10px
 }
+.profile{
+display:flex;align-items:center;gap:12px;
+background:var(--panel);padding:8px 14px;border-radius:14px
+}
+.profile img{width:36px;height:36px;border-radius:8px}
 footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.7}
+.hidden{display:none}
 </style>
 </head>
 
@@ -41,13 +47,18 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
 <nav>
   <div class="wrap">
     <div class="brand">WARZONE</div>
-    <div class="links">
+    <div class="links" id="navLinks">
       <a href="#mode">Oyun Modu</a>
       <a href="#market">Market</a>
       <a href="#ticket">Ticket</a>
       <a href="#staff">Yetkili</a>
-      <a href="#auth">Giriş / Kayıt</a>
+      <a href="#auth" id="authBtn">Giriş / Kayıt</a>
       <a class="cta" href="https://discord.gg/pHemx3jf" target="_blank">Discord</a>
+    </div>
+    <div class="profile hidden" id="profile">
+      <img id="mcHead" src="">
+      <span id="mcName"></span>
+      <button class="btn" onclick="logout()">Çıkış</button>
     </div>
   </div>
 </nav>
@@ -55,7 +66,7 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
 <section class="hero">
   <h1>WARZONE</h1>
   <p>En sert BoxPvP deneyimi</p>
-  <div class="ip" id="ip">warzonebox.aternos.me</div>
+  <div class="ip">warzonebox.aternos.me</div>
   <button class="btn primary" onclick="copyIP()">IP KOPYALA</button>
 </section>
 
@@ -102,13 +113,13 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
 <div class="grid">
   <div class="card">
     <h3>Kayıt Ol</h3>
-    <input id="r_user" placeholder="Kullanıcı adı">
+    <input id="r_user" placeholder="Minecraft Adı">
     <input id="r_pass" type="password" placeholder="Şifre">
     <button class="btn primary" onclick="register()">Kayıt Ol</button>
   </div>
   <div class="card">
     <h3>Giriş Yap</h3>
-    <input id="l_user" placeholder="Kullanıcı adı">
+    <input id="l_user" placeholder="Minecraft Adı">
     <input id="l_pass" type="password" placeholder="Şifre">
     <button class="btn primary" onclick="login()">Giriş Yap</button>
   </div>
@@ -118,7 +129,8 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
 <footer>© 2026 WARZONE • BoxPvP</footer>
 
 <script>
-const WEBHOOK_URL="https://discord.com/api/webhooks/1460226084225290384/Gho1_pIzUhT9Kfe815m85AkyiOzVIswriVsWIis8IOWiCsDXN4HsWb8Ub9RQWtca3aV9";
+const WEBHOOK_MAIN="https://discord.com/api/webhooks/1460226084225290384/Gho1_pIzUhT9Kfe815m85AkyiOzVIswriVsWIis8IOWiCsDXN4HsWb8Ub9RQWtca3aV9";
+const WEBHOOK_REGISTER="https://discord.com/api/webhooks/1460299783473467565/-3zDPRmI0TYA0ZIMfayGMiJBUHvZ_BiX4tcGz0BmaFW-Kfe5EHZAAEbo3DIjDaUrsgiq";
 
 function copyIP(){
   navigator.clipboard.writeText("warzonebox.aternos.me");
@@ -127,35 +139,86 @@ function copyIP(){
 
 function sendTicket(){
   if(!t_name.value||!t_msg.value)return alert("Boş bırakma");
-  fetch(WEBHOOK_URL,{method:"POST",headers:{"Content-Type":"application/json"},
-  body:JSON.stringify({embeds:[{title:"🎫 TICKET",fields:[
-    {name:"Oyuncu",value:t_name.value},
-    {name:"Mesaj",value:t_msg.value}
-  ]}]})});
-  alert("Gönderildi");
+  fetch(WEBHOOK_MAIN,{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({
+      embeds:[{
+        title:"🎫 TICKET",
+        fields:[
+          {name:"Oyuncu",value:t_name.value},
+          {name:"Mesaj",value:t_msg.value}
+        ]
+      }]
+    })
+  });
+  alert("Ticket gönderildi");
 }
 
 function sendStaff(){
   if(!dc_name.value||!why.value||!benefit.value)return alert("Boş bırakma");
-  fetch(WEBHOOK_URL,{method:"POST",headers:{"Content-Type":"application/json"},
-  body:JSON.stringify({embeds:[{title:"🛡️ YETKİLİ BAŞVURU",fields:[
-    {name:"Discord",value:dc_name.value},
-    {name:"Neden?",value:why.value},
-    {name:"Katkılar",value:benefit.value}
-  ]}]})});
+  fetch(WEBHOOK_MAIN,{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({
+      embeds:[{
+        title:"🛡️ YETKİLİ BAŞVURU",
+        fields:[
+          {name:"Discord",value:dc_name.value},
+          {name:"Neden?",value:why.value},
+          {name:"Katkılar",value:benefit.value}
+        ]
+      }]
+    })
+  });
   alert("Başvuru gönderildi");
 }
 
 function register(){
   if(!r_user.value||!r_pass.value)return alert("Boş bırakma");
   localStorage.setItem("user_"+r_user.value,r_pass.value);
-  alert("Kayıt başarılı");
+  localStorage.setItem("logged",r_user.value);
+
+  fetch(WEBHOOK_REGISTER,{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({
+      embeds:[{
+        title:"🆕 SİTEDEN KAYIT",
+        fields:[
+          {name:"Minecraft Adı",value:r_user.value}
+        ]
+      }]
+    })
+  });
+
+  showProfile(r_user.value);
 }
 
 function login(){
   const p=localStorage.getItem("user_"+l_user.value);
-  if(p===l_pass.value) alert("Giriş başarılı");
-  else alert("Hatalı bilgi");
+  if(p!==l_pass.value)return alert("Hatalı bilgi");
+  localStorage.setItem("logged",l_user.value);
+  showProfile(l_user.value);
+}
+
+function showProfile(name){
+  document.getElementById("auth").classList.add("hidden");
+  document.getElementById("navLinks").classList.add("hidden");
+  document.getElementById("profile").classList.remove("hidden");
+  document.getElementById("mcName").innerText=name;
+  document.getElementById("mcHead").src=
+    "https://mc-heads.net/avatar/"+name+"/64";
+}
+
+function logout(){
+  localStorage.removeItem("logged");
+  location.reload();
+}
+
+window.onload=()=>{
+  const u=localStorage.getItem("logged");
+  if(u) showProfile(u);
 }
 </script>
 
