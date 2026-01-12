@@ -2,166 +2,74 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<title>SUNONW | Minecraft Sunucusu</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<title>WARZONE | BOXPVP</title>
 <style>
-:root{
---bg:#0a0d1a;--panel:#0f1328;--panel2:#12173a;--line:#1e2450;
---pri:#7b86ff;--pri2:#9fb0ff;--txt:#eef1ff;
-}
-*{box-sizing:border-box}
-body{margin:0;font-family:Inter;background:var(--bg);color:var(--txt)}
-a{text-decoration:none;color:inherit}
-.nav{position:sticky;top:0;background:#0a0d1acc;border-bottom:1px solid var(--line)}
-.nav .wrap{max-width:1200px;margin:auto;display:flex;justify-content:space-between;align-items:center;padding:14px}
-.links a{margin:0 10px;font-weight:600}
-.hero{padding:90px 20px;text-align:center}
-h1{font-size:72px;letter-spacing:6px;margin:0}
-.ip{display:inline-block;margin-top:20px;background:var(--panel);padding:14px 22px;border-radius:12px;font-weight:800}
-.btn{padding:12px 18px;border-radius:10px;border:none;font-weight:800;cursor:pointer;
-background:linear-gradient(90deg,var(--pri),var(--pri2));color:#0a0d1a}
-section{max-width:1200px;margin:auto;padding:90px 20px}
-.title{text-align:center;font-size:38px;margin-bottom:40px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:26px}
-input,textarea{width:100%;padding:12px;margin:8px 0;border-radius:10px;border:1px solid var(--line);
-background:var(--panel2);color:var(--txt)}
-.stat{font-size:48px;font-weight:800;color:var(--pri)}
-footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.7}
+body{margin:0;background:#070b16;color:white;font-family:Arial}
+nav{display:flex;justify-content:space-between;padding:20px;background:#0d1328}
+button{padding:12px;border:none;border-radius:8px;background:#5865f2;color:white;cursor:pointer}
+section{padding:80px;text-align:center}
+.card{background:#0f1735;padding:20px;border-radius:14px;max-width:400px;margin:auto}
+input,textarea{width:100%;padding:10px;margin:8px 0;background:#090e25;color:white;border:1px solid #1f2a5c}
 </style>
 </head>
-
 <body>
 
-<nav class="nav">
-<div class="wrap">
-<b>SUNONW</b>
-<div class="links">
-<a href="#mods">Oyun Modu</a>
-<a href="#market">Market</a>
-<a href="#players">Oyuncular</a>
-<a href="#ticket">Ticket</a>
-<a href="#apply">Yetkili Başvuru</a>
-<a href="#login">Giriş / Kayıt</a>
-<a href="https://discord.gg/JJvHprPs" target="_blank">Discord</a>
-</div
-  
-</div>
+<nav>
+  <b>WARZONE</b>
+  <button onclick="window.open('https://discord.gg/pHemx3jf')">Discord</button>
 </nav>
 
-<div class="hero">
-<h1>SUNONW</h1>
-<p>Modern • Rekabetçi • BoxMining</p>
-<div class="ip">sunonw.aternos.me</div><br><br>
-<a class="btn" href="https://discord.gg/JJvHprPs" target="_blank">Discord’a Katıl</a>
-</div>
-<div style="margin-top:16px;text-align:center">
-  <img
-    src="https://images.alphacoders.com/134/1348384.png"
-    alt="SUNONW Minecraft"
-    style="
-      width:100%;
-      max-width:420px;
-      border-radius:16px;
-      border:1px solid #1e2450;
-      box-shadow:0 10px 40px rgba(0,0,0,.45);
-    "
-  >
-</div>
+<section>
+  <h1>WARZONE BOXPVP</h1>
+  <p>Tek Oyun Modu • BOXPVP</p>
+  <h3>IP: warzoneboxpvp.aternos.me</h3>
+</section>
 
-<section id="players">
-<h2 class="title">Aktif Oyuncular</h2>
-<div class="grid">
-<div class="card" style="text-align:center">
-<div class="stat" id="online">27</div>
-<p>Online Oyuncu</p>
-</div>
+<section>
+<div class="card">
+<h2>Giriş</h2>
+<input id="luser" placeholder="Kullanıcı">
+<input id="lpass" type="password" placeholder="Şifre">
+<button onclick="login()">Giriş</button>
 </div>
 </section>
 
-<section id="mods">
-<h2 class="title">Oyun Modu</h2>
-<div class="grid">
+<section>
 <div class="card">
-<h3>📦 BoxMining</h3>
-<p>Kaz • Kasa Aç • Rank Atla • Etkinlikler • Özel Enchantlar</p>
-</div>
+<h2>Kayıt</h2>
+<input id="ruser" placeholder="Kullanıcı">
+<input id="rpass" type="password" placeholder="Şifre">
+<button onclick="register()">Kayıt</button>
 </div>
 </section>
 
-<section id="market">
-<h2 class="title">Market</h2>
-<div class="grid">
+<section>
 <div class="card">
-<h3>💎 VIP</h3>
-<p>Prefix • Günlük Ödül</p>
-<b>₺49</b><br><br>
-<button class="btn" onclick="buy('VIP')">Satın Al</button>
-</div>
-<div class="card">
-<h3>🔥 MVIP</h3>
-<p>VIP + Fly</p>
-<b>₺79</b><br><br>
-<button class="btn" onclick="buy('MVIP')">Satın Al</button>
-</div>
-<div class="card">
-<h3>👑 SVIP</h3>
-<p>Tüm Özellikler</p>
-<b>₺129</b><br><br>
-<button class="btn" onclick="buy('SVIP')">Satın Al</button>
-</div>
+<h2>Ticket</h2>
+<input id="tuser" placeholder="Kullanıcı">
+<textarea id="tmsg" placeholder="Sorun"></textarea>
+<button onclick="ticket()">Gönder</button>
 </div>
 </section>
-
-<section id="ticket">
-<h2 class="title">Destek / Ticket</h2>
-<div class="grid">
-<div class="card">
-<input placeholder="Kullanıcı Adı">
-<input placeholder="Konu">
-<textarea placeholder="Sorununuzu yazın"></textarea>
-<button class="btn" onclick="alert('Ticket gönderildi (demo)')">Gönder</button>
-</div>
-</div>
-</section>
-
-<section id="apply">
-<h2 class="title">Yetkili Başvuru</h2>
-<div class="grid">
-<div class="card">
-<input placeholder="Kullanıcı Adı">
-<input placeholder="Yaş">
-<textarea placeholder="Neden yetkili olmak istiyorsun?"></textarea>
-<button class="btn" onclick="alert('Başvuru alındı (demo)')">Başvur</button>
-</div>
-</div>
-</section>
-
-<section id="login">
-<h2 class="title">Giriş / Kayıt</h2>
-<div class="grid">
-<div class="card">
-<h3>Giriş Yap</h3>
-<input placeholder="Kullanıcı Adı">
-<input type="password" placeholder="Şifre">
-<button class="btn">Giriş Yap</button>
-</div>
-<div class="card">
-<h3>Kayıt Ol</h3>
-<input placeholder="Kullanıcı Adı">
-<input placeholder="E-posta">
-<input type="password" placeholder="Şifre">
-<button class="btn">Kayıt Ol</button>
-</div>
-</div>
-</section>
-
-<footer>© 2026 SUNONW • Discord: discord.gg/JJvHprPs</footer>
 
 <script>
-function buy(paket){
-alert(paket + " satın alma DEMO. Gerçek satış için Tebex/Shopier gerekir.");
+async function register(){
+ await fetch("/api/register",{method:"POST",headers:{'Content-Type':'application/json'},body:JSON.stringify({
+  username:ruser.value,password:rpass.value
+ })});
+ alert("Kayıt OK");
+}
+async function login(){
+ await fetch("/api/login",{method:"POST",headers:{'Content-Type':'application/json'},body:JSON.stringify({
+  username:luser.value,password:lpass.value
+ })});
+ alert("Giriş OK");
+}
+async function ticket(){
+ await fetch("/api/ticket",{method:"POST",headers:{'Content-Type':'application/json'},body:JSON.stringify({
+  username:tuser.value,message:tmsg.value
+ })});
+ alert("Discorda düştü");
 }
 </script>
 
