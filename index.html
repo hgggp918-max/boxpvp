@@ -2,232 +2,133 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<title>WARZONE | BOXPVP</title>
+<title>WARZONE | BoxPvP</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
---bg:#060914;
---panel:#0c122a;
---panel2:#121a3f;
---line:#1c275e;
---pri:#5b6cff;
---txt:#eef1ff;
---mut:#aeb6ff;
+--bg:#0a0d1a;--panel:#0f1328;--panel2:#12173a;--line:#1e2450;
+--pri:#ff9f43;--pri2:#ffd56b;--txt:#eef1ff;
 }
-*{box-sizing:border-box;font-family:Inter}
-body{margin:0;background:var(--bg);color:var(--txt)}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter;background:var(--bg);color:var(--txt)}
 a{text-decoration:none;color:inherit}
+nav{position:sticky;top:0;background:#0a0d1ae6;border-bottom:1px solid var(--line)}
+nav .wrap{max-width:1200px;margin:auto;display:flex;justify-content:space-between;align-items:center;padding:14px}
+.brand{font-weight:800;font-size:22px}
+.links a{margin:0 10px;opacity:.85}
+.links .cta{background:linear-gradient(90deg,var(--pri),var(--pri2));color:#000;padding:8px 14px;border-radius:10px;font-weight:800}
 
-nav{
-position:sticky;top:0;z-index:10;
-display:flex;justify-content:space-between;align-items:center;
-padding:16px 22px;
-background:rgba(6,9,20,.9);
-border-bottom:1px solid var(--line)
-}
-nav b{font-size:22px;letter-spacing:2px}
-nav a{margin-left:18px;opacity:.85}
+section{max-width:1200px;margin:auto;padding:80px 20px}
+.hero{text-align:center;padding:120px 20px}
+.hero h1{font-size:64px;letter-spacing:6px}
+.ip{font-size:22px;font-weight:800;margin:16px 0}
+.btn{padding:14px 22px;border-radius:12px;border:none;font-weight:800;cursor:pointer}
+.primary{background:linear-gradient(90deg,var(--pri),var(--pri2));color:#000}
 
-.hero{
-min-height:90vh;
-display:grid;
-place-items:center;
-text-align:center;
-padding:60px 20px;
-background:
-radial-gradient(700px 400px at 70% -10%,#1a2360,transparent 60%),
-radial-gradient(500px 300px at 0% 10%,#121b52,transparent 60%)
-}
-.hero h1{font-size:70px;letter-spacing:6px;margin:0}
-.hero p{opacity:.85;font-size:18px}
-.hero .ip{
-margin-top:18px;
-display:inline-block;
-padding:14px 24px;
-border-radius:14px;
-background:var(--panel);
-border:1px solid var(--line);
-font-weight:800;
-cursor:pointer
-}
-.btn{
-margin:8px;
-padding:14px 26px;
-border-radius:14px;
-border:none;
-background:linear-gradient(90deg,var(--pri),#7f8cff);
-color:#050716;
-font-weight:800;
-cursor:pointer
-}
-
-section{padding:90px 20px;max-width:1200px;margin:auto}
-h2{text-align:center;font-size:36px;margin-bottom:50px}
-
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-gap:24px
-}
-.card{
-background:var(--panel);
-border:1px solid var(--line);
-border-radius:20px;
-padding:26px;
-transition:.25s
-}
-.card:hover{transform:translateY(-6px)}
-
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:24px}
 input,textarea{
-width:100%;
-padding:12px;
-margin:8px 0;
-background:var(--panel2);
-border:1px solid var(--line);
-border-radius:10px;
-color:var(--txt)
+width:100%;padding:12px;margin:8px 0;
+background:var(--panel2);border:1px solid var(--line);
+color:white;border-radius:10px
 }
 
-footer{
-border-top:1px solid var(--line);
-padding:30px;
-text-align:center;
-opacity:.6
-}
+footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.7}
 </style>
 </head>
+
 <body>
 
 <nav>
-<b>WARZONE</b>
-<div>
-<a href="#games">Oyunlar</a>
-<a href="#market">Market</a>
-<a href="#stats">İstatistik</a>
-<a href="#support">Destek</a>
-<a href="#login">Giriş</a>
-<a href="https://discord.gg/pHemx3jf" target="_blank">Discord</a>
-</div>
+  <div class="wrap">
+    <div class="brand">WARZONE</div>
+    <div class="links">
+      <a href="#mode">Oyun Modu</a>
+      <a href="#market">Market</a>
+      <a href="#ticket">Ticket</a>
+      <a href="#staff">Yetkili Başvuru</a>
+      <a class="cta" href="https://discord.gg/pHemx3jf" target="_blank">Discord</a>
+    </div>
+  </div>
 </nav>
 
-<div class="hero">
-<h1>WARZONE</h1>
-<p>Türkiye'nin En Güçlü BOXPVP Sunucusu</p>
-<div class="ip" onclick="copyIP()">warzoneboxpvp.aternos.me</div>
-<div>
-<button class="btn" onclick="copyIP()">IP Kopyala</button>
-<button class="btn" onclick="window.open('https://discord.gg/pHemx3jf')">Discord</button>
-</div>
-</div>
-
-<section id="games">
-<h2>Oyun Modları</h2>
-<div class="grid">
-<div class="card">
-<h3>📦 BOXPVP</h3>
-<p>• Özel enchantlar<br>• Kasalar<br>• Sezon sistemi<br>• Sıralama</p>
-</div>
-</div>
+<section class="hero">
+  <h1>WARZONE</h1>
+  <p>En sert BoxPvP deneyimi</p>
+  <div class="ip" id="ip">warzone.aternos.me</div>
+  <button class="btn primary" onclick="copyIP()">IP KOPYALA</button>
 </section>
 
-<section id="stats">
-<h2>Sunucu Durumu</h2>
+<section id="mode">
+<h2 style="text-align:center">Oyun Modu</h2>
 <div class="grid">
-<div class="card"><h3>🟢 Aktif</h3><p>7/24 Online</p></div>
-<div class="card"><h3>👥 Oyuncular</h3><p>Canlı</p></div>
-<div class="card"><h3>⚡ Performans</h3><p>0 Lag</p></div>
+<div class="card" style="text-align:center">
+<h3>⚔️ BoxPvP</h3>
+<p>Rekabet • Özel Enchant • Kasa Sistemi • Eventler</p>
+</div>
 </div>
 </section>
 
 <section id="market">
-<h2>Market</h2>
+<h2 style="text-align:center">Market</h2>
 <div class="grid">
-<div class="card">
-<h3>VIP</h3>
-<p>/fly • prefix • ödüller</p>
-<b>₺49.99</b><br><br>
-<button class="btn">Satın Al</button>
-</div>
-<div class="card">
-<h3>MVIP</h3>
-<p>VIP + kasa anahtarları</p>
-<b>₺79.99</b><br><br>
-<button class="btn">Satın Al</button>
-</div>
-<div class="card">
-<h3>SVIP</h3>
-<p>Tüm yetkiler</p>
-<b>₺129.99</b><br><br>
-<button class="btn">Satın Al</button>
-</div>
+<div class="card"><h3>VIP</h3><p>Ek komutlar • Prefix</p><b>₺49.99</b></div>
+<div class="card"><h3>MVIP</h3><p>Daha fazla yetki</p><b>₺79.99</b></div>
+<div class="card"><h3>SVIP</h3><p>Tüm ayrıcalıklar</p><b>₺129.99</b></div>
 </div>
 </section>
 
-<section id="support">
-<h2>Destek / Ticket</h2>
-<div class="grid">
+<section id="ticket">
+<h2 style="text-align:center">Ticket</h2>
 <div class="card">
-<h3>Ticket Aç</h3>
-<input id="tuser" placeholder="Kullanıcı Adı">
-<textarea id="tmsg" placeholder="Sorununuz"></textarea>
-<button class="btn" onclick="sendTicket()">Gönder</button>
-</div>
-
-<div class="card">
-<h3>Yetkili Başvuru</h3>
-<input placeholder="Kullanıcı">
-<input placeholder="Yaş">
-<textarea placeholder="Neden yetkili olmak istiyorsun?"></textarea>
-<button class="btn">Başvur</button>
-</div>
+<input id="t_name" placeholder="Minecraft Adı">
+<textarea id="t_msg" placeholder="Sorunun"></textarea>
+<button class="btn primary" onclick="sendTicket()">Gönder</button>
 </div>
 </section>
 
-<section id="login">
-<h2>Giriş / Kayıt</h2>
-<div class="grid">
+<section id="staff">
+<h2 style="text-align:center">Yetkili Başvuru</h2>
 <div class="card">
-<h3>Giriş</h3>
-<input placeholder="Kullanıcı">
-<input type="password" placeholder="Şifre">
-<button class="btn">Giriş Yap</button>
-</div>
-<div class="card">
-<h3>Kayıt</h3>
-<input placeholder="Kullanıcı">
-<input type="password" placeholder="Şifre">
-<button class="btn">Kayıt Ol</button>
-</div>
+<input id="s_name" placeholder="Minecraft Adı">
+<input id="s_age" placeholder="Yaş">
+<textarea id="s_reason" placeholder="Neden yetkili olmak istiyorsun?"></textarea>
+<button class="btn primary" onclick="sendStaff()">Başvur</button>
 </div>
 </section>
 
-<footer>© 2026 WARZONE • BOXPVP Network</footer>
+<footer>© 2026 WARZONE • BoxPvP</footer>
 
 <script>
+const TICKET_WEBHOOK="DISCORD_TICKET_WEBHOOK";
+const STAFF_WEBHOOK="DISCORD_STAFF_WEBHOOK";
+
 function copyIP(){
-navigator.clipboard.writeText("warzoneboxpvp.aternos.me");
-alert("IP Kopyalandı");
+navigator.clipboard.writeText("warzone.aternos.me");
+alert("IP kopyalandı");
 }
 
 function sendTicket(){
-fetch("DISCORD_WEBHOOK_URL_BURAYA",{
+fetch(TICKET_WEBHOOK,{
 method:"POST",
-headers:{'Content-Type':'application/json'},
+headers:{"Content-Type":"application/json"},
 body:JSON.stringify({
-embeds:[{
-title:"🎫 Yeni Ticket",
-fields:[
-{name:"Kullanıcı",value:document.getElementById("tuser").value},
-{name:"Mesaj",value:document.getElementById("tmsg").value}
-],
-color:5793266
-}]
+content:`🎫 **TICKET**\n👤 ${t_name.value}\n📝 ${t_msg.value}`
 })
 });
-alert("Ticket Discord'a gönderildi");
+alert("Ticket gönderildi");
+}
+
+function sendStaff(){
+fetch(STAFF_WEBHOOK,{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+content:`🛡 **YETKİLİ BAŞVURU**\n👤 ${s_name.value}\n🎂 ${s_age.value}\n📝 ${s_reason.value}`
+})
+});
+alert("Başvuru gönderildi");
 }
 </script>
 
