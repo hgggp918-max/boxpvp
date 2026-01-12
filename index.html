@@ -5,6 +5,7 @@
 <title>WARZONE | BoxPvP</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
 <style>
 :root{
 --bg:#0a0d1a;--panel:#0f1328;--panel2:#12173a;--line:#1e2450;
@@ -26,7 +27,7 @@ section{max-width:1200px;margin:auto;padding:80px 20px}
 .primary{background:linear-gradient(90deg,var(--pri),var(--pri2));color:#000}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:24px}
-input,textarea{
+input,textarea,select{
 width:100%;padding:12px;margin:8px 0;
 background:var(--panel2);border:1px solid var(--line);
 color:white;border-radius:10px
@@ -41,8 +42,6 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
   <div class="wrap">
     <div class="brand">WARZONE</div>
     <div class="links">
-      <a href="#mode">Oyun Modu</a>
-      <a href="#market">Market</a>
       <a href="#ticket">Ticket</a>
       <a href="#staff">Yetkili Başvuru</a>
       <a class="cta" href="https://discord.gg/pHemx3jf" target="_blank">Discord</a>
@@ -53,27 +52,7 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
 <section class="hero">
   <h1>WARZONE</h1>
   <p>En sert BoxPvP deneyimi</p>
-  <div class="ip" id="serverIp">warzonebox.aternos.me</div>
-  <button class="btn primary" onclick="copyIP()">IP KOPYALA</button>
-</section>
-
-<section id="mode">
-<h2 style="text-align:center">Oyun Modu</h2>
-<div class="grid">
-  <div class="card" style="text-align:center">
-    <h3>⚔️ BoxPvP</h3>
-    <p>Rekabet • Özel Enchant • Kasa • Eventler</p>
-  </div>
-</div>
-</section>
-
-<section id="market">
-<h2 style="text-align:center">Market</h2>
-<div class="grid">
-  <div class="card"><h3>VIP</h3><p>Ek komutlar</p><b>₺49.99</b></div>
-  <div class="card"><h3>MVIP</h3><p>Daha fazla yetki</p><b>₺79.99</b></div>
-  <div class="card"><h3>SVIP</h3><p>Tüm ayrıcalıklar</p><b>₺129.99</b></div>
-</div>
+  <div class="ip">warzonebox.aternos.me</div>
 </section>
 
 <section id="ticket">
@@ -88,9 +67,17 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
 <section id="staff">
 <h2 style="text-align:center">Yetkili Başvuru</h2>
 <div class="card">
-  <input id="s_name" placeholder="Minecraft Adı">
-  <input id="s_age" placeholder="Yaş">
-  <textarea id="s_reason" placeholder="Neden yetkili olmak istiyorsun?"></textarea>
+  <input id="dc_name" placeholder="Discord İsmin (zorunlu) örn: isim#1234">
+  
+  <select id="dc_know">
+    <option value="">Discord biliyor musun?</option>
+    <option value="Evet">Evet</option>
+    <option value="Hayır">Hayır</option>
+  </select>
+
+  <textarea id="why_us" placeholder="Neden bizi seçtin?"></textarea>
+  <textarea id="contribute" placeholder="Bize ne gibi katkıların olur?"></textarea>
+
   <button class="btn primary" onclick="sendStaff()">Başvur</button>
 </div>
 </section>
@@ -98,39 +85,45 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
 <footer>© 2026 WARZONE • BoxPvP</footer>
 
 <script>
-const WEBHOOK_URL="https://discord.com/api/webhooks/1460226084225290384/Gho1_pIzUhT9Kfe815m85AkyiOzVIswriVsWIis8IOWiCsDXN4HsWb8Ub9RQWtca3aV9";
-
-function copyIP(){
-  navigator.clipboard.writeText("warzonebox.aternos.me");
-  alert("IP kopyalandı");
-}
+const WEBHOOK_URL = "https://discord.com/api/webhooks/1460226084225290384/Gho1_pIzUhT9Kfe815m85AkyiOzVIswriVsWIis8IOWiCsDXN4HsWb8Ub9RQWtca3aV9";
 
 function sendTicket(){
-  if(!t_name.value||!t_msg.value){alert("Boş bırakma");return;}
+  if(!t_name.value || !t_msg.value) return alert("Boş bırakma");
   fetch(WEBHOOK_URL,{
     method:"POST",
     headers:{"Content-Type":"application/json"},
     body:JSON.stringify({
-      embeds:[{title:"🎫 WARZONE TICKET",fields:[
-        {name:"Oyuncu",value:t_name.value},
-        {name:"Mesaj",value:t_msg.value}
-      ]}]
+      embeds:[{
+        title:"🎫 WARZONE TICKET",
+        color:16753920,
+        fields:[
+          {name:"Oyuncu",value:t_name.value},
+          {name:"Mesaj",value:t_msg.value}
+        ]
+      }]
     })
   });
   alert("Ticket gönderildi");
 }
 
 function sendStaff(){
-  if(!s_name.value||!s_age.value||!s_reason.value){alert("Boş bırakma");return;}
+  if(!dc_name.value || !dc_know.value || !why_us.value || !contribute.value)
+    return alert("Tüm alanlar zorunlu");
+
   fetch(WEBHOOK_URL,{
     method:"POST",
     headers:{"Content-Type":"application/json"},
     body:JSON.stringify({
-      embeds:[{title:"🛡️ YETKİLİ BAŞVURUSU",fields:[
-        {name:"Oyuncu",value:s_name.value},
-        {name:"Yaş",value:s_age.value},
-        {name:"Açıklama",value:s_reason.value}
-      ]}]
+      embeds:[{
+        title:"🛡️ YETKİLİ BAŞVURUSU",
+        color:5793266,
+        fields:[
+          {name:"Discord",value:dc_name.value},
+          {name:"Discord Bilgisi",value:dc_know.value},
+          {name:"Neden Biz?",value:why_us.value},
+          {name:"Katkıları",value:contribute.value}
+        ]
+      }]
     })
   });
   alert("Başvuru gönderildi");
