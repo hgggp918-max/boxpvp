@@ -14,29 +14,36 @@
 *{box-sizing:border-box}
 body{margin:0;font-family:Inter;background:var(--bg);color:var(--txt)}
 a{text-decoration:none;color:inherit}
+
 nav{position:sticky;top:0;background:#0a0d1ae6;border-bottom:1px solid var(--line)}
 nav .wrap{max-width:1200px;margin:auto;display:flex;justify-content:space-between;align-items:center;padding:14px}
 .brand{font-weight:800;font-size:22px}
 .links a{margin:0 10px;opacity:.85}
 .links .cta{background:linear-gradient(90deg,var(--pri),var(--pri2));color:#000;padding:8px 14px;border-radius:10px;font-weight:800}
+
 section{max-width:1200px;margin:auto;padding:80px 20px}
 .hero{text-align:center;padding:120px 20px}
 .hero h1{font-size:64px;letter-spacing:6px}
 .ip{font-size:22px;font-weight:800;margin:16px 0}
+
 .btn{padding:14px 22px;border-radius:12px;border:none;font-weight:800;cursor:pointer}
 .primary{background:linear-gradient(90deg,var(--pri),var(--pri2));color:#000}
+
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:24px}
+
 input,textarea{
 width:100%;padding:12px;margin:8px 0;
 background:var(--panel2);border:1px solid var(--line);
 color:white;border-radius:10px
 }
+
 .profile{
 display:flex;align-items:center;gap:12px;
 background:var(--panel);padding:8px 14px;border-radius:14px
 }
 .profile img{width:36px;height:36px;border-radius:8px}
+
 footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.7}
 .hidden{display:none}
 </style>
@@ -52,11 +59,11 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
       <a href="#market">Market</a>
       <a href="#ticket">Ticket</a>
       <a href="#staff">Yetkili</a>
-      <a href="#auth">Giriş / Kayıt</a>
+      <a href="#auth" id="authBtn">Giriş / Kayıt</a>
       <a class="cta" href="https://discord.gg/pHemx3jf" target="_blank">Discord</a>
     </div>
     <div class="profile hidden" id="profile">
-      <img id="mcHead">
+      <img id="mcHead" src="">
       <span id="mcName"></span>
       <button class="btn" onclick="logout()">Çıkış</button>
     </div>
@@ -66,7 +73,7 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
 <section class="hero">
   <h1>HYRIXOCRAFT</h1>
   <p>En sert BoxPvP deneyimi</p>
-  <div class="ip">hyrixocraft.mcsh.io</div>
+  <div class="ip" id="serverIp">hyrixocraft.mcsh.io</div>
   <button class="btn primary" onclick="copyIP()">IP KOPYALA</button>
 </section>
 
@@ -131,98 +138,7 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
 <script>
 const SERVER_IP="hyrixocraft.mcsh.io";
 
-const WEBHOOK_MAIN="WEBHOOK_TICKET_YETKILI";
-const WEBHOOK_REGISTER="WEBHOOK_KAYIT";
-
-function copyIP(){
-  navigator.clipboard.writeText(SERVER_IP);
-  alert("IP kopyalandı: "+SERVER_IP);
-}
-
-function sendTicket(){
-  if(!t_name.value||!t_msg.value)return alert("Boş bırakma");
-  fetch(WEBHOOK_MAIN,{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({
-      embeds:[{
-        title:"🎫 HYRIXOCRAFT TICKET",
-        fields:[
-          {name:"Oyuncu",value:t_name.value},
-          {name:"Mesaj",value:t_msg.value}
-        ]
-      }]
-    })
-  });
-}
-
-function sendStaff(){
-  if(!dc_name.value||!why.value||!benefit.value)return alert("Boş bırakma");
-  fetch(WEBHOOK_MAIN,{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({
-      embeds:[{
-        title:"🛡️ HYRIXOCRAFT YETKİLİ BAŞVURU",
-        fields:[
-          {name:"Discord",value:dc_name.value},
-          {name:"Neden?",value:why.value},
-          {name:"Katkılar",value:benefit.value}
-        ]
-      }]
-    })
-  });
-}
-
-function register(){
-  if(!r_user.value||!r_pass.value)return alert("Boş bırakma");
-  localStorage.setItem("user_"+r_user.value,r_pass.value);
-  localStorage.setItem("logged",r_user.value);
-
-  fetch(WEBHOOK_REGISTER,{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({
-      embeds:[{
-        title:"🆕 HYRIXOCRAFT KAYIT",
-        description:"Aramıza hoşgeldin!",
-        fields:[
-          {name:"Oyuncu",value:r_user.value}
-        ]
-      }]
-    })
-  });
-
-  showProfile(r_user.value);
-}
-
-function login(){
-  const p=localStorage.getItem("user_"+l_user.value);
-  if(p!==l_pass.value)return alert("Hatalı bilgi");
-  localStorage.setItem("logged",l_user.value);
-  showProfile(l_user.value);
-}
-
-function showProfile(name){
-  document.getElementById("auth").classList.add("hidden");
-  document.getElementById("navLinks").classList.add("hidden");
-  document.getElementById("profile").classList.remove("hidden");
-  mcName.innerText=name;
-  mcHead.src="https://mc-heads.net/avatar/"+name+"/64";
-}
-
-function logout(){
-  localStorage.removeItem("logged");
-  location.reload();
-}
-
-window.onload=()=>{
-  const u=localStorage.getItem("logged");
-  if(u) showProfile(u);
-}
-</script>
-
-</body>
-</html>
+const WEBHOOK_MAIN="https://discord.com/api/webhooks/1460226084225290384/Gho1_pIzUhT9Kfe815m85AkyiOzVIswriVsWIis8IOWiCsDXN4HsWb8Ub9RQWtca3aV9";
+const WEBHOOK_REGISTER="https://discord.com/api/webhooks/14_
 
 
