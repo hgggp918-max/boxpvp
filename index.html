@@ -2,9 +2,10 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<title>WARZONE | BoxPvP</title>
+<title>HYRIXCRAFT | BoxPvP</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
 <style>
 :root{
 --bg:#0a0d1a;--panel:#0f1328;--panel2:#12173a;--line:#1e2450;
@@ -38,24 +39,24 @@ background:var(--panel);padding:8px 14px;border-radius:14px
 .profile img{width:36px;height:36px;border-radius:8px}
 footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.7}
 .hidden{display:none}
-.vote-msg{margin-top:10px;color:#ffd56b;text-align:center;font-weight:700;}
 </style>
 </head>
+
 <body>
 
 <nav>
   <div class="wrap">
-    <div class="brand">WARZONE</div>
+    <div class="brand">HYRIXCRAFT</div>
     <div class="links" id="navLinks">
       <a href="#mode">Oyun Modu</a>
       <a href="#market">Market</a>
       <a href="#ticket">Ticket</a>
       <a href="#staff">Yetkili</a>
-      <a href="#auth">Giriş / Kayıt</a>
+      <a href="#auth" id="authBtn">Giriş / Kayıt</a>
       <a class="cta" href="https://discord.gg/pHemx3jf" target="_blank">Discord</a>
     </div>
     <div class="profile hidden" id="profile">
-      <img id="mcHead">
+      <img id="mcHead" src="">
       <span id="mcName"></span>
       <button class="btn" onclick="logout()">Çıkış</button>
     </div>
@@ -63,9 +64,9 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
 </nav>
 
 <section class="hero">
-  <h1>WARZONE</h1>
+  <h1>HYRIXCRAFT</h1>
   <p>En sert BoxPvP deneyimi</p>
-  <div class="ip">warzonebox.aternos.me</div>
+  <div class="ip" id="serverIP">hyrixcraft.mcsh.io</div>
   <button class="btn primary" onclick="copyIP()">IP KOPYALA</button>
 </section>
 
@@ -74,7 +75,7 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
 <div class="grid">
   <div class="card" style="text-align:center">
     <h3>⚔️ BoxPvP</h3>
-    <p>Tek oyun modu</p>
+    <p>Tek oyun modu • Rekabet • Event</p>
   </div>
 </div>
 </section>
@@ -82,9 +83,9 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
 <section id="market">
 <h2 style="text-align:center">Market</h2>
 <div class="grid">
-  <div class="card"><h3>VIP</h3><b>₺49.99</b></div>
-  <div class="card"><h3>MVIP</h3><b>₺79.99</b></div>
-  <div class="card"><h3>SVIP</h3><b>₺129.99</b></div>
+  <div class="card"><h3>VIP</h3><p>Ek komutlar</p><b>₺49.99</b></div>
+  <div class="card"><h3>MVIP</h3><p>Daha fazla yetki</p><b>₺79.99</b></div>
+  <div class="card"><h3>SVIP</h3><p>Tüm ayrıcalıklar</p><b>₺129.99</b></div>
 </div>
 </section>
 
@@ -100,18 +101,11 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
 <section id="staff">
 <h2 style="text-align:center">Yetkili Başvuru</h2>
 <div class="card">
-  <input id="dc_name" placeholder="Discord İsmin">
+  <input id="dc_name" placeholder="Discord İsmin (zorunlu)">
   <textarea id="why" placeholder="Neden yetkili olmak istiyorsun?"></textarea>
   <textarea id="benefit" placeholder="Sunucuya katkıların"></textarea>
   <button class="btn primary" onclick="sendStaff()">Başvur</button>
 </div>
-</section>
-
-<!-- ================== VOTE BÖLÜMÜ ================== -->
-<section id="vote" style="padding:50px 20px;text-align:center;">
-  <h2 style="margin-bottom:20px;">🎉 Vote & Kasa Al</h2>
-  <button class="btn primary" id="voteBtn" style="font-size:18px;padding:12px 24px;">Vote & Kasa Al</button>
-  <p id="voteMsg" class="vote-msg"></p>
 </section>
 
 <section id="auth">
@@ -132,44 +126,82 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
 </div>
 </section>
 
-<footer>© 2026 WARZONE</footer>
+<footer>© 2026 HYRIXCRAFT • BoxPvP</footer>
 
 <script>
+const SERVER_IP="hyrixcraft.mcsh.io";
+
 const WEBHOOK_MAIN="https://discord.com/api/webhooks/1460226084225290384/Gho1_pIzUhT9Kfe815m85AkyiOzVIswriVsWIis8IOWiCsDXN4HsWb8Ub9RQWtca3aV9";
 const WEBHOOK_REGISTER="https://discord.com/api/webhooks/1460299783473467565/-3zDPRmI0TYA0ZIMfayGMiJBUHvZ_BiX4tcGz0BmaFW-Kfe5EHZAAEbo3DIjDaUrsgiq";
-const VOTE_WEBHOOK="https://discord.com/api/webhooks/XXXX/XXXX"; // Minecraft ödül webhooku
 
-function copyIP(){navigator.clipboard.writeText("warzonebox.aternos.me");}
+function copyIP(){
+  navigator.clipboard.writeText(SERVER_IP);
+  alert("IP kopyalandı: "+SERVER_IP);
+}
 
 function sendTicket(){
+  if(!t_name.value||!t_msg.value)return alert("Boş bırakma");
   fetch(WEBHOOK_MAIN,{
     method:"POST",
     headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({content:`🎫 **TICKET**\n👤 ${t_name.value}\n📝 ${t_msg.value}`})
+    body:JSON.stringify({
+      embeds:[{
+        title:"🎫 TICKET",
+        fields:[
+          {name:"Oyuncu",value:t_name.value},
+          {name:"Mesaj",value:t_msg.value}
+        ]
+      }]
+    })
   });
+  alert("Ticket gönderildi");
 }
 
 function sendStaff(){
+  if(!dc_name.value||!why.value||!benefit.value)return alert("Boş bırakma");
   fetch(WEBHOOK_MAIN,{
     method:"POST",
     headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({content:`🛡️ **YETKİLİ BAŞVURU**\n👤 ${dc_name.value}\n❓ ${why.value}\n⭐ ${benefit.value}`})
+    body:JSON.stringify({
+      embeds:[{
+        title:"🛡️ YETKİLİ BAŞVURU",
+        fields:[
+          {name:"Discord",value:dc_name.value},
+          {name:"Neden?",value:why.value},
+          {name:"Katkılar",value:benefit.value}
+        ]
+      }]
+    })
   });
+  alert("Başvuru gönderildi");
 }
 
 function register(){
+  if(!r_user.value||!r_pass.value)return alert("Boş bırakma");
   localStorage.setItem("user_"+r_user.value,r_pass.value);
   localStorage.setItem("logged",r_user.value);
+
   fetch(WEBHOOK_REGISTER,{
     method:"POST",
     headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({content:`🎉 **ARAMIZA HOŞ GELDİN!**\n👤 ${r_user.value} siteden kayıt oldu.`})
+    body:JSON.stringify({
+      embeds:[{
+        title:"🆕 SİTEDEN KAYIT",
+        description:"Aramıza hoşgeldin!",
+        fields:[
+          {name:"Oyuncu",value:r_user.value},
+          {name:"Sunucu",value:"HYRIXCRAFT"}
+        ]
+      }]
+    })
   });
+
   showProfile(r_user.value);
 }
 
 function login(){
-  if(localStorage.getItem("user_"+l_user.value)!==l_pass.value)return;
+  const p=localStorage.getItem("user_"+l_user.value);
+  if(p!==l_pass.value)return alert("Hatalı bilgi");
   localStorage.setItem("logged",l_user.value);
   showProfile(l_user.value);
 }
@@ -178,48 +210,21 @@ function showProfile(name){
   document.getElementById("auth").classList.add("hidden");
   document.getElementById("navLinks").classList.add("hidden");
   document.getElementById("profile").classList.remove("hidden");
-  mcName.innerText=name;
-  mcHead.src="https://mc-heads.net/avatar/"+name+"/64";
+  document.getElementById("mcName").innerText=name;
+  document.getElementById("mcHead").src="https://mc-heads.net/avatar/"+name+"/64";
 }
 
-function logout(){localStorage.clear();location.reload();}
+function logout(){
+  localStorage.removeItem("logged");
+  location.reload();
+}
 
 window.onload=()=>{
   const u=localStorage.getItem("logged");
   if(u) showProfile(u);
 }
-
-// ================= VOTE SİSTEMİ =================
-const VOTE_COOLDOWN = 24 * 60 * 60 * 1000; // 24 saat
-
-document.getElementById("voteBtn").onclick = function() {
-    const player = localStorage.getItem("logged");
-    if(!player){
-        document.getElementById("voteMsg").innerText = "Önce giriş yap!";
-        return;
-    }
-
-    const lastVote = localStorage.getItem("vote_"+player);
-    const now = Date.now();
-
-    if(lastVote && now - lastVote < VOTE_COOLDOWN){
-        const remaining = Math.ceil((VOTE_COOLDOWN - (now - lastVote)) / 1000 / 60);
-        document.getElementById("voteMsg").innerText = `Zaten vote aldın! ${remaining} dakika sonra tekrar alabilirsin.`;
-        return;
-    }
-
-    // Vote başarılı, 24 saat kaydet
-    localStorage.setItem("vote_"+player, now);
-    document.getElementById("voteMsg").innerText = "Vote kasanı aldın!";
-
-    // Discord / Sunucu Webhook
-    fetch(VOTE_WEBHOOK,{
-        method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({content:`🎉 **VOTE**\n👤 ${player} site üzerinden vote yaptı ve kasa aldı!`})
-    });
-}
 </script>
 
 </body>
 </html>
+
