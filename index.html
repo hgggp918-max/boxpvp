@@ -32,7 +32,7 @@ section{max-width:1200px;margin:auto;padding:80px 20px}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:24px}
 
-input,textarea{
+input,textarea,select{
 width:100%;padding:12px;margin:8px 0;
 background:var(--panel2);border:1px solid var(--line);
 color:white;border-radius:10px
@@ -44,8 +44,8 @@ background:var(--panel);padding:8px 14px;border-radius:14px
 }
 .profile img{width:36px;height:36px;border-radius:8px}
 
-footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.7}
 .hidden{display:none}
+footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.7}
 </style>
 </head>
 
@@ -59,11 +59,11 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
       <a href="#market">Market</a>
       <a href="#ticket">Ticket</a>
       <a href="#staff">Yetkili</a>
-      <a href="#auth" id="authBtn">Giriş / Kayıt</a>
+      <a href="#auth">Giriş / Kayıt</a>
       <a class="cta" href="https://discord.gg/pHemx3jf" target="_blank">Discord</a>
     </div>
     <div class="profile hidden" id="profile">
-      <img id="mcHead" src="">
+      <img id="mcHead">
       <span id="mcName"></span>
       <button class="btn" onclick="logout()">Çıkış</button>
     </div>
@@ -72,8 +72,8 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
 
 <section class="hero">
   <h1>HYRIXOCRAFT</h1>
-  <p>En sert BoxPvP deneyimi</p>
-  <div class="ip" id="serverIp">hyrixocraft.mcsh.io</div>
+  <p>BoxPvP Sunucusu</p>
+  <div class="ip" id="ipText">hyrixocraft.mcsh.io</div>
   <button class="btn primary" onclick="copyIP()">IP KOPYALA</button>
 </section>
 
@@ -82,7 +82,7 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
 <div class="grid">
   <div class="card" style="text-align:center">
     <h3>⚔️ BoxPvP</h3>
-    <p>Tek oyun modu • Rekabet • Event</p>
+    <p>Tek Oyun Modu</p>
   </div>
 </div>
 </section>
@@ -90,17 +90,19 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
 <section id="market">
 <h2 style="text-align:center">Market</h2>
 <div class="grid">
-  <div class="card"><h3>VIP</h3><p>Ek komutlar</p><b>₺49.99</b></div>
-  <div class="card"><h3>MVIP</h3><p>Daha fazla yetki</p><b>₺79.99</b></div>
-  <div class="card"><h3>SVIP</h3><p>Tüm ayrıcalıklar</p><b>₺129.99</b></div>
+  <div class="card">VIP – ₺49.99</div>
+  <div class="card">MVIP – ₺79.99</div>
+  <div class="card">SVIP – ₺129.99</div>
 </div>
 </section>
 
 <section id="ticket">
 <h2 style="text-align:center">Ticket</h2>
 <div class="card">
-  <input id="t_name" placeholder="Minecraft Adı">
-  <textarea id="t_msg" placeholder="Sorunun"></textarea>
+  <input id="t_nick" placeholder="Oyun Nickin">
+  <input id="t_target" placeholder="Karşı Taraf Nick">
+  <input id="t_reason" placeholder="Sebep">
+  <textarea id="t_problem" placeholder="Sorunun"></textarea>
   <button class="btn primary" onclick="sendTicket()">Gönder</button>
 </div>
 </section>
@@ -108,9 +110,17 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
 <section id="staff">
 <h2 style="text-align:center">Yetkili Başvuru</h2>
 <div class="card">
-  <input id="dc_name" placeholder="Discord İsmin (zorunlu)">
-  <textarea id="why" placeholder="Neden yetkili olmak istiyorsun?"></textarea>
-  <textarea id="benefit" placeholder="Sunucuya katkıların"></textarea>
+  <input id="y_name" placeholder="Adın">
+  <input id="y_age" placeholder="Yaşın">
+  <input id="y_mc" placeholder="Minecraft Nick">
+  <input id="y_dc" placeholder="Discord Adın">
+  <select id="y_mic">
+    <option value="">Mikrofonun var mı?</option>
+    <option>Evet</option>
+    <option>Hayır</option>
+  </select>
+  <textarea id="y_contrib" placeholder="Ne katkıların olacak?"></textarea>
+  <textarea id="y_why" placeholder="Neden biz?"></textarea>
   <button class="btn primary" onclick="sendStaff()">Başvur</button>
 </div>
 </section>
@@ -119,13 +129,11 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
 <h2 style="text-align:center">Giriş / Kayıt</h2>
 <div class="grid">
   <div class="card">
-    <h3>Kayıt Ol</h3>
     <input id="r_user" placeholder="Minecraft Adı">
     <input id="r_pass" type="password" placeholder="Şifre">
     <button class="btn primary" onclick="register()">Kayıt Ol</button>
   </div>
   <div class="card">
-    <h3>Giriş Yap</h3>
     <input id="l_user" placeholder="Minecraft Adı">
     <input id="l_pass" type="password" placeholder="Şifre">
     <button class="btn primary" onclick="login()">Giriş Yap</button>
@@ -133,12 +141,102 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
 </div>
 </section>
 
-<footer>© 2026 HYRIXOCRAFT • BoxPvP</footer>
+<footer>© 2026 HYRIXOCRAFT</footer>
 
 <script>
-const SERVER_IP="hyrixocraft.mcsh.io";
-
+const IP="hyrixocraft.mcsh.io";
 const WEBHOOK_MAIN="https://discord.com/api/webhooks/1460226084225290384/Gho1_pIzUhT9Kfe815m85AkyiOzVIswriVsWIis8IOWiCsDXN4HsWb8Ub9RQWtca3aV9";
-const WEBHOOK_REGISTER="https://discord.com/api/webhooks/14_
+const WEBHOOK_REGISTER="https://discord.com/api/webhooks/1460299783473467565/-3zDPRmI0TYA0ZIMfayGMiJBUHvZ_BiX4tcGz0BmaFW-Kfe5EHZAAEbo3DIjDaUrsgiq";
+
+function copyIP(){
+  navigator.clipboard.writeText(IP);
+}
+
+function sendTicket(){
+  fetch(WEBHOOK_MAIN,{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({
+      embeds:[{
+        title:"🎫 TICKET | HYRIXOCRAFT",
+        fields:[
+          {name:"Nick",value:t_nick.value},
+          {name:"Karşı Taraf",value:t_target.value},
+          {name:"Sebep",value:t_reason.value},
+          {name:"Sorun",value:t_problem.value}
+        ]
+      }]
+    })
+  });
+  alert("Ticket discorda düştü");
+}
+
+function sendStaff(){
+  fetch(WEBHOOK_MAIN,{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({
+      embeds:[{
+        title:"🛡️ YETKİLİ BAŞVURU | HYRIXOCRAFT",
+        fields:[
+          {name:"Ad",value:y_name.value},
+          {name:"Yaş",value:y_age.value},
+          {name:"MC Nick",value:y_mc.value},
+          {name:"Discord",value:y_dc.value},
+          {name:"Mikrofon",value:y_mic.value},
+          {name:"Katkılar",value:y_contrib.value},
+          {name:"Neden Biz",value:y_why.value}
+        ]
+      }]
+    })
+  });
+  alert("Başvuru yapıldı");
+}
+
+function register(){
+  localStorage.setItem("user_"+r_user.value,r_pass.value);
+  localStorage.setItem("logged",r_user.value);
+
+  fetch(WEBHOOK_REGISTER,{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({
+      embeds:[{
+        title:"🆕 SİTEDEN KAYIT",
+        fields:[{name:"Oyuncu",value:r_user.value}]
+      }]
+    })
+  });
+
+  showProfile(r_user.value);
+}
+
+function login(){
+  if(localStorage.getItem("user_"+l_user.value)!==l_pass.value) return;
+  localStorage.setItem("logged",l_user.value);
+  showProfile(l_user.value);
+}
+
+function showProfile(name){
+  navLinks.classList.add("hidden");
+  profile.classList.remove("hidden");
+  mcName.innerText=name;
+  mcHead.src="https://mc-heads.net/avatar/"+name+"/64";
+  auth.classList.add("hidden");
+}
+
+function logout(){
+  localStorage.removeItem("logged");
+  location.reload();
+}
+
+window.onload=()=>{
+  const u=localStorage.getItem("logged");
+  if(u) showProfile(u);
+}
+</script>
+
+</body>
+</html>
 
 
