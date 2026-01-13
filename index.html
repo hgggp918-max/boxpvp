@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<title>HYRIXCRAFT | BoxPvP</title>
+<title>HYRIXOCRAFT | BoxPvP</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 
@@ -46,17 +46,17 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
 
 <nav>
   <div class="wrap">
-    <div class="brand">HYRIXCRAFT</div>
+    <div class="brand">HYRIXOCRAFT</div>
     <div class="links" id="navLinks">
       <a href="#mode">Oyun Modu</a>
       <a href="#market">Market</a>
       <a href="#ticket">Ticket</a>
       <a href="#staff">Yetkili</a>
-      <a href="#auth" id="authBtn">Giriş / Kayıt</a>
+      <a href="#auth">Giriş / Kayıt</a>
       <a class="cta" href="https://discord.gg/pHemx3jf" target="_blank">Discord</a>
     </div>
     <div class="profile hidden" id="profile">
-      <img id="mcHead" src="">
+      <img id="mcHead">
       <span id="mcName"></span>
       <button class="btn" onclick="logout()">Çıkış</button>
     </div>
@@ -64,9 +64,9 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
 </nav>
 
 <section class="hero">
-  <h1>HYRIXCRAFT</h1>
+  <h1>HYRIXOCRAFT</h1>
   <p>En sert BoxPvP deneyimi</p>
-  <div class="ip" id="serverIP">hyrixcraft.mcsh.io</div>
+  <div class="ip">hyrixocraft.mcsh.io</div>
   <button class="btn primary" onclick="copyIP()">IP KOPYALA</button>
 </section>
 
@@ -126,13 +126,13 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
 </div>
 </section>
 
-<footer>© 2026 HYRIXCRAFT • BoxPvP</footer>
+<footer>© 2026 HYRIXOCRAFT • BoxPvP</footer>
 
 <script>
-const SERVER_IP="hyrixcraft.mcsh.io";
+const SERVER_IP="hyrixocraft.mcsh.io";
 
-const WEBHOOK_MAIN="https://discord.com/api/webhooks/1460226084225290384/Gho1_pIzUhT9Kfe815m85AkyiOzVIswriVsWIis8IOWiCsDXN4HsWb8Ub9RQWtca3aV9";
-const WEBHOOK_REGISTER="https://discord.com/api/webhooks/1460299783473467565/-3zDPRmI0TYA0ZIMfayGMiJBUHvZ_BiX4tcGz0BmaFW-Kfe5EHZAAEbo3DIjDaUrsgiq";
+const WEBHOOK_MAIN="WEBHOOK_TICKET_YETKILI";
+const WEBHOOK_REGISTER="WEBHOOK_KAYIT";
 
 function copyIP(){
   navigator.clipboard.writeText(SERVER_IP);
@@ -146,7 +146,7 @@ function sendTicket(){
     headers:{"Content-Type":"application/json"},
     body:JSON.stringify({
       embeds:[{
-        title:"🎫 TICKET",
+        title:"🎫 HYRIXOCRAFT TICKET",
         fields:[
           {name:"Oyuncu",value:t_name.value},
           {name:"Mesaj",value:t_msg.value}
@@ -154,7 +154,6 @@ function sendTicket(){
       }]
     })
   });
-  alert("Ticket gönderildi");
 }
 
 function sendStaff(){
@@ -164,7 +163,7 @@ function sendStaff(){
     headers:{"Content-Type":"application/json"},
     body:JSON.stringify({
       embeds:[{
-        title:"🛡️ YETKİLİ BAŞVURU",
+        title:"🛡️ HYRIXOCRAFT YETKİLİ BAŞVURU",
         fields:[
           {name:"Discord",value:dc_name.value},
           {name:"Neden?",value:why.value},
@@ -173,7 +172,6 @@ function sendStaff(){
       }]
     })
   });
-  alert("Başvuru gönderildi");
 }
 
 function register(){
@@ -186,11 +184,10 @@ function register(){
     headers:{"Content-Type":"application/json"},
     body:JSON.stringify({
       embeds:[{
-        title:"🆕 SİTEDEN KAYIT",
+        title:"🆕 HYRIXOCRAFT KAYIT",
         description:"Aramıza hoşgeldin!",
         fields:[
-          {name:"Oyuncu",value:r_user.value},
-          {name:"Sunucu",value:"HYRIXCRAFT"}
+          {name:"Oyuncu",value:r_user.value}
         ]
       }]
     })
@@ -210,8 +207,8 @@ function showProfile(name){
   document.getElementById("auth").classList.add("hidden");
   document.getElementById("navLinks").classList.add("hidden");
   document.getElementById("profile").classList.remove("hidden");
-  document.getElementById("mcName").innerText=name;
-  document.getElementById("mcHead").src="https://mc-heads.net/avatar/"+name+"/64";
+  mcName.innerText=name;
+  mcHead.src="https://mc-heads.net/avatar/"+name+"/64";
 }
 
 function logout(){
@@ -227,4 +224,5 @@ window.onload=()=>{
 
 </body>
 </html>
+
 
