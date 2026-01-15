@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -79,37 +80,8 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
 <section class="hero">
   <h1>HYRIXOCRAFT</h1>
   <p>BoxPvP Sunucusu</p>
-  <div class="ip" id="ipText">hyrixocraft.mcsh.io</div>
-  <button class="btn primary" onclick="copyIP()">IP KOPYALA</button>
-</section>
-
-<section id="mode">
-<h2 style="text-align:center">Oyun Modu</h2>
-<div class="grid">
-  <div class="card" style="text-align:center">
-    <h3>⚔️ BoxPvP</h3>
-    <p>Tek Oyun Modu</p>
-  </div>
-</div>
-</section>
-
-<section id="market">
-<h2 style="text-align:center">Market</h2>
-<div class="grid">
-  <div class="card">VIP – ₺49.99</div>
-  <div class="card">MVIP – ₺79.99</div>
-  <div class="card">SVIP – ₺129.99</div>
-</div>
-</section>
-
-<section id="ticket">
-<h2 style="text-align:center">Ticket</h2>
-<div class="card">
-  <input id="t_nick" placeholder="Oyun Nickin">
-  <input id="t_reason" placeholder="Sebep">
-  <textarea id="t_problem" placeholder="Sorunun"></textarea>
-  <button class="btn primary" onclick="sendTicket()">Gönder</button>
-</div>
+  <div class="ip">hyrixocraft.mcsh.io</div>
+  <button class="btn primary" onclick="navigator.clipboard.writeText('hyrixocraft.mcsh.io')">IP KOPYALA</button>
 </section>
 
 <section id="staff">
@@ -145,29 +117,36 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
 <footer>© 2026 HYRIXOCRAFT</footer>
 
 <script>
-const IP="hyrixocraft.mcsh.io";
-const WEBHOOK_REGISTER="https://discord.com/api/webhooks/1460299783473467565/-3zDPRmI0TYA0ZIMfayGMiJBUHvZ_BiX4tcGz0BmaFW-Kfe5EHZAAEbo3DIjDaUrsgiq";
+const STAFF_WEBHOOK="https://discord.com/api/webhooks/1460226084225290384/Gho1_pIzUhT9Kfe815m85AkyiOzVIswriVsWIis8IOWiCsDXN4HsWb8Ub9RQWtca3aV9";
 
-function copyIP(){
-  navigator.clipboard.writeText(IP);
-  alert("IP Kopyalandı");
+function sendStaff(){
+  fetch(STAFF_WEBHOOK,{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({
+      embeds:[{
+        title:"🛡️ YETKİLİ BAŞVURUSU",
+        color:16750848,
+        fields:[
+          {name:"Yaş",value:s_age.value || "—"},
+          {name:"İsim",value:s_name.value || "—"},
+          {name:"MC Nick",value:s_mc.value || "—"},
+          {name:"Spam Durumu",value:s_q1.value || "—"},
+          {name:"Küfür Durumu",value:s_q2.value || "—"},
+          {name:"Kurucuya Hakaret",value:s_q3.value || "—"},
+          {name:"Neden Biz",value:s_why.value || "—"}
+        ],
+        footer:{text:"HYRIXOCRAFT Yetkili Alım"}
+      }]
+    })
+  });
+
+  alert("Başvuru yapıldı ✅");
 }
 
 function register(){
   localStorage.setItem("user_"+r_user.value,r_pass.value);
   localStorage.setItem("logged",r_user.value);
-
-  fetch(WEBHOOK_REGISTER,{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({
-      embeds:[{
-        title:"🆕 SİTEDEN KAYIT OLUNDU",
-        description:`Oyuncu **${r_user.value}** siteye kayıt oldu`
-      }]
-    })
-  });
-
   showProfile(r_user.value);
 }
 
