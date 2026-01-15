@@ -5,7 +5,6 @@
 <title>HYRIXOCRAFT | BoxPvP</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-
 <style>
 :root{
 --bg:#0a0d1a;--panel:#0f1328;--panel2:#12173a;--line:#1e2450;
@@ -14,37 +13,24 @@
 *{box-sizing:border-box}
 body{margin:0;font-family:Inter;background:var(--bg);color:var(--txt)}
 a{text-decoration:none;color:inherit}
-
 nav{position:sticky;top:0;background:#0a0d1ae6;border-bottom:1px solid var(--line)}
 nav .wrap{max-width:1200px;margin:auto;display:flex;justify-content:space-between;align-items:center;padding:14px}
 .brand{font-weight:800;font-size:22px}
 .links a{margin:0 10px;opacity:.85}
 .links .cta{background:linear-gradient(90deg,var(--pri),var(--pri2));color:#000;padding:8px 14px;border-radius:10px;font-weight:800}
-
 section{max-width:1200px;margin:auto;padding:80px 20px}
 .hero{text-align:center;padding:120px 20px}
 .hero h1{font-size:64px;letter-spacing:6px}
 .ip{font-size:22px;font-weight:800;margin:16px 0}
-
 .btn{padding:14px 22px;border-radius:12px;border:none;font-weight:800;cursor:pointer}
 .primary{background:linear-gradient(90deg,var(--pri),var(--pri2));color:#000}
-
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:24px}
-
-input,textarea,select{
+input,textarea{
 width:100%;padding:12px;margin:8px 0;
 background:var(--panel2);border:1px solid var(--line);
 color:white;border-radius:10px
 }
-
-.profile{
-display:flex;align-items:center;gap:12px;
-background:var(--panel);padding:8px 14px;border-radius:14px
-}
-.profile img{width:36px;height:36px;border-radius:8px}
-
-.hidden{display:none}
 footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.7}
 </style>
 </head>
@@ -54,18 +40,11 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
 <nav>
   <div class="wrap">
     <div class="brand">HYRIXOCRAFT</div>
-    <div class="links" id="navLinks">
+    <div class="links">
       <a href="#mode">Oyun Modu</a>
       <a href="#market">Market</a>
       <a href="#ticket">Ticket</a>
       <a href="#staff">Yetkili</a>
-      <a href="#auth">Giriş / Kayıt</a>
-      <a class="cta" href="https://discord.gg/pHemx3jf" target="_blank">Discord</a>
-    </div>
-    <div class="profile hidden" id="profile">
-      <img id="mcHead">
-      <span id="mcName"></span>
-      <button class="btn" onclick="logout()">Çıkış</button>
     </div>
   </div>
 </nav>
@@ -73,71 +52,51 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
 <section class="hero">
   <h1>HYRIXOCRAFT</h1>
   <p>BoxPvP Sunucusu</p>
-  <div class="ip" id="ipText">hyrixocraft.mcsh.io</div>
+  <div class="ip">hyrixocraft.mcsh.io</div>
   <button class="btn primary" onclick="copyIP()">IP KOPYALA</button>
 </section>
 
 <section id="mode">
 <h2 style="text-align:center">Oyun Modu</h2>
 <div class="grid">
-  <div class="card" style="text-align:center">
-    <h3>⚔️ BoxPvP</h3>
-    <p>Tek Oyun Modu</p>
-  </div>
+<div class="card" style="text-align:center">
+<h3>⚔️ BoxPvP</h3>
+<p>Tek Oyun Modu</p>
+</div>
 </div>
 </section>
 
 <section id="market">
 <h2 style="text-align:center">Market</h2>
 <div class="grid">
-  <div class="card">VIP – ₺49.99</div>
-  <div class="card">MVIP – ₺79.99</div>
-  <div class="card">SVIP – ₺129.99</div>
+<div class="card">VIP – ₺49.99</div>
+<div class="card">MVIP – ₺79.99</div>
+<div class="card">SVIP – ₺129.99</div>
 </div>
 </section>
 
 <section id="ticket">
 <h2 style="text-align:center">Ticket</h2>
 <div class="card">
-  <input id="t_nick" placeholder="Oyun Nickin">
-  <input id="t_target" placeholder="Karşı Taraf Nick">
-  <input id="t_reason" placeholder="Sebep">
-  <textarea id="t_problem" placeholder="Sorunun"></textarea>
-  <button class="btn primary" onclick="sendTicket()">Gönder</button>
+<input id="t_nick" placeholder="Oyun Nickin">
+<input id="t_target" placeholder="Karşı Taraf Nick">
+<input id="t_reason" placeholder="Sebep">
+<textarea id="t_problem" placeholder="Sorunun"></textarea>
+<button class="btn primary" onclick="sendTicket()">Gönder</button>
 </div>
 </section>
 
 <section id="staff">
-<h2 style="text-align:center">Yetkili Başvuru</h2>
+<h2 style="text-align:center">ʏᴇᴛᴋɪʟɪ ᴀʟıᴍ ꜰᴏʀᴍᴜ!</h2>
 <div class="card">
-  <input id="y_name" placeholder="Adın">
-  <input id="y_age" placeholder="Yaşın">
-  <input id="y_mc" placeholder="Minecraft Nick">
-  <input id="y_dc" placeholder="Discord Adın">
-  <select id="y_mic">
-    <option value="">Mikrofonun var mı?</option>
-    <option>Evet</option>
-    <option>Hayır</option>
-  </select>
-  <textarea id="y_contrib" placeholder="Ne katkıların olacak?"></textarea>
-  <textarea id="y_why" placeholder="Neden biz?"></textarea>
-  <button class="btn primary" onclick="sendStaff()">Başvur</button>
-</div>
-</section>
-
-<section id="auth">
-<h2 style="text-align:center">Giriş / Kayıt</h2>
-<div class="grid">
-  <div class="card">
-    <input id="r_user" placeholder="Minecraft Adı">
-    <input id="r_pass" type="password" placeholder="Şifre">
-    <button class="btn primary" onclick="register()">Kayıt Ol</button>
-  </div>
-  <div class="card">
-    <input id="l_user" placeholder="Minecraft Adı">
-    <input id="l_pass" type="password" placeholder="Şifre">
-    <button class="btn primary" onclick="login()">Giriş Yap</button>
-  </div>
+<input id="f_age" placeholder="ʏᴀꜱıɴıᴢ">
+<input id="f_name" placeholder="ɪꜱᴍɪɴɪᴢ">
+<input id="f_mc" placeholder="ᴏʏᴜɴ ɪᴄɪ ɪꜱᴍɪɴɪᴢ">
+<textarea id="f_q1" placeholder="ꜱᴏʜʙᴇᴛᴛᴇ ʙɪʀɪꜱɪ 𝟧 ᴋᴇʀᴇ ꜱᴘᴀᴍ ᴀᴛᴛı ɴᴀᴘᴀʀꜱıɴ"></textarea>
+<textarea id="f_q2" placeholder="ᴀɢıʀ ᴋᴜꜰᴜʀ ᴇᴅᴇɴ ʙɪʀɪꜱɪ ᴠᴀʀ, ꜱᴇɴᴅᴇɴ ᴜꜱᴛᴜɴ ʏᴇᴛᴋɪʟɪ ᴠᴀʀ ɴᴀᴘᴀʀꜱıɴ"></textarea>
+<textarea id="f_q3" placeholder="ʙɪʀɪꜱɪ ᴋᴜʀᴜᴄᴜʏᴀ ᴀʟᴀʏ/ꜱᴏᴠᴍᴇ ʏᴀᴘıʏᴏʀ ɴᴀᴘᴀʀꜱıɴ"></textarea>
+<textarea id="f_why" placeholder="ɴᴇᴅᴇɴ ʙɪᴢɪ ᴛᴇʀᴄɪʜ ᴇᴅɪʏᴏʀꜱᴜɴᴜᴢ"></textarea>
+<button class="btn primary" onclick="sendStaff()">Başvur</button>
 </div>
 </section>
 
@@ -145,94 +104,52 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
 
 <script>
 const IP="hyrixocraft.mcsh.io";
-const WEBHOOK_MAIN="https://discord.com/api/webhooks/1460226084225290384/Gho1_pIzUhT9Kfe815m85AkyiOzVIswriVsWIis8IOWiCsDXN4HsWb8Ub9RQWtca3aV9";
-const WEBHOOK_REGISTER="https://discord.com/api/webhooks/1460299783473467565/-3zDPRmI0TYA0ZIMfayGMiJBUHvZ_BiX4tcGz0BmaFW-Kfe5EHZAAEbo3DIjDaUrsgiq";
+const WEBHOOK="https://discord.com/api/webhooks/1460226084225290384/Gho1_pIzUhT9Kfe815m85AkyiOzVIswriVsWIis8IOWiCsDXN4HsWb8Ub9RQWtca3aV9";
 
 function copyIP(){
-  navigator.clipboard.writeText(IP);
+navigator.clipboard.writeText(IP);
+alert("IP kopyalandı");
 }
 
 function sendTicket(){
-  fetch(WEBHOOK_MAIN,{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({
-      embeds:[{
-        title:"🎫 TICKET | HYRIXOCRAFT",
-        fields:[
-          {name:"Nick",value:t_nick.value},
-          {name:"Karşı Taraf",value:t_target.value},
-          {name:"Sebep",value:t_reason.value},
-          {name:"Sorun",value:t_problem.value}
-        ]
-      }]
-    })
-  });
-  alert("Ticket discorda düştü");
+fetch(WEBHOOK,{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+embeds:[{
+title:"🎫 TICKET | HYRIXOCRAFT",
+fields:[
+{name:"Nick",value:t_nick.value},
+{name:"Karşı Taraf",value:t_target.value},
+{name:"Sebep",value:t_reason.value},
+{name:"Sorun",value:t_problem.value}
+]
+}]
+})
+});
+alert("Ticket discorda düştü");
 }
 
 function sendStaff(){
-  fetch(WEBHOOK_MAIN,{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({
-      embeds:[{
-        title:"🛡️ YETKİLİ BAŞVURU | HYRIXOCRAFT",
-        fields:[
-          {name:"Ad",value:y_name.value},
-          {name:"Yaş",value:y_age.value},
-          {name:"MC Nick",value:y_mc.value},
-          {name:"Discord",value:y_dc.value},
-          {name:"Mikrofon",value:y_mic.value},
-          {name:"Katkılar",value:y_contrib.value},
-          {name:"Neden Biz",value:y_why.value}
-        ]
-      }]
-    })
-  });
-  alert("Başvuru yapıldı");
-}
-
-function register(){
-  localStorage.setItem("user_"+r_user.value,r_pass.value);
-  localStorage.setItem("logged",r_user.value);
-
-  fetch(WEBHOOK_REGISTER,{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({
-      embeds:[{
-        title:"🆕 SİTEDEN KAYIT",
-        fields:[{name:"Oyuncu",value:r_user.value}]
-      }]
-    })
-  });
-
-  showProfile(r_user.value);
-}
-
-function login(){
-  if(localStorage.getItem("user_"+l_user.value)!==l_pass.value) return;
-  localStorage.setItem("logged",l_user.value);
-  showProfile(l_user.value);
-}
-
-function showProfile(name){
-  navLinks.classList.add("hidden");
-  profile.classList.remove("hidden");
-  mcName.innerText=name;
-  mcHead.src="https://mc-heads.net/avatar/"+name+"/64";
-  auth.classList.add("hidden");
-}
-
-function logout(){
-  localStorage.removeItem("logged");
-  location.reload();
-}
-
-window.onload=()=>{
-  const u=localStorage.getItem("logged");
-  if(u) showProfile(u);
+fetch(WEBHOOK,{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+embeds:[{
+title:"🛡️ YETKİLİ ALIM FORMU | HYRIXOCRAFT",
+fields:[
+{name:"Yaş",value:f_age.value},
+{name:"İsim",value:f_name.value},
+{name:"MC Nick",value:f_mc.value},
+{name:"Spam Durumu",value:f_q1.value},
+{name:"Küfür Durumu",value:f_q2.value},
+{name:"Kurucuya Hakaret",value:f_q3.value},
+{name:"Neden Biz",value:f_why.value}
+]
+}]
+})
+});
+alert("Yetkili başvurusu gönderildi");
 }
 </script>
 
