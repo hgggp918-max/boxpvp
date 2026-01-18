@@ -37,20 +37,34 @@ margin-top:8px;background:#2a2a3a;color:#fff
 }
 
 .market{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
-
 .vip{border:2px solid #5865f2}
-.vip h3{margin-top:0}
 
 .copy-box{text-align:center;margin-top:30px}
 .copy-box img{
-margin-top:10px;
-width:200px;
-animation:float 3s ease-in-out infinite
+margin-top:15px;
+width:260px;
+animation:float 3s ease-in-out infinite;
+display:block;
+margin-left:auto;
+margin-right:auto;
 }
 @keyframes float{
 0%{transform:translateY(0)}
-50%{transform:translateY(-10px)}
+50%{transform:translateY(-12px)}
 100%{transform:translateY(0)}
+}
+
+.quick-links{
+display:flex;
+justify-content:center;
+gap:15px;
+margin-top:20px;
+flex-wrap:wrap
+}
+.quick-links .card{
+width:200px;
+text-align:center;
+cursor:pointer
 }
 
 .modal{
@@ -70,7 +84,7 @@ max-width:600px;width:95%
 <body>
 
 <header class="container">
-<div class="logo">TaletMC</div>
+<div class="logo">HYRIXOCRAFT</div>
 <nav>
 <a onclick="show('home')">Ana Sayfa</a>
 <a onclick="show('box')">Oyun Modu</a>
@@ -88,10 +102,15 @@ max-width:600px;width:95%
 <section id="home">
 <div class="copy-box">
 <button class="btn" onclick="copyIP()">IP KOPYALA</button>
-<p>Play.TaletMc.com.tr</p>
+<p><b>hyrixocraft.mcsh.io</b></p>
 
-<!-- FOTOĞRAF (senin verdiğin fotoğrafı buraya koy) -->
-<img src="website-9aea612d-4e11-417d-9ae3-b1ed7309abff.avif">
+<img src="website-9aea612d-4e11-417d-9ae3-b1ed7309abff.avif" alt="HyrixoCraft">
+
+<div class="quick-links">
+<div class="card" onclick="show('staff')">🛡️ Yetkili Başvuru</div>
+<div class="card" onclick="show('market')">💎 Market</div>
+<div class="card" onclick="show('ticket')">🎫 Ticket</div>
+</div>
 </div>
 </section>
 
@@ -99,7 +118,10 @@ max-width:600px;width:95%
 <section id="box" class="hidden">
 <div class="card">
 <h2>BoxMining</h2>
-<p>BoxMining; küçük bir alanda kazı yaparak geliştiğin...</p>
+<p>
+BoxMining; oyuncuların belirli bir alan içerisinde kazı yaparak
+para, rütbe ve güç kazandığı gelişmiş bir oyun modudur.
+</p>
 <button class="btn" onclick="openBox()">İncele</button>
 </div>
 </section>
@@ -130,7 +152,7 @@ max-width:600px;width:95%
 <section id="ticket" class="hidden">
 <div class="card">
 <h2>Ticket Aç</h2>
-<input id="t_mc" placeholder="MC Adın">
+<input id="t_mc" placeholder="Minecraft Adın">
 <input id="t_dc" placeholder="Discord Adın">
 <input id="t_target" placeholder="Karşı Taraf">
 <select id="t_cat">
@@ -139,7 +161,7 @@ max-width:600px;width:95%
 <option>Hakaret</option>
 <option>Bug</option>
 </select>
-<textarea id="t_prob" placeholder="Sorun"></textarea>
+<textarea id="t_prob" placeholder="Sorunun"></textarea>
 <button class="btn" onclick="sendTicket()">Gönder</button>
 <div id="ticketMsg"></div>
 </div>
@@ -149,12 +171,12 @@ max-width:600px;width:95%
 <section id="staff" class="hidden">
 <div class="card">
 <h2>Yetkili Başvuru</h2>
-<input id="s_age" placeholder="Yaş">
-<input id="s_name" placeholder="Adın">
-<input id="s_mc" placeholder="MC Nick">
-<input id="s_q1" placeholder="Mikrofonun var mı">
-<input id="s_q2" placeholder="Katkıların neler">
-<textarea id="s_why" placeholder="Neden biz?"></textarea>
+<input id="s_age" placeholder="Yaşın">
+<input id="s_name" placeholder="İsmin">
+<input id="s_mc" placeholder="Oyun İçi İsmin">
+<input id="s_q1" placeholder="Mikrofonun var mı?">
+<input id="s_q2" placeholder="Katkıların neler?">
+<textarea id="s_why" placeholder="Neden HyrixoCraft?"></textarea>
 <button class="btn" onclick="sendStaff()">Başvur</button>
 <div id="staffMsg"></div>
 </div>
@@ -177,11 +199,11 @@ max-width:600px;width:95%
 <!-- BOX MODAL -->
 <div class="modal" id="boxModal">
 <div class="modal-content">
-<h2>BoxMining Detay</h2>
+<h2>BoxMining Detaylı Anlatım</h2>
 <p>
-BoxMining oyun modu, oyuncuların sınırlı bir alanda kazı yaparak
-ekonomi, PvP ve prestij sistemiyle geliştiği uzun soluklu bir moddur.
-Rütbeler, kasalar, market, eventler ve çok daha fazlası bulunur...
+BoxMining; uzun süreli oynanış sunan, prestij sistemi, PvP alanları,
+kasalar, eventler ve gelişmiş ekonomi yapısıyla öne çıkan bir oyun modudur.
+Kazı yaparak seviye atlarsın, rütbe kazanırsın ve rakiplerine üstünlük sağlarsın.
 </p>
 <button class="btn" onclick="closeBox()">Kapat</button>
 </div>
@@ -197,8 +219,8 @@ document.getElementById(id).classList.remove("hidden");
 }
 
 function copyIP(){
-navigator.clipboard.writeText("Play.TaletMc.com.tr");
-alert("IP Kopyalandı");
+navigator.clipboard.writeText("hyrixocraft.mcsh.io");
+alert("IP kopyalandı: hyrixocraft.mcsh.io");
 }
 
 function vip(){
@@ -217,7 +239,7 @@ localStorage.setItem("user",r_name.value);
 fetch(WEBHOOK_REGISTER,{
 method:"POST",
 headers:{"Content-Type":"application/json"},
-body:JSON.stringify({content:"✅ Yeni kayıt: "+r_name.value})
+body:JSON.stringify({content:"✅ Siteden kayıt oldu: "+r_name.value})
 });
 regMsg.innerHTML="<div class='msg'>Kayıt oldun</div>";
 loginBtn.classList.add("hidden");
@@ -226,27 +248,27 @@ profile.classList.remove("hidden");
 }
 
 function sendTicket(){
-if(!logged()){ticketMsg.innerHTML="<div class='err'>Kayıt ol</div>";return;}
+if(!logged()){ticketMsg.innerHTML="<div class='err'>Önce kayıt ol</div>";return;}
 if(!t_mc.value||!t_dc.value||!t_target.value||!t_cat.value||!t_prob.value){
 ticketMsg.innerHTML="<div class='err'>Formu doldur</div>";return;
 }
 fetch(WEBHOOK_STAFF,{
 method:"POST",
 headers:{"Content-Type":"application/json"},
-body:JSON.stringify({content:"🎫 Ticket: "+t_mc.value})
+body:JSON.stringify({content:"🎫 Ticket | "+t_mc.value+" | "+t_cat.value})
 });
 ticketMsg.innerHTML="<div class='msg'>Ticket Discorda düştü</div>";
 }
 
 function sendStaff(){
-if(!logged()){staffMsg.innerHTML="<div class='err'>Kayıt ol</div>";return;}
+if(!logged()){staffMsg.innerHTML="<div class='err'>Önce kayıt ol</div>";return;}
 if(!s_age.value||!s_name.value||!s_mc.value||!s_q1.value||!s_q2.value||!s_why.value){
 staffMsg.innerHTML="<div class='err'>Formu doldur</div>";return;
 }
 fetch(WEBHOOK_STAFF,{
 method:"POST",
 headers:{"Content-Type":"application/json"},
-body:JSON.stringify({content:"🛡️ Yetkili Başvuru: "+s_mc.value})
+body:JSON.stringify({content:"🛡️ Yetkili Başvuru | "+s_mc.value})
 });
 staffMsg.innerHTML="<div class='msg'>Başvurun yapıldı</div>";
 }
