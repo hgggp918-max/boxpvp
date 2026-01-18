@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>HyrixoCraft</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+*{box-sizing:border-box;font-family:Arial}
+body{margin:0;background:#0f0f14;color:#fff}
+.container{max-width:1200px;margin:auto;padding:20px}
+header{display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:26px;font-weight:700}
+nav a{margin-left:15px;cursor:pointer}
+.btn{background:#5865f2;border:none;color:#fff;padding:10px 16px;border-radius:8px;cursor:pointer}
+.btn:hover{opacity:.9}
+.card{background:#1b1b26;padding:20px;border-radius:16px;margin-top:20px;transition:.3s}
+.card:hover{transform:translateY(-6px)}
+.hidden{display:none}
+.msg{color:#3cff8f;margin-top:10px}
+.err{color:#ff4d4d;margin-top:10px}
+input,textarea{width:100%;padding:10px;border-radius:8px;border:none;margin-top:8px;background:#2a2a3a;color:#fff}
+.market{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
+.vip{border:2px solid #5865f2}
+.copy-box{text-align:center;margin-top:30px}
+.floating-img{
+width:300px;
+display:block;
+margin:20px auto;
+animation:float 3s ease-in-out infinite;
+}
+@keyframes float{
+0%{transform:translateY(0)}
+50%{transform:translateY(-20px)}
+100%{transform:translateY(0)}
+}
+.quick-links{display:flex;justify-content:center;gap:15px;margin-top:20px;flex-wrap:wrap}
+.quick-links .card{width:200px;text-align:center;cursor:pointer}
+</style>
+</head>
+
+<body>
+
+<header class="container">
+<div class="logo">HYRIXOCRAFT</div>
+<nav>
+<a onclick="show('home')">Ana Sayfa</a>
+<a onclick="show('market')">Market</a>
+<a onclick="show('ticket')">Ticket</a>
+<a onclick="show('staff')">Yetkili Başvuru</a>
+<a id="loginBtn" onclick="show('login')">Giriş / Kayıt</a>
+<div id="profile" class="hidden"></div>
+</nav>
+</header>
+
+<div class="container">
+
+<section id="home">
+<div class="copy-box">
+<button class="btn" onclick="copyIP()">IP KOPYALA</button>
+<p><b>hyrixocraft.mcsh.io</b></p>
+
+<!-- FOTOĞRAF IP ALTINDA -->
+<img src="website-9aea612d-4e11-417d-9ae3-b1ed7309abff.png" class="floating-img">
+
+
+<div class="quick-links">
+<div class="card" onclick="show('staff')">🛡️ Yetkili Başvuru</div>
+<div class="card" onclick="show('market')">💎 Market</div>
+<div class="card" onclick="show('ticket')">🎫 Ticket</div>
+</div>
+</div>
+</section>
+
+<section id="market" class="hidden">
+<div class="market">
+<div class="card vip"><h3>VIP - 49₺</h3><button class="btn" onclick="vip()">Satın Al</button></div>
+<div class="card vip"><h3>VIP+ - 99₺</h3><button class="btn" onclick="vip()">Satın Al</button></div>
+<div class="card vip"><h3>VIP+++ - 149₺</h3><button class="btn" onclick="vip()">Satın Al</button></div>
+</div>
+<div id="vipMsg"></div>
+</section>
+
+<section id="ticket" class="hidden">
+<div class="card">
+<h2>Ticket Aç</h2>
+<input id="t_mc" placeholder="Minecraft Adın">
+<input id="t_dc" placeholder="Discord Adın">
+<input id="t_target" placeholder="Karşı Taraf">
+<input id="t_cat" placeholder="Kategori">
+<textarea id="t_prob" placeholder="Sorunun"></textarea>
+<button class="btn" onclick="sendTicket()">Gönder</button>
+<div id="ticketMsg"></div>
+</div>
+</section>
+
+<section id="staff" class="hidden">
+<div class="card">
+<h2>Yetkili Başvuru</h2>
+<input id="s_age" placeholder="Yaşın">
+<input id="s_name" placeholder="İsmin">
+<input id="s_mc" placeholder="MC Nick">
+<textarea id="s_q1" placeholder="Spam atan biri"></textarea>
+<textarea id="s_q2" placeholder="Küfür eden biri"></textarea>
+<textarea id="s_q3" placeholder="Kurucuya hakaret"></textarea>
+<textarea id="s_why" placeholder="Neden HyrixoCraft?"></textarea>
+<button class="btn" onclick="sendStaff()">Başvur</button>
+<div id="staffMsg"></div>
+</div>
+</section>
+
+<section id="login" class="hidden">
+<div class="card">
+<h2>Kayıt Ol / Giriş</h2>
+<input id="r_name" placeholder="Kullanıcı Adı">
+<input id="r_mail" placeholder="E-posta">
+<input id="r_pass" type="password" placeholder="Şifre">
+<button class="btn" onclick="register()">Kayıt Ol</button>
+<div id="regMsg"></div>
+</div>
+</section>
+
+</div>
+
+<script>
+const STAFF_TICKET_WEBHOOK="https://discord.com/api/webhooks/1460226084225290384/Gho1_pIzUhT9Kfe815m85AkyiOzVIswriVsWIis8IOWiCsDXN4HsWb8Ub9RQWtca3aV9";
+const REGISTER_WEBHOOK="https://discord.com/api/webhooks/1460299783473467565/-3zDPRmI0TYA0ZIMfayGMiJBUHvZ_BiX4tcGz0BmaFW-Kfe5EHZAAEbo3DIjDaUrsgiq";
+
+function show(id){
+document.querySelectorAll("section").forEach(s=>s.classList.add("hidden"));
+document.getElementById(id).classList.remove("hidden");
+}
+
+function copyIP(){
+navigator.clipboard.writeText("hyrixocraft.mcsh.io");
+alert("IP kopyalandı");
+}
+
+function vip(){
+vipMsg.innerHTML="<div class='err'>Vip satışları başlamadı</div>";
+}
+
+function register(){
+if(!r_name.value||!r_mail.value||!r_pass.value){regMsg.innerHTML="<div class='err'>Formu doldur</div>";return;}
+localStorage.setItem("user",r_name.value);
+fetch(REGISTER_WEBHOOK,{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({content:`📥 Yeni Kayıt\n👤 ${r_name.value}\n📧 ${r_mail.value}`})
+});
+loginBtn.style.display="none";
+profile.innerHTML="👤 "+r_name.value;
+profile.classList.remove("hidden");
+regMsg.innerHTML="<div class='msg'>Kayıt başarılı</div>";
+}
+
+function sendTicket(){
+if(!localStorage.getItem("user")){ticketMsg.innerHTML="<div class='err'>Kayıt ol</div>";return;}
+if(!t_mc.value||!t_dc.value||!t_target.value||!t_cat.value||!t_prob.value){
+ticketMsg.innerHTML="<div class='err'>Formu doldur</div>";return;}
+fetch(STAFF_TICKET_WEBHOOK,{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({content:`🎫 Ticket\nMC:${t_mc.value}\nDC:${t_dc.value}\nKarşı:${t_target.value}\nKategori:${t_cat.value}\nSorun:${t_prob.value}`})
+});
+ticketMsg.innerHTML="<div class='msg'>Ticket Discorda düştü</div>";
+}
+
+function sendStaff(){
+if(!localStorage.getItem("user")){staffMsg.innerHTML="<div class='err'>Kayıt ol</div>";return;}
+if(!s_age.value||!s_name.value||!s_mc.value||!s_q1.value||!s_q2.value||!s_q3.value||!s_why.value){
+staffMsg.innerHTML="<div class='err'>Formu doldur</div>";return;}
+fetch(STAFF_TICKET_WEBHOOK,{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({content:`🛡️ Yetkili Başvurusu\nYaş:${s_age.value}\nİsim:${s_name.value}\nMC:${s_mc.value}\n1:${s_q1.value}\n2:${s_q2.value}\n3:${s_q3.value}\nNeden:${s_why.value}`})
+});
+staffMsg.innerHTML="<div class='msg'>Başvurun yapıldı</div>";
+}
+</script>
+
+</body>
+</html>
