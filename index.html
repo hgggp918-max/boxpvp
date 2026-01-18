@@ -1,9 +1,8 @@
-
 <!DOCTYPE html>
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<title>HYRIXOCRAFT | BoxPvP</title>
+<title>HYRIXOCRAFT | BoxMining</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 
@@ -19,12 +18,8 @@ a{text-decoration:none;color:inherit}
 nav{position:sticky;top:0;background:#0a0d1ae6;border-bottom:1px solid var(--line)}
 nav .wrap{max-width:1200px;margin:auto;display:flex;justify-content:space-between;align-items:center;padding:14px}
 .brand{font-weight:800;font-size:22px}
-
 .links a{margin:0 10px;opacity:.85}
-.links .cta{
-background:linear-gradient(90deg,var(--pri),var(--pri2));
-color:#000;padding:8px 14px;border-radius:10px;font-weight:800
-}
+.links .cta{background:linear-gradient(90deg,var(--pri),var(--pri2));color:#000;padding:8px 14px;border-radius:10px;font-weight:800}
 
 section{max-width:1200px;margin:auto;padding:80px 20px}
 .hero{text-align:center;padding:120px 20px}
@@ -37,19 +32,19 @@ section{max-width:1200px;margin:auto;padding:80px 20px}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:24px}
 
-input,textarea{
+input,textarea,select{
 width:100%;padding:12px;margin:8px 0;
 background:var(--panel2);border:1px solid var(--line);
 color:white;border-radius:10px
 }
 
-.profile{
-display:flex;align-items:center;gap:12px;
-background:var(--panel);padding:8px 14px;border-radius:14px
-}
-.profile img{width:36px;height:36px;border-radius:8px}
+.msg{margin-top:10px;color:#6dff8b;font-weight:700}
+.err{margin-top:10px;color:#ff6d6d;font-weight:700}
 
+.profile{display:flex;align-items:center;gap:12px;background:var(--panel);padding:8px 14px;border-radius:14px}
+.profile img{width:36px;height:36px;border-radius:8px}
 .hidden{display:none}
+
 footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.7}
 </style>
 </head>
@@ -79,22 +74,76 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
 
 <section class="hero">
   <h1>HYRIXOCRAFT</h1>
-  <p>BoxPvP Sunucusu</p>
+  <p>BoxMining Sunucusu</p>
   <div class="ip">hyrixocraft.mcsh.io</div>
-  <button class="btn primary" onclick="navigator.clipboard.writeText('hyrixocraft.mcsh.io')">IP KOPYALA</button>
+  <button class="btn primary" onclick="copyIP()">IP KOPYALA</button>
+</section>
+
+<section id="mode">
+<h2 style="text-align:center">Oyun Modu</h2>
+<div class="card">
+<h3>⛏️ BoxMining</h3>
+<p>
+BoxMining, oyuncuların özel olarak hazırlanmış maden alanlarında sürekli kazı yaparak
+seviye atladığı, geliştiği ve rekabet ettiği bir oyun modudur.
+Bu modda klasik survival sıkıcılığı yoktur. Oyuncular kazdıkça daha iyi kazmalar,
+özel yetenekler, güçlendirmeler ve prestij sistemleri açar.
+Ekonomisi tamamen oyuncu odaklıdır. Kazandığın her şey seni daha güçlü yapar.
+Eventler, PvP alanları, sandıklar ve liderlik tabloları ile sürekli aksiyon vardır.
+Tek hedef: daha hızlı kaz, daha güçlü ol, zirveye çık.
+</p>
+</div>
+</section>
+
+<section id="market">
+<h2 style="text-align:center">Market</h2>
+<div class="grid">
+  <div class="card" style="text-align:center">
+    <h3>VIP</h3>
+    <button class="btn primary" onclick="alert('VIP satışları başlamadı')">Satın Al</button>
+  </div>
+  <div class="card" style="text-align:center">
+    <h3>VIP+</h3>
+    <button class="btn primary" onclick="alert('VIP satışları başlamadı')">Satın Al</button>
+  </div>
+  <div class="card" style="text-align:center">
+    <h3>VIP+++</h3>
+    <button class="btn primary" onclick="alert('VIP satışları başlamadı')">Satın Al</button>
+  </div>
+</div>
+</section>
+
+<section id="ticket">
+<h2 style="text-align:center">Ticket</h2>
+<div class="card">
+  <input id="t_mc" placeholder="Minecraft Adın">
+  <input id="t_dc" placeholder="Discord Adın">
+  <input id="t_target" placeholder="Karşı Taraf">
+  <select id="t_cat">
+    <option value="">Kategori Seç</option>
+    <option>Hile</option>
+    <option>Küfür</option>
+    <option>Dolandırıcılık</option>
+    <option>Diğer</option>
+  </select>
+  <textarea id="t_prob" placeholder="Sorunun"></textarea>
+  <button class="btn primary" onclick="sendTicket()">Gönder</button>
+  <div id="ticketMsg"></div>
+</div>
 </section>
 
 <section id="staff">
-<h2 style="text-align:center">ʏᴇᴛᴋɪʟɪ ᴀʟıᴍ ꜰᴏʀᴍᴜ</h2>
+<h2 style="text-align:center">Yetkili Başvuru</h2>
 <div class="card">
-  <input id="s_age" placeholder="ʏᴀꜱıɴıᴢ">
-  <input id="s_name" placeholder="ɪꜱᴍɪɴɪᴢ">
-  <input id="s_mc" placeholder="ᴏʏᴜɴ ɪᴄɪ ɪꜱᴍɪɴɪᴢ">
-  <textarea id="s_q1" placeholder="Sohbette biri 5 kere spam attı naparsın?"></textarea>
-  <textarea id="s_q2" placeholder="Sohbette biri ağır küfür ediyor ama senden üstün yetkili naparsın?"></textarea>
-  <textarea id="s_q3" placeholder="Kurucuya / geliştiriciye hakaret ediliyor naparsın?"></textarea>
-  <textarea id="s_why" placeholder="Neden bizi tercih ediyorsunuz?"></textarea>
+  <input id="s_age" placeholder="Yaşınız">
+  <input id="s_name" placeholder="İsminiz">
+  <input id="s_mc" placeholder="Oyun İçi İsminiz">
+  <textarea id="s_q1" placeholder="5 kere spam atan birine ne yaparsın?"></textarea>
+  <textarea id="s_q2" placeholder="Üst yetkili küfür ederse ne yaparsın?"></textarea>
+  <textarea id="s_q3" placeholder="Kurucuya hakaret edilirse ne yaparsın?"></textarea>
+  <textarea id="s_why" placeholder="Neden bizi tercih ediyorsun?"></textarea>
   <button class="btn primary" onclick="sendStaff()">Başvur</button>
+  <div id="staffMsg"></div>
 </div>
 </section>
 
@@ -117,65 +166,58 @@ footer{text-align:center;padding:30px;border-top:1px solid var(--line);opacity:.
 <footer>© 2026 HYRIXOCRAFT</footer>
 
 <script>
-const STAFF_WEBHOOK="https://discord.com/api/webhooks/1460226084225290384/Gho1_pIzUhT9Kfe815m85AkyiOzVIswriVsWIis8IOWiCsDXN4HsWb8Ub9RQWtca3aV9";
+const IP="hyrixocraft.mcsh.io";
+const WEBHOOK_MAIN="https://discord.com/api/webhooks/1460226084225290384/Gho1_pIzUhT9Kfe815m85AkyiOzVIswriVsWIis8IOWiCsDXN4HsWb8Ub9RQWtca3aV9";
+const WEBHOOK_REGISTER="https://discord.com/api/webhooks/1460299783473467565/-3zDPRmI0TYA0ZIMfayGMiJBUHvZ_BiX4tcGz0BmaFW-Kfe5EHZAAEbo3DIjDaUrsgiq";
+
+function copyIP(){navigator.clipboard.writeText(IP);}
+function logged(){return localStorage.getItem("logged");}
+
+function sendTicket(){
+if(!logged()){ticketMsg.innerHTML='<div class="err">Kayıt olmalısın</div>';return;}
+fetch(WEBHOOK_MAIN,{method:"POST",headers:{"Content-Type":"application/json"},
+body:JSON.stringify({embeds:[{title:"🎫 TICKET",fields:[
+{name:"MC",value:t_mc.value},{name:"Discord",value:t_dc.value},
+{name:"Karşı Taraf",value:t_target.value},{name:"Kategori",value:t_cat.value},
+{name:"Sorun",value:t_prob.value}]}]})});
+ticketMsg.innerHTML='<div class="msg">Ticket Discorda düştü</div>';
+}
 
 function sendStaff(){
-  fetch(STAFF_WEBHOOK,{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({
-      embeds:[{
-        title:"🛡️ YETKİLİ BAŞVURUSU",
-        color:16750848,
-        fields:[
-          {name:"Yaş",value:s_age.value || "—"},
-          {name:"İsim",value:s_name.value || "—"},
-          {name:"MC Nick",value:s_mc.value || "—"},
-          {name:"Spam Durumu",value:s_q1.value || "—"},
-          {name:"Küfür Durumu",value:s_q2.value || "—"},
-          {name:"Kurucuya Hakaret",value:s_q3.value || "—"},
-          {name:"Neden Biz",value:s_why.value || "—"}
-        ],
-        footer:{text:"HYRIXOCRAFT Yetkili Alım"}
-      }]
-    })
-  });
-
-  alert("Başvuru yapıldı ✅");
+if(!logged()){staffMsg.innerHTML='<div class="err">Kayıt olmalısın</div>';return;}
+fetch(WEBHOOK_MAIN,{method:"POST",headers:{"Content-Type":"application/json"},
+body:JSON.stringify({embeds:[{title:"🛡️ YETKİLİ BAŞVURU",fields:[
+{name:"Yaş",value:s_age.value},{name:"İsim",value:s_name.value},
+{name:"MC",value:s_mc.value},{name:"Spam",value:s_q1.value},
+{name:"Küfür",value:s_q2.value},{name:"Hakaret",value:s_q3.value},
+{name:"Neden Biz",value:s_why.value}]}]})});
+staffMsg.innerHTML='<div class="msg">Başvurun yapıldı</div>';
 }
 
 function register(){
-  localStorage.setItem("user_"+r_user.value,r_pass.value);
-  localStorage.setItem("logged",r_user.value);
-  showProfile(r_user.value);
+localStorage.setItem("user_"+r_user.value,r_pass.value);
+localStorage.setItem("logged",r_user.value);
+fetch(WEBHOOK_REGISTER,{method:"POST",headers:{"Content-Type":"application/json"},
+body:JSON.stringify({embeds:[{title:"🆕 SİTEDEN KAYIT",fields:[{name:"Oyuncu",value:r_user.value}]}]})});
+showProfile(r_user.value);
 }
 
 function login(){
-  if(localStorage.getItem("user_"+l_user.value)!==l_pass.value){
-    alert("Hatalı giriş");
-    return;
-  }
-  localStorage.setItem("logged",l_user.value);
-  showProfile(l_user.value);
+if(localStorage.getItem("user_"+l_user.value)!==l_pass.value)return;
+localStorage.setItem("logged",l_user.value);
+showProfile(l_user.value);
 }
 
-function showProfile(name){
-  navLinks.classList.add("hidden");
-  profile.classList.remove("hidden");
-  mcName.innerText=name;
-  mcHead.src="https://mc-heads.net/avatar/"+name+"/64";
-  auth.classList.add("hidden");
+function showProfile(n){
+navLinks.classList.add("hidden");
+profile.classList.remove("hidden");
+mcName.innerText=n;
+mcHead.src="https://mc-heads.net/avatar/"+n+"/64";
+auth.classList.add("hidden");
 }
 
-function logout(){
-  localStorage.removeItem("logged");
-  location.reload();
-}
-
-window.onload=()=>{
-  const u=localStorage.getItem("logged");
-  if(u) showProfile(u);
-}
+function logout(){localStorage.removeItem("logged");location.reload();}
+window.onload=()=>{const u=logged();if(u)showProfile(u);}
 </script>
 
 </body>
