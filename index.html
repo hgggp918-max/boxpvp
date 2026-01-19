@@ -3,7 +3,7 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<title>HyrixoCraft</title>
+<title>HYRİXOCRAFT</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -15,6 +15,7 @@ header{display:flex;justify-content:space-between;align-items:center}
 nav a{margin-left:15px;cursor:pointer}
 .btn{background:#5865f2;border:none;color:#fff;padding:10px 16px;border-radius:8px;cursor:pointer}
 .btn:hover{opacity:.9}
+
 .card{
 background:#1b1b26;
 padding:20px;
@@ -26,6 +27,7 @@ transition:.3s;
 .hidden{display:none}
 .msg{color:#3cff8f;margin-top:10px}
 .err{color:#ff4d4d;margin-top:10px}
+
 input,textarea{
 width:100%;
 padding:10px;
@@ -35,9 +37,12 @@ margin-top:8px;
 background:#2a2a3a;
 color:#fff
 }
+
+/* MARKET */
 .market{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
 .vip{border:2px solid #5865f2}
 
+/* IP + RESİM */
 .copy-box{text-align:center;margin-top:30px}
 .floating-img{
 width:300px;
@@ -51,6 +56,7 @@ animation:float 3s ease-in-out infinite
 100%{transform:translateY(0)}
 }
 
+/* HIZLI BUTON */
 .quick-links{
 display:flex;
 justify-content:center;
@@ -63,13 +69,42 @@ width:200px;
 text-align:center;
 cursor:pointer
 }
+
+/* OYUN MODU */
+.game-modes{
+display:flex;
+gap:20px;
+margin-top:40px;
+flex-wrap:wrap
+}
+.game-mode{
+flex:1;
+min-width:280px
+}
+.game-mode img{
+width:100%;
+border-radius:12px;
+margin-top:10px
+}
+
+/* CEREZ */
+#cookie{
+position:fixed;
+right:20px;
+bottom:20px;
+background:#1b1b26;
+padding:20px;
+border-radius:14px;
+width:260px;
+z-index:999;
+}
 </style>
 </head>
 
 <body>
 
 <header class="container">
-<div class="logo">HYRIXOCRAFT</div>
+<div class="logo">HYRİXOCRAFT</div>
 <nav>
 <a onclick="show('home')">Ana Sayfa</a>
 <a onclick="show('market')">Market</a>
@@ -82,6 +117,7 @@ cursor:pointer
 
 <div class="container">
 
+<!-- ANA SAYFA -->
 <section id="home">
 <div class="copy-box">
 <button class="btn" onclick="copyIP()">IP KOPYALA</button>
@@ -94,9 +130,31 @@ cursor:pointer
 <div class="card" onclick="show('market')">💎 Market</div>
 <div class="card" onclick="show('ticket')">🎫 Ticket</div>
 </div>
+
+<!-- OYUN MODU -->
+<div class="game-modes">
+<div class="card game-mode">
+<h2>⛏️ BoxMining</h2>
+<img src="boxmining.png">
+<p>Kaz, geliş, güçlen!</p>
+<button class="btn" onclick="toggleBox()">İncele</button>
+
+<div id="boxDetail" class="hidden">
+<p>
+HYRİXOCRAFT BoxMining oyun modu; oyuncuların maden kazdığı,
+sandık açtığı, özel eşyalar kazandığı ve PvP alanlarında
+güçlerini test ettiği uzun soluklu bir moddur.
+Görevler, ekonomi sistemi, ranklar ve özel enchantlar
+ile saatlerce oynanabilir bir deneyim sunar.
+</p>
+</div>
+</div>
+</div>
+
 </div>
 </section>
 
+<!-- MARKET -->
 <section id="market" class="hidden">
 <div class="market">
 <div class="card vip"><h3>VIP</h3><button class="btn" onclick="vip()">Satın Al</button></div>
@@ -106,6 +164,7 @@ cursor:pointer
 <div id="vipMsg"></div>
 </section>
 
+<!-- TICKET -->
 <section id="ticket" class="hidden">
 <div class="card">
 <h2>🎫 Ticket Aç</h2>
@@ -118,6 +177,7 @@ cursor:pointer
 </div>
 </section>
 
+<!-- YETKILI -->
 <section id="staff" class="hidden">
 <div class="card">
 <h2>ʏᴇᴛᴋɪʟɪ ᴀʟıᴍ ꜰᴏʀᴍᴜ!</h2>
@@ -136,6 +196,7 @@ cursor:pointer
 </div>
 </section>
 
+<!-- GIRIS -->
 <section id="login" class="hidden">
 <div class="card">
 <h2>Kayıt Ol</h2>
@@ -147,6 +208,13 @@ cursor:pointer
 </div>
 </section>
 
+</div>
+
+<!-- CEREZ -->
+<div id="cookie">
+<p>Bu site çerezleri kullanır</p>
+<button class="btn" onclick="closeCookie()">Kabul Ediyorum</button>
+<button class="btn" onclick="closeCookie()">Kabul Etmiyorum</button>
 </div>
 
 <script>
@@ -188,55 +256,39 @@ regMsg.innerHTML="<div class='msg'>Kayıt başarılı</div>";
 }
 
 function sendTicket(){
-if(!logged()){
-ticketMsg.innerHTML="<div class='err'>Önce kayıt ol</div>";return;
-}
+if(!logged()){ticketMsg.innerHTML="<div class='err'>Önce kayıt ol</div>";return;}
 if(!t_mc.value||!t_dc.value||!t_reason.value||!t_prob.value){
 ticketMsg.innerHTML="<div class='err'>Formu doldur</div>";return;
 }
 fetch(STAFF_TICKET_WEBHOOK,{
 method:"POST",
 headers:{"Content-Type":"application/json"},
-body:JSON.stringify({
-content:
-`🎫 TICKET
-MC: ${t_mc.value}
-Discord: ${t_dc.value}
-Neden: ${t_reason.value}
-Olay: ${t_prob.value}`
-})
+body:JSON.stringify({content:`🎫 TICKET\nMC:${t_mc.value}\nDC:${t_dc.value}\nNeden:${t_reason.value}\nOlay:${t_prob.value}`})
 });
 ticketMsg.innerHTML="<div class='msg'>Ticket Discorda düştü</div>";
 }
 
 function sendStaff(){
-if(!logged()){
-staffMsg.innerHTML="<div class='err'>Önce kayıt ol</div>";return;
-}
+if(!logged()){staffMsg.innerHTML="<div class='err'>Önce kayıt ol</div>";return;}
 if(!s_age.value||!s_name.value||!s_mc.value||!s_q1.value||!s_q2.value||!s_q3.value||!s_why.value){
 staffMsg.innerHTML="<div class='err'>Formu doldur</div>";return;
 }
 fetch(STAFF_TICKET_WEBHOOK,{
 method:"POST",
 headers:{"Content-Type":"application/json"},
-body:JSON.stringify({
-content:
-`🛡️ YETKİLİ BAŞVURUSU
-Yaş: ${s_age.value}
-İsim: ${s_name.value}
-MCİsmin: ${s_mc.value}
-
-SpamDurumu: ${s_q1.value}
-Küfür Durumu: ${s_q2.value}
-Kurucu:Küfür ${s_q3.value}
-
-Neden Biz: ${s_why.value}`
-})
+body:JSON.stringify({content:`🛡️ YETKİLİ BAŞVURUSU\nYaş:${s_age.value}\nİsim:${s_name.value}\nMC:${s_mc.value}\n\nSpam:${s_q1.value}\nKüfür:${s_q2.value}\nKurucu:${s_q3.value}\n\nNeden:${s_why.value}`})
 });
 staffMsg.innerHTML="<div class='msg'>Başvurun Discorda düştü</div>";
+}
+
+function toggleBox(){
+document.getElementById("boxDetail").classList.toggle("hidden");
+}
+
+function closeCookie(){
+document.getElementById("cookie").style.display="none";
 }
 </script>
 
 </body>
 </html>
-
