@@ -14,7 +14,7 @@ nav a{margin-left:15px;cursor:pointer}
 .btn{background:#5865f2;border:none;color:#fff;padding:10px 16px;border-radius:8px;cursor:pointer}
 .btn:hover{opacity:.9}
 .card{background:#1b1b26;padding:20px;border-radius:16px;margin-top:20px;transition:.3s}
-.card:hover{transform:translateY(-6px)}
+.card:hover{transform:translateY(-8px)}
 .hidden{display:none}
 .msg{color:#3cff8f;margin-top:10px}
 .err{color:#ff4d4d;margin-top:10px}
@@ -35,6 +35,16 @@ animation:float 3s ease-in-out infinite;
 }
 .quick-links{display:flex;justify-content:center;gap:15px;margin-top:20px;flex-wrap:wrap}
 .quick-links .card{width:200px;text-align:center;cursor:pointer}
+
+/* OYUN MODU */
+.game-modes{display:flex;justify-content:center;margin-top:30px}
+.game-card{
+width:260px;
+text-align:center;
+cursor:pointer;
+transition:.3s;
+}
+.game-card:hover{transform:translateY(-10px)}
 </style>
 </head>
 
@@ -59,16 +69,44 @@ animation:float 3s ease-in-out infinite;
 <button class="btn" onclick="copyIP()">IP KOPYALA</button>
 <p><b>hyrixocraft.mcsh.io</b></p>
 
-<!-- FOTOĞRAF IP ALTINDA -->
-<img src="resim.png" class="floating-img">
-
-
+<img src="website-9aea612d-4e11-417d-9ae3-b1ed7309abff.avif" class="floating-img">
 
 <div class="quick-links">
 <div class="card" onclick="show('staff')">🛡️ Yetkili Başvuru</div>
 <div class="card" onclick="show('market')">💎 Market</div>
 <div class="card" onclick="show('ticket')">🎫 Ticket</div>
 </div>
+
+<!-- OYUN MODU -->
+<div class="game-modes">
+<div class="card game-card">
+<h2>⛏️ BoxMining</h2>
+<p>Madencilik temelli PvP modu</p>
+<button class="btn" onclick="show('boxmining')">İncele</button>
+</div>
+</div>
+
+</div>
+</section>
+
+<section id="boxmining" class="hidden">
+<div class="card">
+<h1>⛏️ BoxMining Oyun Modu</h1>
+<p>
+BoxMining, oyuncuların özel olarak oluşturulmuş maden alanlarında kazı yaparak
+geliştiği, PvP ve ekonomi odaklı bir oyun modudur. Oyuncular kazı yaparak değerli
+itemler, para ve özel eşyalar kazanır. Her kazma seviyesi arttıkça daha hızlı
+kırma, özel efektler ve bonus ödüller açılır.
+<br><br>
+Sunucumuzda BoxMining tamamen rekabetçidir. Oyuncular prestij sistemi ile
+seviyelerini sıfırlayıp ekstra güçler kazanabilir. Market, açık artırma ve
+özel kasalar ile ekonomi sürekli canlı tutulur.
+<br><br>
+PvP alanlarında diğer oyuncularla kapışabilir, klan kurabilir ve sunucunun en
+zengini olmaya çalışabilirsin. HyrixoCraft BoxMining tamamen özgün sistemlerle
+hazırlanmıştır.
+</p>
+<button class="btn" onclick="show('home')">Geri Dön</button>
 </div>
 </section>
 
@@ -156,8 +194,6 @@ regMsg.innerHTML="<div class='msg'>Kayıt başarılı</div>";
 
 function sendTicket(){
 if(!localStorage.getItem("user")){ticketMsg.innerHTML="<div class='err'>Kayıt ol</div>";return;}
-if(!t_mc.value||!t_dc.value||!t_target.value||!t_cat.value||!t_prob.value){
-ticketMsg.innerHTML="<div class='err'>Formu doldur</div>";return;}
 fetch(STAFF_TICKET_WEBHOOK,{
 method:"POST",
 headers:{"Content-Type":"application/json"},
@@ -168,12 +204,10 @@ ticketMsg.innerHTML="<div class='msg'>Ticket Discorda düştü</div>";
 
 function sendStaff(){
 if(!localStorage.getItem("user")){staffMsg.innerHTML="<div class='err'>Kayıt ol</div>";return;}
-if(!s_age.value||!s_name.value||!s_mc.value||!s_q1.value||!s_q2.value||!s_q3.value||!s_why.value){
-staffMsg.innerHTML="<div class='err'>Formu doldur</div>";return;}
 fetch(STAFF_TICKET_WEBHOOK,{
 method:"POST",
 headers:{"Content-Type":"application/json"},
-body:JSON.stringify({content:`🛡️ Yetkili Başvurusu\nYaş:${s_age.value}\nİsim:${s_name.value}\nMC:${s_mc.value}\n1:${s_q1.value}\n2:${s_q2.value}\n3:${s_q3.value}\nNeden:${s_why.value}`})
+body:JSON.stringify({content:`🛡️ Yetkili Başvurusu\nYaş:${s_age.value}\nİsim:${s_name.value}\nMC:${s_mc.value}`})
 });
 staffMsg.innerHTML="<div class='msg'>Başvurun yapıldı</div>";
 }
