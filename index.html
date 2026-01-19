@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -38,10 +37,6 @@ background:#2a2a3a;
 color:#fff
 }
 
-/* MARKET */
-.market{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
-.vip{border:2px solid #5865f2}
-
 /* IP + RESİM */
 .copy-box{text-align:center;margin-top:30px}
 .floating-img{
@@ -56,7 +51,7 @@ animation:float 3s ease-in-out infinite
 100%{transform:translateY(0)}
 }
 
-/* HIZLI BUTON */
+/* HIZLI LINK */
 .quick-links{
 display:flex;
 justify-content:center;
@@ -71,20 +66,13 @@ cursor:pointer
 }
 
 /* OYUN MODU */
-.game-modes{
-display:flex;
-gap:20px;
-margin-top:40px;
-flex-wrap:wrap
-}
 .game-mode{
-flex:1;
-min-width:280px
+margin-top:40px
 }
 .game-mode img{
 width:100%;
-border-radius:12px;
-margin-top:10px
+border-radius:14px;
+margin:15px 0
 }
 
 /* CEREZ */
@@ -132,25 +120,33 @@ z-index:999;
 </div>
 
 <!-- OYUN MODU -->
-<div class="game-modes">
 <div class="card game-mode">
 <h2>⛏️ BoxMining</h2>
 <img src="boxmining.png">
-<p>Kaz, geliş, güçlen!</p>
-<button class="btn" onclick="toggleBox()">İncele</button>
+<button class="btn" onclick="openBox()">İncele</button>
+</div>
+</div>
+</section>
 
-<div id="boxDetail" class="hidden">
+<!-- BOXMİNİNG DETAY -->
+<section id="boxdetail" class="hidden">
+<div class="card">
+<h2>⛏️ BoxMining Oyun Modu</h2>
 <p>
-HYRİXOCRAFT BoxMining oyun modu; oyuncuların maden kazdığı,
-sandık açtığı, özel eşyalar kazandığı ve PvP alanlarında
-güçlerini test ettiği uzun soluklu bir moddur.
-Görevler, ekonomi sistemi, ranklar ve özel enchantlar
-ile saatlerce oynanabilir bir deneyim sunar.
-</p>
-</div>
-</div>
-</div>
+BoxMining, oyuncuların özel maden alanlarında kazı yaparak sandıklar,
+para ve nadir eşyalar kazandığı uzun soluklu bir oyun modudur.
+Oyuncular kazı yaptıkça seviye atlar, yeni alanların kilidini açar
+ve PvP bölgelerinde güçlerini kanıtlar.
 
+Sunucuda ekonomi sistemi, özel enchantlar, görevler,
+rank sistemi ve etkinlikler bulunur.
+Günlük ödüller, boss savaşları ve klan sistemi ile
+BoxMining sürekli aktif ve rekabetçi bir deneyim sunar.
+
+HYRİXOCRAFT BoxMining, hem solo hem arkadaşlarınla
+oynanabilecek şekilde tasarlanmıştır.
+</p>
+<button class="btn" onclick="show('home')">⬅ Geri Dön</button>
 </div>
 </section>
 
@@ -188,7 +184,7 @@ ile saatlerce oynanabilir bir deneyim sunar.
 
 <textarea id="s_q1" placeholder="ꜱᴏʜʙᴇᴛᴛᴇ ʙɪʀɪꜱɪ 𝟧 ᴋᴇʀᴇ ꜱᴘᴀᴍ ᴀᴛᴛı ɴᴀᴘᴀʀꜱıɴ"></textarea>
 <textarea id="s_q2" placeholder="ꜱᴏʜʙᴇᴛᴛᴇ ʙɪʀɪꜱɪ ᴀɢıʀ ᴋᴜꜰᴜʀʟᴇʀ ᴇᴅɪʏᴏʀ ᴀᴍᴀ ꜱᴇɴᴅᴇɴ ᴜꜱᴛᴜɴ ʙɪʀ ʏᴇᴛᴋɪʟɪ ɴᴀᴘᴀʀꜱıɴ"></textarea>
-<textarea id="s_q3" placeholder="ʙɪʀɪꜱɪ ᴋᴜʀᴜᴄᴜʏᴀ ᴠᴇʏᴀ ɢᴇʟɪꜱᴛɪʀɪᴄᴇʏᴇ ᴀʟᴀʏ ᴇᴅɪʏᴏʀ ɴᴀᴘᴀʀꜱıɴ"></textarea>
+<textarea id="s_q3" placeholder="ʙɪʀɪꜱɪ ᴋᴜʀᴜᴄᴜʏᴀ ᴀʟᴀʏ ᴇᴅɪʏᴏʀ ɴᴀᴘᴀʀꜱıɴ"></textarea>
 <textarea id="s_why" placeholder="ɴᴇᴅᴇɴ ʙɪᴢɪ ᴛᴇʀᴄɪʜ ᴇᴅɪʏᴏʀꜱᴜɴᴜᴢ"></textarea>
 
 <button class="btn" onclick="sendStaff()">Başvur</button>
@@ -226,6 +222,10 @@ document.querySelectorAll("section").forEach(s=>s.classList.add("hidden"));
 document.getElementById(id).classList.remove("hidden");
 }
 
+function openBox(){
+show("boxdetail");
+}
+
 function copyIP(){
 navigator.clipboard.writeText("hyrixocraft.mcsh.io");
 alert("IP kopyalandı");
@@ -256,7 +256,9 @@ regMsg.innerHTML="<div class='msg'>Kayıt başarılı</div>";
 }
 
 function sendTicket(){
-if(!logged()){ticketMsg.innerHTML="<div class='err'>Önce kayıt ol</div>";return;}
+if(!logged()){
+ticketMsg.innerHTML="<div class='err'>Önce kayıt ol</div>";return;
+}
 if(!t_mc.value||!t_dc.value||!t_reason.value||!t_prob.value){
 ticketMsg.innerHTML="<div class='err'>Formu doldur</div>";return;
 }
@@ -269,7 +271,9 @@ ticketMsg.innerHTML="<div class='msg'>Ticket Discorda düştü</div>";
 }
 
 function sendStaff(){
-if(!logged()){staffMsg.innerHTML="<div class='err'>Önce kayıt ol</div>";return;}
+if(!logged()){
+staffMsg.innerHTML="<div class='err'>Önce kayıt ol</div>";return;
+}
 if(!s_age.value||!s_name.value||!s_mc.value||!s_q1.value||!s_q2.value||!s_q3.value||!s_why.value){
 staffMsg.innerHTML="<div class='err'>Formu doldur</div>";return;
 }
@@ -279,10 +283,6 @@ headers:{"Content-Type":"application/json"},
 body:JSON.stringify({content:`🛡️ YETKİLİ BAŞVURUSU\nYaş:${s_age.value}\nİsim:${s_name.value}\nMC:${s_mc.value}\n\nSpam:${s_q1.value}\nKüfür:${s_q2.value}\nKurucu:${s_q3.value}\n\nNeden:${s_why.value}`})
 });
 staffMsg.innerHTML="<div class='msg'>Başvurun Discorda düştü</div>";
-}
-
-function toggleBox(){
-document.getElementById("boxDetail").classList.toggle("hidden");
 }
 
 function closeCookie(){
