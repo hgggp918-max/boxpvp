@@ -20,8 +20,17 @@ justify-content:space-between;
 align-items:center;
 margin-bottom:20px
 }
-.logo{font-size:28px;font-weight:800}
-nav a{margin-left:18px;cursor:pointer;opacity:.85;transition:.25s}
+.logo{
+font-size:28px;
+font-weight:800;
+letter-spacing:1px
+}
+nav a{
+margin-left:18px;
+cursor:pointer;
+opacity:.85;
+transition:.25s
+}
 nav a:hover{opacity:1}
 
 .btn{
@@ -33,16 +42,17 @@ border-radius:10px;
 cursor:pointer;
 transition:.25s
 }
-.btn:hover{opacity:.95}
+.btn:hover{transform:translateY(-2px);opacity:.95}
 
 .card{
 background:#1b1b26;
 padding:22px;
 border-radius:18px;
 margin-top:22px;
-transition:.3s
+transition:transform .35s ease, box-shadow .35s ease;
 }
 .card:hover{
+transform:translateY(-6px);
 box-shadow:0 10px 30px rgba(0,0,0,.4)
 }
 
@@ -77,37 +87,43 @@ animation:float 4s ease-in-out infinite
 }
 @keyframes float{
 0%{transform:translateY(0)}
-50%{transform:translateY(-14px)}
+50%{transform:translateY(-18px)}
 100%{transform:translateY(0)}
 }
 
-/* OYUN MODLARI */
-.gamemode-list{
+.quick-links{
 display:flex;
-gap:22px;
-flex-wrap:wrap;
-justify-content:center
+justify-content:center;
+gap:18px;
+margin-top:25px;
+flex-wrap:wrap
 }
-.gm-card{
-width:300px;
+.quick-links .card{
+width:210px;
 text-align:center;
 cursor:pointer
 }
-.gm-card img{
-width:100%;
-border-radius:14px;
-margin-bottom:12px
-}
 
-.gamemode-detail{
+/* OYUN MODU */
+.gamemode{
 display:flex;
 gap:25px;
 align-items:center;
 flex-wrap:wrap
 }
-.gamemode-detail img{
-width:300px;
+.gamemode img{
+width:280px;
 border-radius:16px
+}
+.gamemode-content{
+flex:1
+}
+.fade{
+animation:fadeIn .4s ease
+}
+@keyframes fadeIn{
+from{opacity:0;transform:translateY(10px)}
+to{opacity:1;transform:translateY(0)}
 }
 
 /* ÇEREZ */
@@ -118,7 +134,8 @@ right:20px;
 background:#1b1b26;
 padding:18px;
 border-radius:14px;
-max-width:300px
+max-width:300px;
+box-shadow:0 10px 25px rgba(0,0,0,.4)
 }
 .cookie button{margin-top:10px;margin-right:8px}
 </style>
@@ -147,34 +164,28 @@ max-width:300px
 
 <img src="resim.png" class="floating-img">
 
-<div class="gamemode-list">
-<div class="card gm-card" onclick="openGM('box')">
-<img src="resim.png">
-<h3>BoxMining</h3>
-<button class="btn">İncele</button>
-</div>
-
-<div class="card gm-card" onclick="openGM('towny')">
-<img src="resim.png">
-<h3>Towny</h3>
-<button class="btn">İncele</button>
-</div>
-
-<div class="card gm-card" onclick="openGM('sky')">
-<img src="resim.png">
-<h3>Skyblock</h3>
-<button class="btn">İncele</button>
-</div>
+<div class="quick-links">
+<div class="card" onclick="show('staff')">🛡️ Yetkili Başvuru</div>
+<div class="card" onclick="show('ticket')">🎫 Ticket</div>
+<div class="card" onclick="show('gamemode')">🎮 Oyun Modu</div>
 </div>
 </div>
 </section>
 
-<section id="gamemodeDetail" class="hidden">
-<div class="card gamemode-detail">
-<img id="gmImg" src="resim.png">
-<div>
-<h2 id="gmTitle"></h2>
-<p id="gmText"></p>
+<section id="gamemode" class="hidden fade">
+<div class="card gamemode">
+<img src="resim.png">
+<div class="gamemode-content">
+<h2>🎮 BoxMining</h2>
+<p>
+BoxMining; sınırlı alan, hızlı PvP, gelişmiş market ve rekabetçi ekonomi
+üzerine kurulu bir oyun modudur. Oyuncular kazı yaparak gelişir,
+eşya toplar, PvP ile güçlenir ve liderlik sıralamasında yer almak için
+mücadele eder. HyrixoCraft BoxMining dengeli, lag’sız ve adil sistem
+üzerine kuruludur. 
+  🎮 Towny Towny Oyun Modunda Çeşitli Şehirlerde Kasılabilirsin  Ve şehirin En güçlüsü Olabilirsin
+  🎮 Sky Block  Bir adada Doğup Kendi İmkanların İle Adanın En iyisi ol 
+</p>
 <button class="btn" onclick="show('home')">Geri Dön</button>
 </div>
 </div>
@@ -203,11 +214,17 @@ max-width:300px
 
 <section id="staff" class="hidden">
 <div class="card">
-<h2>Yetkili Başvuru</h2>
-<input id="s_age" placeholder="Yaş">
-<input id="s_name" placeholder="İsim">
-<input id="s_mc" placeholder="MC İsim">
-<textarea id="s_why" placeholder="Neden seni seçelim"></textarea>
+<h2>ʏᴇᴛᴋɪʟɪ ᴀʟıᴍ ꜰᴏʀᴍᴜ!</h2>
+
+<input id="s_age" placeholder="ʏᴀꜱıɴıᴢ">
+<input id="s_name" placeholder="ɪꜱᴍɪɴɪᴢ">
+<input id="s_mc" placeholder="ᴏʏᴜɴ ɪᴄɪ ɪꜱᴍɪɴɪᴢ">
+
+<textarea id="s_q1" placeholder="5 kere spam atarsa ne yaparsın"></textarea>
+<textarea id="s_q2" placeholder="Ağır küfür eder ama senden üstün yetkiliyse"></textarea>
+<textarea id="s_q3" placeholder="Kurucuya / geliştiriciye alay ederse"></textarea>
+<textarea id="s_why" placeholder="Neden bizi tercih ediyorsun"></textarea>
+
 <button class="btn" onclick="sendStaff()">Başvur</button>
 <div id="staffMsg"></div>
 </div>
@@ -229,30 +246,17 @@ max-width:300px
 <div id="cookie" class="cookie hidden">
 <b>🍪 Çerezler</b>
 <p>Deneyimi iyileştirmek için çerezler kullanıyoruz.</p>
-<button class="btn" onclick="acceptCookie()">Kabul</button>
+<button class="btn" onclick="acceptCookie()">Kabul Ediyorum</button>
 <button class="btn" onclick="declineCookie()">Reddet</button>
 </div>
 
 <script>
+const STAFF_TICKET_WEBHOOK="https://discord.com/api/webhooks/1460226084225290384/Gho1_pIzUhT9Kfe815m85AkyiOzVIswriVsWIis8IOWiCsDXN4HsWb8Ub9RQWtca3aV9";
+const REGISTER_WEBHOOK="https://discord.com/api/webhooks/1460299783473467565/-3zDPRmI0TYA0ZIMfayGMiJBUHvZ_BiX4tcGz0BmaFW-Kfe5EHZAAEbo3DIjDaUrsgiq";
+
 function show(id){
 document.querySelectorAll("section").forEach(s=>s.classList.add("hidden"));
 document.getElementById(id).classList.remove("hidden");
-}
-
-function openGM(type){
-show("gamemodeDetail");
-if(type=="box"){
-gmTitle.innerText="🎮 BoxMining";
-gmText.innerText="BoxMining hızlı PvP, sınırlı alan, güçlü ekonomi ve rekabetçi sıralama sistemi üzerine kuruludur. Kazı yap, güçlen, PvP ile zirveye çık.";
-}
-if(type=="towny"){
-gmTitle.innerText="🏘️ Towny";
-gmText.innerText="Towny; şehir kurma, ekonomi, arsa sistemi ve topluluk odaklı oynanışıyla öne çıkar. Kendi şehrini kur, yönet ve büyüt.";
-}
-if(type=="sky"){
-gmTitle.innerText="☁️ Skyblock";
-gmText.innerText="Skyblock sıfırdan ada geliştirip otomasyon kurmaya dayalıdır. Farm yap, adanı büyüt, rekabet et.";
-}
 }
 
 function copyIP(){
@@ -260,35 +264,91 @@ navigator.clipboard.writeText("hyrixocraft.mcsh.io");
 alert("IP kopyalandı");
 }
 
-function vip(){vipMsg.innerHTML="<div class='err'>Satış kapalı</div>";}
+function vip(){
+vipMsg.innerHTML="<div class='err'>Vip satışları başlamadı</div>";
+}
+
+function logged(){
+return localStorage.getItem("user");
+}
 
 function register(){
+if(!r_name.value||!r_mail.value||!r_pass.value){
+regMsg.innerHTML="<div class='err'>Tüm alanları doldur</div>";return;
+}
 localStorage.setItem("user",r_name.value);
+fetch(REGISTER_WEBHOOK,{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({content:`📥 Yeni Kayıt\n👤 ${r_name.value}\n📧 ${r_mail.value}`})
+});
 loginBtn.style.display="none";
 profile.innerHTML="👤 "+r_name.value;
 profile.classList.remove("hidden");
 regMsg.innerHTML="<div class='msg'>Kayıt başarılı</div>";
 }
 
-function logged(){return localStorage.getItem("user");}
-
 function sendTicket(){
-if(!logged()){ticketMsg.innerHTML="<div class='err'>Önce kayıt ol</div>";return;}
-ticketMsg.innerHTML="<div class='msg'>Ticket gönderildi</div>";
+if(!logged()){
+ticketMsg.innerHTML="<div class='err'>Önce kayıt ol</div>";return;
+}
+if(!t_mc.value||!t_dc.value||!t_reason.value||!t_prob.value){
+ticketMsg.innerHTML="<div class='err'>Formu doldur</div>";return;
+}
+fetch(STAFF_TICKET_WEBHOOK,{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+content:
+`🎫 TICKET
+MC: ${t_mc.value}
+Discord: ${t_dc.value}
+Neden: ${t_reason.value}
+Olay: ${t_prob.value}`
+})
+});
+ticketMsg.innerHTML="<div class='msg'>Ticket Discorda düştü</div>";
 }
 
 function sendStaff(){
-if(!logged()){staffMsg.innerHTML="<div class='err'>Önce kayıt ol</div>";return;}
-staffMsg.innerHTML="<div class='msg'>Başvurun alındı</div>";
+if(!logged()){
+staffMsg.innerHTML="<div class='err'>Önce kayıt ol</div>";return;
+}
+if(!s_age.value||!s_name.value||!s_mc.value||!s_q1.value||!s_q2.value||!s_q3.value||!s_why.value){
+staffMsg.innerHTML="<div class='err'>Formu doldur</div>";return;
+}
+fetch(STAFF_TICKET_WEBHOOK,{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+content:
+`🛡️ YETKİLİ BAŞVURUSU
+
+Yaşınız: ${s_age.value}
+İsminiz: ${s_name.value}
+MC nickiniz: ${s_mc.value}
+
+biri 5 kere Spam attı naparsın: ${s_q1.value}
+Küfür etti ama senden üstün yetkili: ${s_q2.value}
+Kurucu: ${s_q3.value}
+
+Neden Bizi tercih ediyorsun : ${s_why.value}`
+})
+});
+staffMsg.innerHTML="<div class='msg'>Başvurun Discorda düştü</div>";
 }
 
 if(!localStorage.getItem("cookie")){
-setTimeout(()=>cookie.classList.remove("hidden"),1200)
+setTimeout(()=>document.getElementById("cookie").classList.remove("hidden"),1200)
 }
-function acceptCookie(){localStorage.setItem("cookie","ok");cookie.classList.add("hidden")}
-function declineCookie(){cookie.classList.add("hidden")}
+function acceptCookie(){
+localStorage.setItem("cookie","ok");
+cookie.classList.add("hidden")
+}
+function declineCookie(){
+cookie.classList.add("hidden")
+}
 </script>
 
 </body>
 </html>
-
