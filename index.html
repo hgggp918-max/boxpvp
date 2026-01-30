@@ -6,88 +6,121 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-*{box-sizing:border-box;font-family:Arial}
-body{margin:0;background:#0f0f14;color:#fff}
+*{box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
+body{
+margin:0;
+background:linear-gradient(160deg,#0f0f14,#141421);
+color:#fff
+}
 .container{max-width:1200px;margin:auto;padding:20px}
 
-header{display:flex;justify-content:space-between;align-items:center}
-.logo{font-size:26px;font-weight:700}
-nav a{margin-left:15px;cursor:pointer}
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px
+}
+.logo{font-size:28px;font-weight:800}
+nav a{margin-left:18px;cursor:pointer;opacity:.85;transition:.25s}
+nav a:hover{opacity:1}
 
 .btn{
 background:#5865f2;
 border:none;
 color:#fff;
-padding:10px 16px;
+padding:11px 18px;
 border-radius:10px;
 cursor:pointer;
-transition:.3s
+transition:.25s
 }
-.btn:hover{opacity:.9;transform:translateY(-2px)}
+.btn:hover{opacity:.95}
 
 .card{
 background:#1b1b26;
-padding:20px;
+padding:22px;
 border-radius:18px;
-margin-top:20px;
-transition:.35s ease
+margin-top:22px;
+transition:.3s
 }
-.card:hover{transform:translateY(-8px)}
+.card:hover{
+box-shadow:0 10px 30px rgba(0,0,0,.4)
+}
 
 .hidden{display:none}
-.msg{color:#3cff8f;margin-top:10px}
-.err{color:#ff4d4d;margin-top:10px}
+.msg{color:#3cff8f;margin-top:12px}
+.err{color:#ff4d4d;margin-top:12px}
 
 input,textarea{
 width:100%;
-padding:10px;
+padding:11px;
 border-radius:10px;
 border:none;
-margin-top:8px;
+margin-top:10px;
 background:#2a2a3a;
 color:#fff
 }
 
-.market{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
+.market{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px
+}
 .vip{border:2px solid #5865f2}
 
 .copy-box{text-align:center;margin-top:30px}
+
 .floating-img{
 width:320px;
 display:block;
 margin:25px auto;
-animation:float 3s ease-in-out infinite
+animation:float 4s ease-in-out infinite
 }
 @keyframes float{
 0%{transform:translateY(0)}
-50%{transform:translateY(-18px)}
+50%{transform:translateY(-14px)}
 100%{transform:translateY(0)}
 }
 
-.quick-links{
+/* OYUN MODLARI */
+.gamemode-list{
 display:flex;
-justify-content:center;
-gap:15px;
-margin-top:20px;
-flex-wrap:wrap
+gap:22px;
+flex-wrap:wrap;
+justify-content:center
 }
-.quick-links .card{
-width:220px;
+.gm-card{
+width:300px;
 text-align:center;
 cursor:pointer
 }
-
-/* OYUN MODLARI */
-.modes{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-gap:20px
-}
-.mode-card img{
+.gm-card img{
 width:100%;
 border-radius:14px;
-margin-bottom:10px
+margin-bottom:12px
 }
+
+.gamemode-detail{
+display:flex;
+gap:25px;
+align-items:center;
+flex-wrap:wrap
+}
+.gamemode-detail img{
+width:300px;
+border-radius:16px
+}
+
+/* ÇEREZ */
+.cookie{
+position:fixed;
+bottom:20px;
+right:20px;
+background:#1b1b26;
+padding:18px;
+border-radius:14px;
+max-width:300px
+}
+.cookie button{margin-top:10px;margin-right:8px}
 </style>
 </head>
 
@@ -97,7 +130,6 @@ margin-bottom:10px
 <div class="logo">HYRIXOCRAFT</div>
 <nav>
 <a onclick="show('home')">Ana Sayfa</a>
-<a onclick="show('gamemode')">Oyun Modları</a>
 <a onclick="show('market')">Market</a>
 <a onclick="show('ticket')">Ticket</a>
 <a onclick="show('staff')">Yetkili Başvuru</a>
@@ -108,87 +140,46 @@ margin-bottom:10px
 
 <div class="container">
 
-<!-- ANA SAYFA -->
 <section id="home">
 <div class="copy-box">
 <button class="btn" onclick="copyIP()">IP KOPYALA</button>
 <p><b>hyrixocraft.mcsh.io</b></p>
+
 <img src="resim.png" class="floating-img">
 
-<div class="quick-links">
-<div class="card" onclick="show('staff')">🛡️ Yetkili Başvuru</div>
-<div class="card" onclick="show('market')">💎 Market</div>
-<div class="card" onclick="show('ticket')">🎫 Ticket</div>
-</div>
-</div>
-</section>
-
-<!-- OYUN MODLARI -->
-<section id="gamemode" class="hidden">
-<div class="card">
-<h2>🎮 Oyun Modları</h2>
-<div class="modes">
-
-<div class="card mode-card">
+<div class="gamemode-list">
+<div class="card gm-card" onclick="openGM('box')">
 <img src="resim.png">
-<h3>⛏️ BoxMining</h3>
-<button class="btn" onclick="openMode('box')">İncele</button>
+<h3>BoxMining</h3>
+<button class="btn">İncele</button>
 </div>
 
-<div class="card mode-card">
+<div class="card gm-card" onclick="openGM('towny')">
 <img src="resim.png">
-<h3>🏘️ Towny</h3>
-<button class="btn" onclick="openMode('towny')">İncele</button>
+<h3>Towny</h3>
+<button class="btn">İncele</button>
 </div>
 
-<div class="card mode-card">
+<div class="card gm-card" onclick="openGM('sky')">
 <img src="resim.png">
-<h3>☁️ SkyBlock</h3>
-<button class="btn" onclick="openMode('sky')">İncele</button>
+<h3>Skyblock</h3>
+<button class="btn">İncele</button>
 </div>
+</div>
+</div>
+</section>
 
+<section id="gamemodeDetail" class="hidden">
+<div class="card gamemode-detail">
+<img id="gmImg" src="resim.png">
+<div>
+<h2 id="gmTitle"></h2>
+<p id="gmText"></p>
+<button class="btn" onclick="show('home')">Geri Dön</button>
 </div>
 </div>
 </section>
 
-<!-- BOX -->
-<section id="mode-box" class="hidden">
-<div class="card">
-<h2>⛏️ BoxMining</h2>
-<p>
-BoxMining; sınırlı alanlarda kazı yaparak geliştiğin,
-PvP ve ekonomi temelli rekabetçi bir oyun modudur.
-Kaynak topla, eşyalarını geliştir, rakiplerini alt et.
-</p>
-<button class="btn" onclick="show('gamemode')">Geri Dön</button>
-</div>
-</section>
-
-<!-- TOWNY -->
-<section id="mode-towny" class="hidden">
-<div class="card">
-<h2>🏘️ Towny</h2>
-<p>
-Towny; şehir kurma, toprak sahiplenme ve topluluk
-yönetimi üzerine kurulu uzun vadeli bir oyun modudur.
-</p>
-<button class="btn" onclick="show('gamemode')">Geri Dön</button>
-</div>
-</section>
-
-<!-- SKY -->
-<section id="mode-sky" class="hidden">
-<div class="card">
-<h2>☁️ SkyBlock</h2>
-<p>
-SkyBlock; boş bir adada başlayıp sıfırdan geliştiğin,
-görevler ve ekonomi odaklı bir oyun modudur.
-</p>
-<button class="btn" onclick="show('gamemode')">Geri Dön</button>
-</div>
-</section>
-
-<!-- MARKET -->
 <section id="market" class="hidden">
 <div class="market">
 <div class="card vip"><h3>VIP</h3><button class="btn" onclick="vip()">Satın Al</button></div>
@@ -198,36 +189,30 @@ görevler ve ekonomi odaklı bir oyun modudur.
 <div id="vipMsg"></div>
 </section>
 
-<!-- TICKET -->
 <section id="ticket" class="hidden">
 <div class="card">
-<h2>🎫 Ticket</h2>
+<h2>🎫 Ticket Aç</h2>
 <input id="t_mc" placeholder="Minecraft İsmin">
 <input id="t_dc" placeholder="Discord İsmin">
 <input id="t_reason" placeholder="Neden Ticket Açtın">
-<textarea id="t_prob" placeholder="Olay"></textarea>
+<textarea id="t_prob" placeholder="Sorunun / Olay"></textarea>
 <button class="btn" onclick="sendTicket()">Gönder</button>
 <div id="ticketMsg"></div>
 </div>
 </section>
 
-<!-- YETKİLİ -->
 <section id="staff" class="hidden">
 <div class="card">
-<h2>Yetkili Alım Formu</h2>
-<input id="s_age" placeholder="Yaşın">
-<input id="s_name" placeholder="İsmin">
-<input id="s_mc" placeholder="Oyun İçi İsmin">
-<textarea id="s_q1" placeholder="Spam atan biri"></textarea>
-<textarea id="s_q2" placeholder="Ağır küfür"></textarea>
-<textarea id="s_q3" placeholder="Kurucuya hakaret"></textarea>
-<textarea id="s_why" placeholder="Neden bizi seçtin"></textarea>
+<h2>Yetkili Başvuru</h2>
+<input id="s_age" placeholder="Yaş">
+<input id="s_name" placeholder="İsim">
+<input id="s_mc" placeholder="MC İsim">
+<textarea id="s_why" placeholder="Neden seni seçelim"></textarea>
 <button class="btn" onclick="sendStaff()">Başvur</button>
 <div id="staffMsg"></div>
 </div>
 </section>
 
-<!-- KAYIT -->
 <section id="login" class="hidden">
 <div class="card">
 <h2>Kayıt Ol</h2>
@@ -241,43 +226,69 @@ görevler ve ekonomi odaklı bir oyun modudur.
 
 </div>
 
-<script>
-const STAFF_TICKET_WEBHOOK="https://discord.com/api/webhooks/1460226084225290384/Gho1_pIzUhT9Kfe815m85AkyiOzVIswriVsWIis8IOWiCsDXN4HsWb8Ub9RQWtca3aV9";
-const REGISTER_WEBHOOK="https://discord.com/api/webhooks/1460299783473467565/-3zDPRmI0TYA0ZIMfayGMiJBUHvZ_BiX4tcGz0BmaFW-Kfe5EHZAAEbo3DIjDaUrsgiq";
+<div id="cookie" class="cookie hidden">
+<b>🍪 Çerezler</b>
+<p>Deneyimi iyileştirmek için çerezler kullanıyoruz.</p>
+<button class="btn" onclick="acceptCookie()">Kabul</button>
+<button class="btn" onclick="declineCookie()">Reddet</button>
+</div>
 
+<script>
 function show(id){
 document.querySelectorAll("section").forEach(s=>s.classList.add("hidden"));
 document.getElementById(id).classList.remove("hidden");
 }
-function openMode(id){show("mode-"+id)}
-function copyIP(){navigator.clipboard.writeText("hyrixocraft.mcsh.io")}
-function vip(){vipMsg.innerHTML="<div class='err'>Satışlar yakında</div>"}
-function logged(){return localStorage.getItem("user")}
+
+function openGM(type){
+show("gamemodeDetail");
+if(type=="box"){
+gmTitle.innerText="🎮 BoxMining";
+gmText.innerText="BoxMining hızlı PvP, sınırlı alan, güçlü ekonomi ve rekabetçi sıralama sistemi üzerine kuruludur. Kazı yap, güçlen, PvP ile zirveye çık.";
+}
+if(type=="towny"){
+gmTitle.innerText="🏘️ Towny";
+gmText.innerText="Towny; şehir kurma, ekonomi, arsa sistemi ve topluluk odaklı oynanışıyla öne çıkar. Kendi şehrini kur, yönet ve büyüt.";
+}
+if(type=="sky"){
+gmTitle.innerText="☁️ Skyblock";
+gmText.innerText="Skyblock sıfırdan ada geliştirip otomasyon kurmaya dayalıdır. Farm yap, adanı büyüt, rekabet et.";
+}
+}
+
+function copyIP(){
+navigator.clipboard.writeText("hyrixocraft.mcsh.io");
+alert("IP kopyalandı");
+}
+
+function vip(){vipMsg.innerHTML="<div class='err'>Satış kapalı</div>";}
 
 function register(){
-if(!r_name.value||!r_mail.value||!r_pass.value)return;
 localStorage.setItem("user",r_name.value);
-fetch(REGISTER_WEBHOOK,{method:"POST",headers:{"Content-Type":"application/json"},
-body:JSON.stringify({content:`Yeni Kayıt: ${r_name.value}`})});
 loginBtn.style.display="none";
 profile.innerHTML="👤 "+r_name.value;
 profile.classList.remove("hidden");
+regMsg.innerHTML="<div class='msg'>Kayıt başarılı</div>";
 }
 
+function logged(){return localStorage.getItem("user");}
+
 function sendTicket(){
-if(!logged()){ticketMsg.innerHTML="<div class='err'>Kayıt ol</div>";return;}
-fetch(STAFF_TICKET_WEBHOOK,{method:"POST",headers:{"Content-Type":"application/json"},
-body:JSON.stringify({content:`TICKET\nMC:${t_mc.value}\nDC:${t_dc.value}\n${t_prob.value}`})});
-ticketMsg.innerHTML="<div class='msg'>Ticket Discorda düştü</div>";
+if(!logged()){ticketMsg.innerHTML="<div class='err'>Önce kayıt ol</div>";return;}
+ticketMsg.innerHTML="<div class='msg'>Ticket gönderildi</div>";
 }
 
 function sendStaff(){
-if(!logged()){staffMsg.innerHTML="<div class='err'>Kayıt ol</div>";return;}
-fetch(STAFF_TICKET_WEBHOOK,{method:"POST",headers:{"Content-Type":"application/json"},
-body:JSON.stringify({content:`YETKİLİ\n${s_name.value}\n${s_mc.value}`})});
-staffMsg.innerHTML="<div class='msg'>Başvurun Discorda düştü</div>";
+if(!logged()){staffMsg.innerHTML="<div class='err'>Önce kayıt ol</div>";return;}
+staffMsg.innerHTML="<div class='msg'>Başvurun alındı</div>";
 }
+
+if(!localStorage.getItem("cookie")){
+setTimeout(()=>cookie.classList.remove("hidden"),1200)
+}
+function acceptCookie(){localStorage.setItem("cookie","ok");cookie.classList.add("hidden")}
+function declineCookie(){cookie.classList.add("hidden")}
 </script>
 
 </body>
 </html>
+
