@@ -2,96 +2,149 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<title>HYRİXOCRAFT</title>
+<title>HyrixoCraft</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-*{box-sizing:border-box;font-family:Arial}
-body{margin:0;background:#0f0f14;color:#fff}
-.container{max-width:1200px;margin:auto;padding:20px}
-header{display:flex;justify-content:space-between;align-items:center}
-.logo{font-size:26px;font-weight:700}
-nav a{margin-left:15px;cursor:pointer}
-.btn{background:#5865f2;border:none;color:#fff;padding:10px 16px;border-radius:8px;cursor:pointer}
-.btn:hover{opacity:.9}
-
-..Card{
-background:#1b1b26;
-padding:20px;
-border-radius:16px;
-margin-top:20px;
-transition:.3s;
+*{box-sizing:border-box;font-family:Arial,Helvetica,sans-serif}
+body{
+margin:0;
+background:linear-gradient(160deg,#0f0f14,#141421);
+color:#fff
 }
-.card:hover{transform:translateY(-8px)}
+.container{max-width:1200px;margin:auto;padding:20px}
+
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:20px
+}
+.logo{
+font-size:28px;
+font-weight:800;
+letter-spacing:1px
+}
+nav a{
+margin-left:18px;
+cursor:pointer;
+opacity:.85;
+transition:.25s
+}
+nav a:hover{opacity:1}
+
+.btn{
+background:#5865f2;
+border:none;
+color:#fff;
+padding:11px 18px;
+border-radius:10px;
+cursor:pointer;
+transition:.25s
+}
+.btn:hover{transform:translateY(-2px);opacity:.95}
+
+.card{
+background:#1b1b26;
+padding:22px;
+border-radius:18px;
+margin-top:22px;
+transition:transform .35s ease, box-shadow .35s ease;
+}
+.card:hover{
+transform:translateY(-6px);
+box-shadow:0 10px 30px rgba(0,0,0,.4)
+}
+
 .hidden{display:none}
-.msg{color:#3cff8f;margin-top:10px}
-.err{color:#ff4d4d;margin-top:10px}
+.msg{color:#3cff8f;margin-top:12px}
+.err{color:#ff4d4d;margin-top:12px}
 
 input,textarea{
 width:100%;
-padding:10px;
-border-radius:8px;
+padding:11px;
+border-radius:10px;
 border:none;
-margin-top:8px;
+margin-top:10px;
 background:#2a2a3a;
 color:#fff
 }
 
-/* IP + RESİM */
+.market{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px
+}
+.vip{border:2px solid #5865f2}
+
 .copy-box{text-align:center;margin-top:30px}
+
 .floating-img{
-width:300px;
+width:320px;
 display:block;
-margin:20px auto;
-animation:float 3s ease-in-out infinite
+margin:25px auto;
+animation:float 4s ease-in-out infinite
 }
 @keyframes float{
 0%{transform:translateY(0)}
-50%{transform:translateY(-20px)}
+50%{transform:translateY(-18px)}
 100%{transform:translateY(0)}
 }
 
 .quick-links{
 display:flex;
 justify-content:center;
-gap:15px;
-margin-top:20px;
+gap:18px;
+margin-top:25px;
 flex-wrap:wrap
 }
 .quick-links .card{
-width:200px;
+width:210px;
 text-align:center;
 cursor:pointer
 }
 
-
-.game-mode{
-margin-top:40px
+/* OYUN MODU */
+.gamemode{
+display:flex;
+gap:25px;
+align-items:center;
+flex-wrap:wrap
 }
-.game-mode img{
-width:100%;
-border-radius:14px;
-margin:15px 0
+.gamemode img{
+width:280px;
+border-radius:16px
+}
+.gamemode-content{
+flex:1
+}
+.fade{
+animation:fadeIn .4s ease
+}
+@keyframes fadeIn{
+from{opacity:0;transform:translateY(10px)}
+to{opacity:1;transform:translateY(0)}
 }
 
-/* CEREZ */
-#cookie{
+/* ÇEREZ */
+.cookie{
 position:fixed;
-right:20px;
 bottom:20px;
+right:20px;
 background:#1b1b26;
-padding:20px;
+padding:18px;
 border-radius:14px;
-width:260px;
-z-index:999;
+max-width:300px;
+box-shadow:0 10px 25px rgba(0,0,0,.4)
 }
+.cookie button{margin-top:10px;margin-right:8px}
 </style>
 </head>
 
 <body>
 
 <header class="container">
-<div class="logo">HYRİXOCRAFT</div>
+<div class="logo">HYRIXOCRAFT</div>
 <nav>
 <a onclick="show('home')">Ana Sayfa</a>
 <a onclick="show('market')">Market</a>
@@ -104,7 +157,6 @@ z-index:999;
 
 <div class="container">
 
-<!-- ANA SAYFA -->
 <section id="home">
 <div class="copy-box">
 <button class="btn" onclick="copyIP()">IP KOPYALA</button>
@@ -114,44 +166,29 @@ z-index:999;
 
 <div class="quick-links">
 <div class="card" onclick="show('staff')">🛡️ Yetkili Başvuru</div>
-<div class="card" onclick="show('market')">💎 Market</div>
 <div class="card" onclick="show('ticket')">🎫 Ticket</div>
-</div>
-
-<!-- OYUN MODU -->
-<div class="card game-mode">
-<h2>⛏️ BoxMining</h2>
-<img src="boxmining.png">
-  BoxMining, oyuncuların özel maden alanlarında kazı yaparak sandıklar,
-para ve nadir eşyalar kazandığı uzun soluklu bir oyun modudur. 
-<button class="btn" onclick="openBox()">İncele</button>
+<div class="card" onclick="show('gamemode')">🎮 Oyun Modu</div>
 </div>
 </div>
 </section>
 
-<!-- BOXMİNİNG DETAY -->
-<section id="boxdetail" class="hidden">
-<div class="card">
-<h2>⛏️ BoxMining Oyun Modu</h2>
+<section id="gamemode" class="hidden fade">
+<div class="card gamemode">
+<img src="resim.png">
+<div class="gamemode-content">
+<h2>🎮 BoxMining</h2>
 <p>
-BoxMining, oyuncuların özel maden alanlarında kazı yaparak sandıklar,
-para ve nadir eşyalar kazandığı uzun soluklu bir oyun modudur.
-Oyuncular kazı yaptıkça seviye atlar, yeni alanların kilidini açar
-ve PvP bölgelerinde güçlerini kanıtlar.
-
-Sunucuda ekonomi sistemi, özel enchantlar, görevler,
-rank sistemi ve etkinlikler bulunur.
-Günlük ödüller, boss savaşları ve klan sistemi ile
-BoxMining sürekli aktif ve rekabetçi bir deneyim sunar.
-
-HYRİXOCRAFT BoxMining, hem solo hem arkadaşlarınla
-oynanabilecek şekilde tasarlanmıştır.
+BoxMining; sınırlı alan, hızlı PvP, gelişmiş market ve rekabetçi ekonomi
+üzerine kurulu bir oyun modudur. Oyuncular kazı yaparak gelişir,
+eşya toplar, PvP ile güçlenir ve liderlik sıralamasında yer almak için
+mücadele eder. HyrixoCraft BoxMining dengeli, lag’sız ve adil sistem
+üzerine kuruludur.
 </p>
-<button class="btn" onclick="show('home')">⬅ Geri Dön</button>
+<button class="btn" onclick="show('home')">Geri Dön</button>
+</div>
 </div>
 </section>
 
-<!-- MARKET -->
 <section id="market" class="hidden">
 <div class="market">
 <div class="card vip"><h3>VIP</h3><button class="btn" onclick="vip()">Satın Al</button></div>
@@ -161,7 +198,6 @@ oynanabilecek şekilde tasarlanmıştır.
 <div id="vipMsg"></div>
 </section>
 
-<!-- TICKET -->
 <section id="ticket" class="hidden">
 <div class="card">
 <h2>🎫 Ticket Aç</h2>
@@ -174,7 +210,6 @@ oynanabilecek şekilde tasarlanmıştır.
 </div>
 </section>
 
-<!-- YETKILI -->
 <section id="staff" class="hidden">
 <div class="card">
 <h2>ʏᴇᴛᴋɪʟɪ ᴀʟıᴍ ꜰᴏʀᴍᴜ!</h2>
@@ -183,17 +218,16 @@ oynanabilecek şekilde tasarlanmıştır.
 <input id="s_name" placeholder="ɪꜱᴍɪɴɪᴢ">
 <input id="s_mc" placeholder="ᴏʏᴜɴ ɪᴄɪ ɪꜱᴍɪɴɪᴢ">
 
-<textarea id="s_q1" placeholder="ꜱᴏʜʙᴇᴛᴛᴇ ʙɪʀɪꜱɪ 𝟧 ᴋᴇʀᴇ ꜱᴘᴀᴍ ᴀᴛᴛı ɴᴀᴘᴀʀꜱıɴ"></textarea>
-<textarea id="s_q2" placeholder="ꜱᴏʜʙᴇᴛᴛᴇ ʙɪʀɪꜱɪ ᴀɢıʀ ᴋᴜꜰᴜʀʟᴇʀ ᴇᴅɪʏᴏʀ ᴀᴍᴀ ꜱᴇɴᴅᴇɴ ᴜꜱᴛᴜɴ ʙɪʀ ʏᴇᴛᴋɪʟɪ ɴᴀᴘᴀʀꜱıɴ"></textarea>
-<textarea id="s_q3" placeholder="ʙɪʀɪꜱɪ ᴋᴜʀᴜᴄᴜʏᴀ ᴀʟᴀʏ ᴇᴅɪʏᴏʀ ɴᴀᴘᴀʀꜱıɴ"></textarea>
-<textarea id="s_why" placeholder="ɴᴇᴅᴇɴ ʙɪᴢɪ ᴛᴇʀᴄɪʜ ᴇᴅɪʏᴏʀꜱᴜɴᴜᴢ"></textarea>
+<textarea id="s_q1" placeholder="5 kere spam atarsa ne yaparsın"></textarea>
+<textarea id="s_q2" placeholder="Ağır küfür eder ama senden üstün yetkiliyse"></textarea>
+<textarea id="s_q3" placeholder="Kurucuya / geliştiriciye alay ederse"></textarea>
+<textarea id="s_why" placeholder="Neden bizi tercih ediyorsun"></textarea>
 
 <button class="btn" onclick="sendStaff()">Başvur</button>
 <div id="staffMsg"></div>
 </div>
 </section>
 
-<!-- GIRIS -->
 <section id="login" class="hidden">
 <div class="card">
 <h2>Kayıt Ol</h2>
@@ -207,11 +241,11 @@ oynanabilecek şekilde tasarlanmıştır.
 
 </div>
 
-<!-- CEREZ -->
-<div id="cookie">
-<p>Bu site çerezleri kullanır</p>
-<button class="btn" onclick="closeCookie()">Kabul Ediyorum</button>
-<button class="btn" onclick="closeCookie()">Kabul Etmiyorum</button>
+<div id="cookie" class="cookie hidden">
+<b>🍪 Çerezler</b>
+<p>Deneyimi iyileştirmek için çerezler kullanıyoruz.</p>
+<button class="btn" onclick="acceptCookie()">Kabul Ediyorum</button>
+<button class="btn" onclick="declineCookie()">Reddet</button>
 </div>
 
 <script>
@@ -221,10 +255,6 @@ const REGISTER_WEBHOOK="https://discord.com/api/webhooks/1460299783473467565/-3z
 function show(id){
 document.querySelectorAll("section").forEach(s=>s.classList.add("hidden"));
 document.getElementById(id).classList.remove("hidden");
-}
-
-function openBox(){
-show("boxdetail");
 }
 
 function copyIP(){
@@ -266,7 +296,14 @@ ticketMsg.innerHTML="<div class='err'>Formu doldur</div>";return;
 fetch(STAFF_TICKET_WEBHOOK,{
 method:"POST",
 headers:{"Content-Type":"application/json"},
-body:JSON.stringify({content:`🎫 TICKET\nMC:${t_mc.value}\nDC:${t_dc.value}\nNeden:${t_reason.value}\nOlay:${t_prob.value}`})
+body:JSON.stringify({
+content:
+`🎫 TICKET
+MC: ${t_mc.value}
+Discord: ${t_dc.value}
+Neden: ${t_reason.value}
+Olay: ${t_prob.value}`
+})
 });
 ticketMsg.innerHTML="<div class='msg'>Ticket Discorda düştü</div>";
 }
@@ -281,17 +318,35 @@ staffMsg.innerHTML="<div class='err'>Formu doldur</div>";return;
 fetch(STAFF_TICKET_WEBHOOK,{
 method:"POST",
 headers:{"Content-Type":"application/json"},
-body:JSON.stringify({content:`🛡️ YETKİLİ BAŞVURUSU\nYaş:${s_age.value}\nİsim:${s_name.value}\nMC:${s_mc.value}\n\nSpam:${s_q1.value}\nKüfür:${s_q2.value}\nKurucu:${s_q3.value}\n\nNeden:${s_why.value}`})
+body:JSON.stringify({
+content:
+`🛡️ YETKİLİ BAŞVURUSU
+
+Yaş: ${s_age.value}
+İsim: ${s_name.value}
+MC: ${s_mc.value}
+
+Spam: ${s_q1.value}
+Küfür: ${s_q2.value}
+Kurucu: ${s_q3.value}
+
+Neden Biz: ${s_why.value}`
+})
 });
 staffMsg.innerHTML="<div class='msg'>Başvurun Discorda düştü</div>";
 }
 
-function closeCookie(){
-document.getElementById("cookie").style.display="none";
+if(!localStorage.getItem("cookie")){
+setTimeout(()=>document.getElementById("cookie").classList.remove("hidden"),1200)
+}
+function acceptCookie(){
+localStorage.setItem("cookie","ok");
+cookie.classList.add("hidden")
+}
+function declineCookie(){
+cookie.classList.add("hidden")
 }
 </script>
 
 </body>
 </html>
-
-
