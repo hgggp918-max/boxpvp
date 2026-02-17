@@ -3,222 +3,308 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brutal Network | Minecraft Sunucusu</title>
+    <title>Brutal Network | Profesyonel Minecraft Sunucusu</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --main-purple: #a020f0;
-            --dark-purple: #4b0082;
-            --bg-black: #0a0a0a;
-            --card-bg: rgba(15, 15, 15, 0.98);
+            --purple: #a020f0;
+            --purple-glow: rgba(160, 32, 240, 0.6);
+            --bg: #050505;
+            --card-bg: rgba(15, 15, 15, 0.9);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
-        body { background-color: var(--bg-black); color: white; overflow-x: hidden; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background-color: var(--bg); color: white; overflow-x: hidden; line-height: 1.6; }
+
+        /* Arkaplan Efekti */
+        .bg-glow {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, #1a0033 0%, #050505 100%);
+            z-index: -1;
+        }
 
         /* Navigasyon */
         nav {
             display: flex; justify-content: space-between; align-items: center;
-            padding: 20px 8%; background: rgba(0,0,0,0.9); backdrop-filter: blur(10px);
-            position: fixed; width: 100%; z-index: 1000; border-bottom: 1px solid var(--main-purple);
+            padding: 25px 10%; background: rgba(0,0,0,0.8); backdrop-filter: blur(15px);
+            position: fixed; width: 100%; z-index: 1000; border-bottom: 2px solid var(--purple);
         }
-        .logo-area { font-size: 1.5rem; font-weight: 900; cursor: pointer; }
-        .purple { color: var(--main-purple); text-shadow: 0 0 15px var(--main-purple); }
-        .links a { color: white; text-decoration: none; margin-left: 25px; font-weight: 700; cursor: pointer; transition: 0.3s; }
-        .links a:hover { color: var(--main-purple); }
+        .logo-text { font-family: 'Syncopate', sans-serif; font-size: 1.5rem; letter-spacing: 3px; cursor: pointer; }
+        .purple-text { color: var(--purple); text-shadow: 0 0 15px var(--purple); }
+        .nav-links a { color: white; text-decoration: none; margin-left: 30px; font-weight: 700; transition: 0.3s; cursor: pointer; text-transform: uppercase; font-size: 0.85rem; }
+        .nav-links a:hover { color: var(--purple); }
 
-        /* Sayfa Yapısı */
-        .page-section { display: none; min-height: 100vh; padding: 120px 20px 40px; align-items: center; justify-content: center; flex-direction: column; }
-        .active-section { display: flex; animation: fadeIn 0.5s; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        /* Bölümler */
+        .section { display: none; min-height: 100vh; padding: 140px 20px 60px; align-items: center; justify-content: center; flex-direction: column; }
+        .active { display: flex; animation: slideUp 0.4s ease-out; }
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-        /* Hero */
-        .hero { background: radial-gradient(circle at center, #1a0033 0%, #0a0a0a 100%); }
-        .main-logo { width: 200px; filter: drop-shadow(0 0 20px var(--main-purple)); animation: float 4s infinite; }
+        /* Logo Animasyon */
+        .main-logo { width: 180px; filter: drop-shadow(0 0 25px var(--purple)); animation: float 3s infinite ease-in-out; margin-bottom: 20px; }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 
-        /* Kartlar ve Formlar */
-        .form-card { background: var(--card-bg); padding: 40px; border-radius: 20px; border: 2px solid var(--dark-purple); width: 100%; max-width: 500px; box-shadow: 0 0 30px rgba(160, 32, 240, 0.2); }
-        input, textarea { width: 100%; padding: 12px; margin: 10px 0; background: #000; border: 1px solid var(--dark-purple); color: white; border-radius: 8px; }
-        .main-btn { width: 100%; padding: 15px; background: var(--main-purple); border: none; color: white; font-weight: 900; border-radius: 8px; cursor: pointer; margin-top: 10px; }
+        /* Kart Tasarımı */
+        .card { 
+            background: var(--card-bg); padding: 40px; border-radius: 15px; 
+            border: 1px solid rgba(160, 32, 240, 0.3); width: 100%; max-width: 600px;
+            box-shadow: 0 10px 50px rgba(0,0,0,0.5);
+        }
+        h2 { margin-bottom: 25px; font-weight: 900; letter-spacing: -1px; text-transform: uppercase; }
+
+        /* Form Elemanları */
+        .input-group { text-align: left; margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-size: 0.8rem; font-weight: 700; color: #888; }
+        input, textarea, select { 
+            width: 100%; padding: 14px; background: #000; border: 1px solid #222; 
+            color: white; border-radius: 8px; transition: 0.3s;
+        }
+        input:focus, textarea:focus { border-color: var(--purple); outline: none; box-shadow: 0 0 10px var(--purple-glow); }
         
+        .btn { 
+            width: 100%; padding: 16px; background: var(--purple); color: white; 
+            border: none; border-radius: 8px; font-weight: 900; cursor: pointer; 
+            text-transform: uppercase; transition: 0.3s; letter-spacing: 1px;
+        }
+        .btn:hover { background: #8210cc; transform: translateY(-2px); box-shadow: 0 5px 20px var(--purple-glow); }
+
         /* IP Kutusu */
-        .ip-box { background: #000; padding: 15px; border-radius: 12px; border: 2px solid var(--main-purple); cursor: pointer; font-weight: 900; font-size: 1.3rem; margin: 20px 0; }
+        .ip-display { 
+            background: #111; padding: 20px; border-radius: 12px; border: 2px dashed var(--purple);
+            cursor: pointer; margin: 20px 0; font-weight: 900; font-size: 1.4rem; letter-spacing: 2px;
+        }
 
-        /* Admin Tablo */
-        .admin-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        .admin-table th, .admin-table td { padding: 12px; border: 1px solid var(--dark-purple); text-align: left; }
-        .admin-table th { background: var(--dark-purple); }
+        /* Tablo */
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; background: #000; border-radius: 10px; overflow: hidden; }
+        th, td { padding: 15px; text-align: left; border-bottom: 1px solid #111; font-size: 0.85rem; }
+        th { background: #111; color: var(--purple); }
 
+        .status-dot { height: 10px; width: 10px; border-radius: 50%; display: inline-block; background: #444; margin-right: 5px; }
+        .online { background: #00ff00; box-shadow: 0 0 10px #00ff00; }
+        
+        .lock-msg { color: #ff4444; font-weight: 700; margin-top: 20px; }
         .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
+    <div class="bg-glow"></div>
+
     <nav>
-        <div class="logo-area" onclick="showSection('hero')">BRUTAL <span class="purple">NETWORK</span></div>
-        <div class="links">
+        <div class="logo-text" onclick="showSection('hero')">BRUTAL<span class="purple-text">NETWORK</span></div>
+        <div class="nav-links">
             <a onclick="showSection('hero')">ANASAYFA</a>
-            <a onclick="showSection('kayit')">KAYIT OL</a>
-            <a onclick="showSection('basvuru')">BAŞVURU YAP</a>
+            <a onclick="showSection('kayit')">GİRİŞ / KAYIT</a>
+            <a onclick="showSection('basvuru')">YETKİLİ ALIM</a>
             <a id="admin-link" class="hidden" onclick="showSection('admin')">ADMİN PANELİ</a>
         </div>
     </nav>
 
-    <section id="hero" class="page-section active-section hero">
+    <section id="hero" class="section active">
         <img src="logo.png" alt="Logo" class="main-logo">
-        <h1 style="font-size: 3rem; margin: 20px 0;">BRUTAL <span class="purple">NETWORK</span></h1>
-        <div class="form-card" style="text-align: center;">
-            <div id="status-text">SUNUCU KONTROL EDİLİYOR...</div>
-            <div class="ip-box" onclick="copyIp()">193.164.4.95</div>
-            <div><i class="fas fa-users"></i> <span id="online-count" class="purple">0</span> OYUNCU AKTİF</div>
+        <h1 style="font-size: 4rem; font-weight: 900; margin-bottom: 10px;">BRUTAL <span class="purple-text">NETWORK</span></h1>
+        <div class="card" style="max-width: 450px; text-align: center;">
+            <div><span id="status-dot" class="status-dot"></span> <span id="status-text">BAĞLANTI KURULUYOR...</span></div>
+            <div class="ip-display" onclick="copyIp()">193.164.4.95</div>
+            <p style="font-size: 0.9rem; color: #888;"><i class="fas fa-users"></i> <span id="online-count" class="purple-text">0</span> OYUNCU ŞU AN AKTİF</p>
         </div>
     </section>
 
-    <section id="kayit" class="page-section">
-        <div class="form-card">
-            <h2 class="purple">KAYIT OL / GİRİŞ</h2>
-            <input type="email" id="user-email" placeholder="E-posta Adresiniz">
-            <input type="password" placeholder="Şifreniz">
-            <div style="font-size: 0.8rem; color: #888; margin: 10px 0;">
-                <input type="checkbox" checked> Kurallar ve KVKK metnini okudum.
+    <section id="kayit" class="section">
+        <div class="card">
+            <h2>HESABA <span class="purple-text">ERİŞ</span></h2>
+            <div class="input-group">
+                <label>E-POSTA ADRESİ</label>
+                <input type="email" id="email-input" placeholder="mail@örnek.com">
             </div>
-            <button class="main-btn" onclick="login()">GİRİŞ YAP / KAYDOL</button>
-            <p id="login-msg" style="margin-top:10px; font-size:0.9rem;"></p>
+            <div class="input-group">
+                <label>ŞİFRE</label>
+                <input type="password" placeholder="••••••••">
+            </div>
+            <button class="btn" onclick="handleAuth()">GİRİŞ YAP</button>
+            <p id="auth-status" style="margin-top: 15px; font-size: 0.85rem;"></p>
         </div>
     </section>
 
-    <section id="basvuru" class="page-section">
-        <div class="form-card">
-            <h2 class="purple">YETKİLİ BAŞVURUSU</h2>
-            <input type="text" id="b-ad" placeholder="Minecraft Adınız">
-            <input type="number" id="b-yas" placeholder="Yaşınız">
-            <textarea id="b-neden" placeholder="Neden sizi seçmeliyiz?" rows="4"></textarea>
-            <button class="main-btn" onclick="sendBasvuru()">BAŞVURUYU TAMAMLA</button>
+    <section id="basvuru" class="section">
+        <div class="card" id="form-locked">
+            <i class="fas fa-lock" style="font-size: 3rem; color: var(--purple); margin-bottom: 20px;"></i>
+            <h2>FORM <span class="purple-text">KİLİTLİ</span></h2>
+            <p>Yetkili alım formunu doldurabilmek için önce sisteme giriş yapmalısın.</p>
+            <button class="btn" style="margin-top: 20px; background: transparent; border: 1px solid var(--purple);" onclick="showSection('kayit')">GİRİŞE GİT</button>
+        </div>
+
+        <div class="card hidden" id="form-unlocked">
+            <h2>YETKİLİ <span class="purple-text">ALIM FORMU</span></h2>
+            <div class="input-group">
+                <label>İSMİNİZ VE SOYİSMİNİZ</label>
+                <input type="text" id="f-isim">
+            </div>
+            <div style="display: flex; gap: 15px;">
+                <div class="input-group" style="flex:1">
+                    <label>YAŞINIZ</label>
+                    <input type="number" id="f-yas">
+                </div>
+                <div class="input-group" style="flex:1">
+                    <label>OYUN İÇİ İSMİNİZ (IGN)</label>
+                    <input type="text" id="f-mcisim">
+                </div>
+            </div>
+            <div class="input-group">
+                <label>SOHBETTE BİRİSİ 5 KERE SPAM ATTI NAPAN?</label>
+                <textarea id="f-spam" rows="2"></textarea>
+            </div>
+            <div class="input-group">
+                <label>BİRİSİ AĞIR KÜFÜR EDİYOR AMA SENDEN ÜSTÜN BİR YETKİLİ VARSA NAPAN?</label>
+                <textarea id="f-ustyetkili" rows="2"></textarea>
+            </div>
+            <div class="input-group">
+                <label>KURUCUYA/GELİŞTİRİCİYE ALAY VE SÖVME DURUMUNDA NAPAN?</label>
+                <textarea id="f-kurucu" rows="2"></textarea>
+            </div>
+            <div class="input-group">
+                <label>NEDEN BİZİ TERCİH EDİYORSUNUZ?</label>
+                <textarea id="f-neden" rows="2"></textarea>
+            </div>
+            <button class="btn" onclick="submitForm()">BAŞVURUYU GÖNDER</button>
         </div>
     </section>
 
-    <section id="admin" class="page-section">
-        <div class="form-card" style="max-width: 900px;">
-            <h2 class="purple">ADMİN KONTROL PANELİ</h2>
+    <section id="admin" class="section">
+        <div class="card" style="max-width: 950px;">
+            <h2>BAŞVURU <span class="purple-text">YÖNETİMİ</span></h2>
             <div style="overflow-x: auto;">
-                <table class="admin-table">
+                <table id="admin-table">
                     <thead>
                         <tr>
-                            <th>E-posta</th>
-                            <th>MC Adı</th>
-                            <th>Yaş</th>
-                            <th>Neden</th>
-                            <th>İşlem</th>
+                            <th>E-POSTA</th>
+                            <th>MC ADI</th>
+                            <th>YAŞ</th>
+                            <th>SPAM CEVABI</th>
+                            <th>ÜST YETKİLİ</th>
+                            <th>KURUCU/ALAY</th>
+                            <th>NEDEN?</th>
+                            <th>İŞLEM</th>
                         </tr>
                     </thead>
-                    <tbody id="admin-list">
-                        </tbody>
+                    <tbody id="admin-body"></tbody>
                 </table>
             </div>
-            <button class="main-btn" style="background: grey; margin-top: 20px;" onclick="clearAll()">TÜMÜNÜ TEMİZLE</button>
+            <button class="btn" style="background: #333; margin-top: 20px;" onclick="resetData()">SİSTEMİ SIFIRLA</button>
         </div>
     </section>
 
     <script>
-        // --- AYARLAR ---
-        const serverIp = "193.164.4.95";
-        const ADMIN_MAIL = "admin@brutal.com"; // BURAYA KENDİ MAİLİNİ YAZ!
+        const SERVER_IP = "193.164.4.95";
+        const ADMIN_MAIL = "admin@brutal.com"; // Burayı değiştirirsin
+        let isLoggedIn = false;
+        let currentUserMail = "";
 
-        // Sayfa Değiştirme
         function showSection(id) {
-            document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active-section'));
-            document.getElementById(id).classList.add('active-section');
-        }
-
-        // Giriş Sistemi
-        function login() {
-            const email = document.getElementById('user-email').value;
-            if(!email) return alert("Mail giriniz!");
-
-            if(email === ADMIN_MAIL) {
-                document.getElementById('admin-link').classList.remove('hidden');
-                document.getElementById('login-msg').innerHTML = "Hoşgeldin Admin! Panel açıldı.";
-                document.getElementById('login-msg').style.color = "lime";
-                loadAdminData();
-            } else {
-                document.getElementById('login-msg').innerHTML = "Giriş yapıldı. Başvuru yapabilirsiniz.";
-                document.getElementById('login-msg').style.color = "white";
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            
+            // Başvuru kilidi kontrolü
+            if(id === 'basvuru') {
+                if(isLoggedIn) {
+                    document.getElementById('form-locked').classList.add('hidden');
+                    document.getElementById('form-unlocked').classList.remove('hidden');
+                } else {
+                    document.getElementById('form-locked').classList.remove('hidden');
+                    document.getElementById('form-unlocked').classList.add('hidden');
+                }
             }
         }
 
-        // Başvuru Gönderme (Local Storage)
-        function sendBasvuru() {
-            const email = document.getElementById('user-email').value || "Bilinmiyor";
+        function handleAuth() {
+            const mail = document.getElementById('email-input').value;
+            if(!mail.includes("@")) return alert("Geçerli bir mail gir!");
+
+            isLoggedIn = true;
+            currentUserMail = mail;
+            document.getElementById('auth-status').innerText = "Giriş Başarılı! Başvuru yapabilirsiniz.";
+            document.getElementById('auth-status').style.color = "lime";
+
+            if(mail === ADMIN_MAIL) {
+                document.getElementById('admin-link').classList.remove('hidden');
+                loadAdmin();
+            }
+        }
+
+        function submitForm() {
             const data = {
-                email: email,
-                ad: document.getElementById('b-ad').value,
-                yas: document.getElementById('b-yas').value,
-                neden: document.getElementById('b-neden').value
+                mail: currentUserMail,
+                isim: document.getElementById('f-isim').value,
+                yas: document.getElementById('f-yas').value,
+                mcisim: document.getElementById('f-mcisim').value,
+                spam: document.getElementById('f-spam').value,
+                ust: document.getElementById('f-ustyetkili').value,
+                kurucu: document.getElementById('f-kurucu').value,
+                neden: document.getElementById('f-neden').value
             };
 
-            let list = JSON.parse(localStorage.getItem('basvurular') || "[]");
+            let list = JSON.parse(localStorage.getItem('brutal_apps') || "[]");
             list.push(data);
-            localStorage.setItem('basvurular', JSON.stringify(list));
-            
-            alert("Başvurunuz kaydedildi!");
+            localStorage.setItem('brutal_apps', JSON.stringify(list));
+
+            alert("Başvurunuz başarıyla gönderildi!");
             showSection('hero');
         }
 
-        // Admin Verilerini Yükle
-        function loadAdminData() {
-            const list = JSON.parse(localStorage.getItem('basvurular') || "[]");
-            const tbody = document.getElementById('admin-list');
-            tbody.innerHTML = "";
+        function loadAdmin() {
+            const list = JSON.parse(localStorage.getItem('brutal_apps') || "[]");
+            const body = document.getElementById('admin-body');
+            body.innerHTML = "";
 
             list.forEach((item, index) => {
-                tbody.innerHTML += `
+                body.innerHTML += `
                     <tr>
-                        <td>${item.email}</td>
-                        <td>${item.ad}</td>
+                        <td>${item.mail}</td>
+                        <td>${item.mcisim}</td>
                         <td>${item.yas}</td>
-                        <td>${item.neden}</td>
-                        <td><button onclick="deleteItem(${index})" style="background:red; color:white; border:none; padding:5px; border-radius:4px; cursor:pointer;">Sil</button></td>
+                        <td>${item.spam.substring(0,15)}...</td>
+                        <td>${item.ust.substring(0,15)}...</td>
+                        <td>${item.kurucu.substring(0,15)}...</td>
+                        <td>${item.neden.substring(0,15)}...</td>
+                        <td><button onclick="deleteApp(${index})" style="background:red; color:white; border:none; padding:5px; cursor:pointer; border-radius:4px;">Sil</button></td>
                     </tr>
                 `;
             });
         }
 
-        function deleteItem(i) {
-            let list = JSON.parse(localStorage.getItem('basvurular'));
+        function deleteApp(i) {
+            let list = JSON.parse(localStorage.getItem('brutal_apps'));
             list.splice(i, 1);
-            localStorage.setItem('basvurular', JSON.stringify(list));
-            loadAdminData();
+            localStorage.setItem('brutal_apps', JSON.stringify(list));
+            loadAdmin();
         }
 
-        function clearAll() {
-            if(confirm("Tüm başvurular silinsin mi?")) {
-                localStorage.removeItem('basvurular');
-                loadAdminData();
+        function resetData() {
+            if(confirm("Tüm başvurular silinecek?")) {
+                localStorage.removeItem('brutal_apps');
+                loadAdmin();
             }
         }
 
-        // IP Kopyalama
-        function copyIp() {
-            navigator.clipboard.writeText(serverIp);
-            alert("IP Kopyalandı!");
-        }
-
-        // Sunucu API
-        async function fetchStatus() {
+        async function updateAPI() {
             try {
-                const res = await fetch(`https://api.mcsrvstat.us/2/${serverIp}`);
-                const data = await res.json();
-                if(data.online) {
-                    document.getElementById('status-text').innerHTML = "SUNUCU <span style='color:lime'>AKTİF</span>";
-                    document.getElementById('online-count').innerText = data.players.online;
+                const r = await fetch(`https://api.mcsrvstat.us/2/${SERVER_IP}`);
+                const d = await r.json();
+                if(d.online) {
+                    document.getElementById('status-text').innerText = "SUNUCU AKTİF";
+                    document.getElementById('status-dot').classList.add('online');
+                    document.getElementById('online-count').innerText = d.players.online;
                 }
             } catch(e) {}
         }
 
-        window.onload = fetchStatus;
+        function copyIp() {
+            navigator.clipboard.writeText(SERVER_IP);
+            alert("IP Kopyalandı!");
+        }
+
+        window.onload = updateAPI;
     </script>
 </body>
 </html>
