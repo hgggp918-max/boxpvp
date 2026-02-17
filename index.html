@@ -3,197 +3,251 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spear Project | Kalite ve Güven</title>
+    <title>Brutal Network | Minecraft Sunucusu</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    
     <style>
-        /* GENEL TASARIM */
-        body {
+        /* CSS BÖLÜMÜ */
+        :root {
+            --main-purple: #a020f0;
+            --dark-purple: #4b0082;
+            --bg-black: #0a0a0a;
+        }
+
+        * {
             margin: 0;
             padding: 0;
-            background-color: #0f0f0f; /* Koyu siyah */
-            color: #d1d1d1; /* Açık gri yazı */
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-black);
+            color: white;
             overflow-x: hidden;
         }
 
-        /* KAR EFEKTİ */
-        #snow {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: 1000;
-        }
-
-        /* HEADER */
-        header {
-            text-align: center;
-            padding: 50px 20px;
-            background: linear-gradient(180deg, #1a1a1a 0%, #0f0f0f 100%);
-            border-bottom: 2px solid #333;
-        }
-
-        h1 { color: #fff; letter-spacing: 2px; margin: 0; }
-        .tagline { color: #888; font-size: 0.9rem; }
-
-        /* NEDEN BİZ? */
-        .features {
+        /* Navigasyon */
+        nav {
             display: flex;
-            justify-content: center;
-            gap: 20px;
-            padding: 40px;
-            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 8%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(160, 32, 240, 0.2);
         }
 
-        .feature-card {
-            background: #1a1a1a;
-            padding: 20px;
-            border-radius: 8px;
-            border: 1px solid #333;
-            width: 220px;
-            text-align: center;
+        .logo-area {
+            font-size: 1.5rem;
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+
+        .purple { 
+            color: var(--main-purple); 
+            text-shadow: 0 0 15px var(--main-purple); 
+        }
+
+        .links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 25px;
+            font-weight: 700;
+            font-size: 0.9rem;
             transition: 0.3s;
         }
 
-        .feature-card:hover { border-color: #555; transform: translateY(-5px); }
-        .feature-card h3 { color: #fff; font-size: 1.1rem; }
+        .links a:hover { color: var(--main-purple); }
 
-        /* ÜRÜNLER */
-        .products {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
+        /* Ana Sayfa (Hero) */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: radial-gradient(circle at center, #1a0033 0%, #0a0a0a 100%);
+        }
+
+        .main-logo {
+            width: 250px;
+            filter: drop-shadow(0 0 20px var(--main-purple));
+            animation: float 4s ease-in-out infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        h1 { font-size: 4.5rem; margin-bottom: 10px; font-weight: 900; }
+        p { color: #bbb; font-size: 1.2rem; margin-bottom: 30px; }
+
+        /* Sunucu Durum Kartı */
+        .server-card {
+            background: rgba(20, 20, 20, 0.8);
             padding: 40px;
-            max-width: 1200px;
-            margin: 0 auto;
+            border-radius: 25px;
+            border: 2px solid var(--dark-purple);
+            box-shadow: 0 0 40px rgba(160, 32, 240, 0.15);
+            display: inline-block;
         }
 
-        .product-card {
-            background: #161616;
-            border: 1px solid #222;
-            padding: 20px;
+        .status-bar {
+            margin-bottom: 20px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .pulse-dot {
+            height: 12px;
+            width: 12px;
+            background-color: #444;
+            border-radius: 50%;
+        }
+
+        .online-dot { 
+            background-color: #00ff00; 
+            box-shadow: 0 0 15px #00ff00; 
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .ip-box {
+            background: #000;
+            padding: 18px 35px;
             border-radius: 12px;
+            font-size: 1.8rem;
+            cursor: pointer;
             position: relative;
+            border: 2px solid var(--main-purple);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin-bottom: 20px;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
 
-        .product-title { color: #fff; font-size: 1.4rem; margin-bottom: 10px; display: block; }
-        .product-desc { color: #888; font-size: 0.9rem; line-height: 1.6; margin-bottom: 15px; }
-        .product-price { color: #4CAF50; font-weight: bold; font-size: 1.2rem; }
-        .buy-btn:hover { background: #444; }
+        .ip-box:hover { 
+            transform: scale(1.05); 
+            box-shadow: 0 0 30px var(--main-purple); 
+        }
 
-        footer { text-align: center; padding: 40px; color: #555; font-size: 0.8rem; }
+        .copy-btn { color: var(--main-purple); font-size: 1.4rem; }
+
+        #copy-popup {
+            position: absolute;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--main-purple);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-size: 1rem;
+            display: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .player-count {
+            color: #888;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
     </style>
 </head>
 <body>
 
-    <canvas id="snow"></canvas>
+    <nav>
+        <div class="logo-area">BRUTAL <span class="purple">NETWORK</span></div>
+        <div class="links">
+            <a href="#">ANASAYFA</a>
+            <a href="#">MAĞAZA</a>
+            <a href="#">DİSCORD</a>
+        </div>
+    </nav>
 
-    <header>
-        <h1>SPEAR PROJECT</h1>
-        <p class="tagline">Geleceğin Sunucu Altyapısı Burada Şekilleniyor</p>
+    <header class="hero">
+        <div class="content">
+            <img src="logo.png" alt="Brutal Logo" class="main-logo">
+            
+            <h1>BRUTAL <span class="purple">NETWORK</span></h1>
+            <p>Efsanevi Bir Macera Seni Bekliyor!</p>
+
+            <div class="server-card">
+                <div class="status-bar">
+                    <div class="pulse-dot" id="status-dot"></div>
+                    <span id="status-text">KONTROL EDİLİYOR...</span>
+                </div>
+
+                <div class="ip-box" onclick="copyIp()">
+                    <span id="server-ip">193.164.4.95</span>
+                    <i class="fas fa-copy copy-btn"></i>
+                    <div id="copy-popup">Kopyalandı!</div>
+                </div>
+
+                <div class="player-count">
+                    <i class="fas fa-users"></i> <span id="online-count" class="purple">0</span> OYUNCU AKTİF
+                </div>
+            </div>
+        </div>
     </header>
 
-    <section class="features">
-    </section>
-
-    <div class="products" id="product-list">
-        </div>
-
-    <footer>
-        &copy; 2026 Spear Project - Tüm Hakları Saklıdır.
-    </footer>
-
     <script>
-        // --- ÜRÜN EKLEME ALANI (CONST) ---
-        // Buraya istediğin kadar ürün ekleyebilirsin. 
-        // Her ürün 4 satırdan (id, ad, açıklama, fiyat) oluşur.
-        const products = [
-            {
-                id: 1,
-                name: "Discord Sunucu Botu",
-                desc: "Paylaşımlı 4GB RAM",
-                price: "100 TL / Ay"
-            },
-            {
-                id: 2,
-                name: "Özel Plugin Paketi",
-                desc: "Türkçe & Optimize & İsteğinize Göre!",
-                price: "150 TL"
-            },
-            {
-                id: 3,
-                name: "Sub Domain",
-                desc: "Layer 5 DDOS Koruma & isim.spearproject.xyz",
-                price: "80 TL / Ay"
-            },
-            {
-                id: 4,
-                name: "Sunucu MAP Kopyalama",
-                desc: "Her Angi Bir Sunucu Olabilir.",
-                price: "100 TL"
-            },
-			{
-                id: 5,
-                name: "Özel Plugin Kodlama",
-                desc: "OBF'siz Açık Kaynak Lisanslı JDK 21 SPİGOT APİ TABANLI.",
-                price: "100 TL"
-            }
-        ];
+        /* JAVASCRIPT BÖLÜMÜ */
+        const serverIp = "193.164.4.95";
 
-        // Ürünleri Ekrana Basma Fonksiyonu
-        const container = document.getElementById('product-list');
-        products.forEach(p => {
-            container.innerHTML += `
-                <div class="product-card">
-                    <span class="product-title">${p.name}</span>
-                    <p class="product-desc">${p.desc}</p>
-                    <div class="product-price">${p.price}</div>
-                </div>
-            `;
-        });
+        // Sunucu Durumunu Çek (API)
+        async function fetchStatus() {
+            try {
+                const res = await fetch(`https://api.mcsrvstat.us/2/${serverIp}`);
+                const data = await res.json();
 
-        // KAR EFEKTİ SCRIPTİ
-        const canvas = document.getElementById('snow');
-        const ctx = canvas.getContext('2d');
-        let width = canvas.width = window.innerWidth;
-        let height = canvas.height = window.innerHeight;
-        let particles = [];
-
-        function createParticles() {
-            for (let i = 0; i < 100; i++) {
-                particles.push({
-                    x: Math.random() * width,
-                    y: Math.random() * height,
-                    r: Math.random() * 3 + 1,
-                    d: Math.random() * 1
-                });
-            }
-        }
-
-        function draw() {
-            ctx.clearRect(0, 0, width, height);
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
-            ctx.beginPath();
-            for (let i = 0; i < particles.length; i++) {
-                let p = particles[i];
-                ctx.moveTo(p.x, p.y);
-                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2, true);
-            }
-            ctx.fill();
-            update();
-        }
-
-        function update() {
-            for (let i = 0; i < particles.length; i++) {
-                let p = particles[i];
-                p.y += Math.cos(p.d) + 1 + p.r / 2;
-                p.x += Math.sin(p.d) * 2;
-                if (p.x > width + 5 || p.x < -5 || p.y > height) {
-                    particles[i] = { x: Math.random() * width, y: -10, r: p.r, d: p.d };
+                if (data.online) {
+                    document.getElementById('status-text').innerText = "SUNUCU AKTİF";
+                    document.getElementById('status-text').style.color = "#00ff00";
+                    document.getElementById('status-dot').classList.add('online-dot');
+                    document.getElementById('online-count').innerText = data.players.online;
+                } else {
+                    document.getElementById('status-text').innerText = "SUNUCU KAPALI";
+                    document.getElementById('status-text').style.color = "#ff0000";
                 }
+            } catch (err) {
+                console.error("API Hatası:", err);
             }
         }
 
-        createParticles();
-        setInterval(draw, 33);
+        // IP Kopyalama Sistemi
+        function copyIp() {
+            navigator.clipboard.writeText(serverIp).then(() => {
+                const popup = document.getElementById('copy-popup');
+                popup.style.display = 'block';
+                
+                // 2 saniye sonra yazıyı gizle
+                setTimeout(() => {
+                    popup.style.display = 'none';
+                }, 2000);
+            });
+        }
+
+        // Sayfa açıldığında API'yi çalıştır
+        window.onload = fetchStatus;
     </script>
 </body>
 </html>
+
