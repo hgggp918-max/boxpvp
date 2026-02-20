@@ -1,139 +1,151 @@
-
 <!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>nogindr5 | Profile</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>nogindr5 | Guns.lol</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            cursor: url('https://cur.cursors-4u.net/symbols/sym-1/sym46.cur'), auto;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background-color: #000;
+            background: #000;
+            font-family: 'Inter', sans-serif;
+            color: white;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
             overflow: hidden;
-            font-family: 'Inter', sans-serif;
         }
 
-        /* Chickenholmes Arka Planı */
-        .background-overlay {
+        /* Arka Plan Görseli */
+        .bg {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('https://guns.lol/_next/image?url=https%3A%2F%2Fr2.guns.lol%2F7f999990-2646-4e9b-9a9c-0c360699037c.jpg&w=3840&q=75') no-repeat center center/cover;
-            filter: brightness(0.4);
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://r2.guns.lol/7f999990-2646-4e9b-9a9c-0c360699037c.jpg') no-repeat center center/cover;
+            filter: brightness(0.35);
             z-index: -1;
         }
 
-        .profile-card {
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+        /* Giriş Ekranı (Müzik için şart) */
+        #enter-screen {
+            position: fixed;
+            width: 100%; height: 100%;
+            background: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+            cursor: pointer;
+            transition: 0.8s ease;
+        }
+
+        #enter-screen.hidden { opacity: 0; pointer-events: none; }
+
+        /* Ana Kart */
+        .card {
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 40px;
-            width: 350px;
+            border-radius: 12px;
+            padding: 50px 40px;
+            width: 380px;
             text-align: center;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 30px rgba(0,0,0,0.8);
         }
 
         .avatar {
-            width: 100px;
-            height: 100px;
+            width: 100px; height: 100px;
             border-radius: 50%;
-            border: 2px solid #fff;
             margin-bottom: 15px;
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255,255,255,0.2);
         }
 
-        h1 {
-            color: #fff;
-            font-size: 22px;
-            margin-bottom: 20px;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-        }
+        h1 { font-size: 24px; font-weight: 700; margin-bottom: 25px; letter-spacing: 1px; }
 
-        .social-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
+        /* Butonlar */
+        .buttons { display: flex; flex-direction: column; gap: 15px; }
 
         .btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ddd;
+            text-decoration: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-weight: 600;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            padding: 12px;
-            border-radius: 8px;
-            text-decoration: none;
-            color: #fff;
-            font-weight: 500;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
+            gap: 12px;
+            transition: 0.3s;
         }
 
         .btn:hover {
             background: rgba(255, 255, 255, 0.15);
-            transform: scale(1.02);
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
-        }
-
-        .btn i {
-            font-size: 18px;
-        }
-
-        .music-player {
-            margin-top: 25px;
-            color: #888;
-            font-size: 13px;
-            letter-spacing: 1px;
-        }
-
-        .music-player span {
             color: #fff;
-            display: block;
-            margin-top: 5px;
-            font-style: italic;
+            transform: scale(1.03);
+            border-color: rgba(255,255,255,0.4);
         }
+
+        .btn i { font-size: 20px; }
+
+        /* Müzik Alt Yazı */
+        .music-bar {
+            margin-top: 30px;
+            font-size: 11px;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .playing-text { color: #fff; display: block; margin-top: 5px; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <div class="background-overlay"></div>
+    <div id="enter-screen" onclick="startEverything()">
+        <p>[ CLICK TO ENTER ]</p>
+    </div>
 
-    <div class="profile-card">
-        <img src="https://via.placeholder.com/100" alt="nogindr5" class="avatar">
+    <div class="bg"></div>
+
+    <div class="card">
+        <img src="https://via.placeholder.com/150" class="avatar" alt="nogindr5">
         
         <h1>nogindr5</h1>
 
-        <div class="social-buttons">
+        <div class="buttons">
             <a href="https://www.tiktok.com/@nogindr5?lang=tr-TR" target="_blank" class="btn">
                 <i class="fab fa-tiktok"></i> TikTok
             </a>
-
             <a href="https://discord.gg/vUCnx6t3Ex" target="_blank" class="btn">
                 <i class="fab fa-discord"></i> Discord
             </a>
         </div>
 
-        <div class="music-player">
-            Şu an çalıyor:
-            <span>Şarkılar Sokaklara Ait</span>
+        <div class="music-bar">
+            Now Playing:
+            <span class="playing-text">Şarkılar Sokaklara Ait</span>
         </div>
     </div>
+
+    <audio id="myAudio" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        function startEverything() {
+            document.getElementById('enter-screen').classList.add('hidden');
+            var audio = document.getElementById("myAudio");
+            audio.volume = 0.5;
+            audio.play();
+        }
+    </script>
 
 </body>
 </html>
