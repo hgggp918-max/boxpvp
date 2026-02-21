@@ -1,219 +1,573 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Herz | Full Stack Presence</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        :root { --color-primary: #a855f7; }
-        
-        * { 
-            margin: 0; padding: 0; box-sizing: border-box; 
-            user-select: none; cursor: none !important; 
-        }
-
-        #custom-cursor {
-            position: fixed; width: 32px; height: 32px;
-            background: url('cross.png') no-repeat center center;
-            background-size: contain; pointer-events: none; 
-            z-index: 999999; will-change: transform;
-            transform: translate3d(0, 0, 0) translate(-50%, -50%);
-            top: 0; left: 0;
-        }
-
-        body { 
-            background-color: #000; color: #fff; font-family: 'Inter', sans-serif; 
-            display: flex; justify-content: center; align-items: center; 
-            min-height: 100vh; overflow: hidden; 
-        }
-
-        #bg-video { 
-            position: fixed; inset: 0; width: 100%; height: 100%; 
-            z-index: -1; object-fit: cover; 
-        }
-
-        #enter-screen { 
-            position: fixed; inset: 0; background: rgba(0, 0, 0, 0.7); 
-            display: flex; justify-content: center; align-items: center; 
-            z-index: 10000; transition: opacity 0.8s ease; 
-        }
-
-        #snow-canvas { position: absolute; inset: 0; pointer-events: none; z-index: 10001; }
-        #enter-screen span { font-size: 24px; font-weight: 500; letter-spacing: 6px; color: rgba(255,255,255,0.7); z-index: 10002; }
-
-        .volume-container {
-            position: fixed; top: 25px; left: 25px; z-index: 2000;
-            display: flex; align-items: center; 
-            background: rgba(25, 25, 25, 0.6); 
-            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 50px; height: 44px; width: 44px; 
-            padding: 0 12px; overflow: hidden;
-            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1); opacity: 0;
-        }
-        .volume-container:hover { width: 190px; }
-        #mute-btn { font-size: 16px; min-width: 24px; color: #fff; display: flex; justify-content: center; align-items: center; }
-        .slider-wrapper { margin-left: 12px; flex-grow: 1; display: flex; align-items: center; opacity: 0; transition: opacity 0.3s; }
-        .volume-container:hover .slider-wrapper { opacity: 1; }
-        input[type="range"] { -webkit-appearance: none; width: 100%; height: 6px; background: rgba(255, 255, 255, 0.2); border-radius: 10px; outline: none; }
-        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; background: #fff; border-radius: 50%; cursor: pointer; }
-
-        .main-ui { text-align: center; opacity: 0; transition: 1.5s ease; z-index: 5; }
-
-        .avatar-box { 
-            position: relative; width: 280px; height: 280px; margin: 0 auto 20px; 
-        }
-
-        .img-wrapper {
-            width: 100%; height: 100%; border-radius: 50%;
-            overflow: hidden; border: 4px solid var(--color-primary); 
-            box-shadow: 0 0 40px rgba(168, 85, 247, 0.4);
-            display: flex; align-items: center; justify-content: center;
-            background: rgba(168, 85, 247, 0.1);
-        }
-        
-        .profile-text { font-size: 3.5rem; font-weight: 900; color: var(--color-primary); text-transform: uppercase; letter-spacing: 2px; }
-
-		.status-dot { 
-			position: absolute; bottom: 15px; right: 15px; width: 48px; height: 48px; 
-			border-radius: 50%; border: 4px solid rgba(255, 255, 255, 0); 
-			z-index: 20; background-size: cover; backdrop-filter: blur(4px);
-		}
-        
-        @keyframes rgb-cycle {
-            0%   { color: #ff0000; text-shadow: 0 0 20px rgba(255,0,0,0.6); }
-            33%  { color: #00ff00; text-shadow: 0 0 20px rgba(0,255,0,0.6); }
-            66%  { color: #0088ff; text-shadow: 0 0 20px rgba(0,136,255,0.6); }
-            100% { color: #ff0000; text-shadow: 0 0 20px rgba(255,0,0,0.6); }
-        }
-
-        h1 { 
-            font-size: 4rem; font-weight: 900; letter-spacing: -2px; 
-            margin-bottom: 5px; animation: rgb-cycle 4s linear infinite;
-        }
-
-        #activity-card {
-            display: flex; align-items: center; 
-            background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(20px);
-            padding: 16px 22px; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1);
-            margin: 20px auto; width: fit-content; min-width: 360px; 
-            opacity: 0; transition: 0.5s ease;
-        }
-        .card-img-box { position: relative; width: 75px; height: 75px; margin-right: 18px; flex-shrink: 0; }
-        .card-large-img { width: 100%; height: 100%; border-radius: 14px; object-fit: cover; }
-        .card-text { text-align: left; display: flex; flex-direction: column; gap: 2px; }
-        .user-header { display: flex; align-items: center; gap: 10px; }
-        .card-username { font-weight: 800; font-size: 1.15rem; color: #fff; }
-        .badge-tag { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.15); padding: 3px 10px; border-radius: 8px; font-size: 11px; font-weight: 900; display: flex; align-items: center; gap: 5px; color: #fff; text-transform: uppercase; }
-        .card-status-text { font-size: 0.9rem; color: #fff; font-weight: 600; }
-        .card-subtext { font-size: 0.85rem; color: rgba(255, 255, 255, 0.55); }
-
-        .techs { display: flex; justify-content: center; gap: 8px; margin: 30px 0; flex-wrap: wrap; max-width: 500px; }
-        .techs span { font-size: 10px; color: #fff; font-weight: 800; background: rgba(255, 255, 255, 0.08); padding: 6px 14px; border-radius: 5px; letter-spacing: 1px; }
-        .socials { display: flex; justify-content: center; gap: 45px; margin-top: 25px; }
-        .socials div, .socials a { font-size: 3rem; color: #fff; opacity: 0.6; transition: 0.3s; }
-        .socials div:hover, .socials a:hover { opacity: 1; transform: translateY(-5px); }
-    </style>
-</head>
-<body>
-    <div id="custom-cursor"></div>
-    
-    <div id="enter-screen" onclick="launch()">
-        <canvas id="snow-canvas"></canvas>
-        <span>CLICK TO ENTER...</span>
-    </div>
-
-    <div class="volume-container" id="vol-ui">
-        <i class="fas fa-volume-up" id="mute-btn" onclick="toggleMute()"></i>
-        <div class="slider-wrapper">
-            <input type="range" id="vol-slider" min="0" max="100" value="50">
-        </div>
-    </div>
-
-    <video playsinline loop muted id="bg-video">
-        <source src="https://r2.guns.lol/0d916e1a-45f1-4967-bd4e-ed3dc512dfa4.mp4" type="video/mp4">
-    </video>
-
-    <div class="main-ui" id="main-content">
-        <div class="avatar-box">
-            <div class="img-wrapper">
-                <span class="profile-text">Herz</span>
-            </div>
-            <div class="status-dot" id="dot"></div>
-        </div>
-        
-        <h1>Herz</h1>
-
-        <div id="activity-card">
-            <div class="card-img-box">
-                <img src="https://api.lanyard.rest/1430204370250764340.png" class="card-large-img" id="activity-icon" onerror="this.src='https://i.imgur.com/86G9p8X.png'">
-            </div>
-            <div class="card-text">
-                <div class="user-header">
-                    <span class="card-username">herz.io</span>
-                    <div class="badge-tag" id="dynamic-badge">
-                        <i class="fas fa-bolt" style="color:#facc15"></i> <span id="badge-text">HERZ</span>
-                    </div>
-                </div>
-                <span class="card-status-text" id="activity-name">Herz is here</span>
-                <span class="card-subtext" id="activity-detail">Full Stack Developer</span>
-            </div>
-        </div>
-
-        <div class="techs">
-            <span>HTML</span><span>CSS</span><span>JS</span><span>NODE.JS</span><span>PYTHON</span><span>C#</span><span>C++</span>
-        </div>
-
-        <div class="socials">
-            <a href="https://github.com/cdexecctru" target="_blank"><i class="fab fa-github"></i></a>
-            <div onclick="copyDC()" style="cursor: pointer;"><i class="fab fa-discord"></i></div>
-        </div>
-    </div>
-
+    <title>Profil</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
     <script>
-        const video = document.getElementById('bg-video');
-        const slider = document.getElementById('vol-slider');
-        const cursor = document.getElementById('custom-cursor');
-
-        // Mouse takip sistemi
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-        });
-
-        // Giriş yapma fonksiyonu
-        function launch() {
-            const enterScreen = document.getElementById('enter-screen');
-            const mainContent = document.getElementById('main-content');
-            const volUi = document.getElementById('vol-ui');
-
-            enterScreen.style.opacity = '0';
-            setTimeout(() => {
-                enterScreen.style.display = 'none';
-                mainContent.style.opacity = '1';
-                volUi.style.opacity = '1';
-                video.muted = false;
-                video.play();
-                video.volume = 0.5;
-            }, 800);
-        }
-
-        // Ses kontrolleri
-        slider.addEventListener('input', () => {
-            video.volume = slider.value / 100;
-        });
-
-        function toggleMute() {
-            video.muted = !video.muted;
-            document.getElementById('mute-btn').className = video.muted ? 'fas fa-volume-mute' : 'fas fa-volume-up';
-        }
-
-        function copyDC() {
-            navigator.clipboard.writeText('Herz'); // Kendi DC ismini buraya yazabilirsin
-            alert('Discord adı kopyalandı!');
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: { 900: '#050507', 800: '#0a0a10', 700: '#101018', 600: '#16161f', 500: '#1c1c28', 400: '#252535', 300: '#35354a' },
+                        accent: { DEFAULT: '#a855f7', light: '#c084fc', dark: '#7c3aed', glow: 'rgba(168,85,247,0.4)' },
+                        text: { primary: '#f0f0f5', secondary: '#9898b0', muted: '#5a5a75' }
+                    },
+                    fontFamily: {
+                        display: ['Space Mono', 'monospace'],
+                        body: ['Inter', 'sans-serif']
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
+                        'spin-wheel': 'spin-wheel var(--spin-duration, 4s) cubic-bezier(0.17, 0.67, 0.12, 0.99) forwards'
+                    },
+                    keyframes: {
+                        float: { '0%, 100%': { transform: 'translateY(0px)' }, '50%': { transform: 'translateY(-15px)' } },
+                        'pulse-glow': { '0%, 100%': { boxShadow: '0 0 20px rgba(168,85,247,0.25)' }, '50%': { boxShadow: '0 0 40px rgba(168,85,247,0.5)' } },
+                        'spin-wheel': { '0%': { transform: 'rotate(0deg)' }, '100%': { transform: 'rotate(var(--spin-deg, 1800deg))' } }
+                    }
+                }
+            }
         }
     </script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { overflow-x: hidden; }
+
+        .glass-card {
+            background: rgba(20, 20, 35, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(168, 85, 247, 0.1);
+            border-radius: 1rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card:hover {
+            border-color: rgba(168, 85, 247, 0.3);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 60px rgba(168, 85, 247, 0.1);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, #a855f7, #c084fc);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .btn-primary:hover::before { opacity: 1; }
+        .btn-primary span, .btn-primary svg { position: relative; z-index: 1; }
+
+        .gradient-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            pointer-events: none;
+        }
+
+        .bg-grid {
+            background-image: radial-gradient(rgba(168,85,247,0.06) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #a855f7, #c084fc, #e879f9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .link-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .link-card:hover {
+            transform: translateY(-6px) scale(1.02);
+        }
+
+        .hero-gradient {
+            background: radial-gradient(ellipse at 50% 0%, rgba(168,85,247,0.15) 0%, transparent 60%);
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(168, 85, 247, 0.5);
+            border-radius: 50%;
+            animation: particle-float linear infinite;
+        }
+
+        @keyframes particle-float {
+            0% { transform: translateY(0) translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) translateX(50px); opacity: 0; }
+        }
+
+        .wheel-container {
+            position: relative;
+            width: 340px;
+            height: 340px;
+        }
+        @media (min-width: 640px) {
+            .wheel-container {
+                width: 400px;
+                height: 400px;
+            }
+        }
+
+        .wheel-canvas {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 4px solid rgba(168, 85, 247, 0.5);
+            box-shadow: 0 0 40px rgba(168, 85, 247, 0.2), inset 0 0 30px rgba(0,0,0,0.3);
+        }
+
+        .wheel-pointer {
+            position: absolute;
+            top: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 16px solid transparent;
+            border-right: 16px solid transparent;
+            border-top: 32px solid #a855f7;
+            filter: drop-shadow(0 4px 12px rgba(168,85,247,0.5));
+            z-index: 10;
+        }
+
+        .wheel-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
+            box-shadow: 0 0 20px rgba(168,85,247,0.5);
+            z-index: 5;
+        }
+
+        .spinning .wheel-canvas {
+            animation: spin-wheel var(--spin-duration, 4s) cubic-bezier(0.17, 0.67, 0.12, 0.99) forwards;
+        }
+
+        @keyframes spin-wheel {
+            0% { transform: rotate(var(--start-deg, 0deg)); }
+            100% { transform: rotate(var(--spin-deg, 1800deg)); }
+        }
+
+        .result-popup {
+            animation: popup 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        @keyframes popup {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .tag-item {
+            animation: tag-in 0.2s ease-out forwards;
+        }
+        @keyframes tag-in {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0a0a10; }
+        ::-webkit-scrollbar-thumb { background: #35354a; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a855f7; }
+    </style>
+</head>
+
+<body class="bg-dark-900 text-text-primary min-h-screen font-body">
+    <audio id="bgMusic" src="Pardon.wav" loop preload="auto" autoplay></audio>
+
+    <div id="musicPlayer" class="fixed bottom-6 left-6 z-50 flex items-center gap-3 glass-card px-4 py-3 cursor-pointer select-none" style="border-color: rgba(168,85,247,0.2);">
+        <button id="musicToggle" onclick="toggleMusic()" class="w-9 h-9 rounded-lg bg-accent/20 flex items-center justify-center hover:bg-accent/30 transition-colors flex-shrink-0">
+            <svg id="iconPlay" class="w-5 h-5 text-accent hidden" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            <svg id="iconPause" class="w-5 h-5 text-accent hidden" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+            <svg id="iconMuted" class="w-5 h-5 text-text-muted hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"/></svg>
+        </button>
+        <input id="volumeSlider" type="range" min="0" max="100" value="50" oninput="changeVolume(this.value)"
+            class="w-20 sm:w-24 h-1.5 rounded-full appearance-none cursor-pointer"
+            style="background: linear-gradient(to right, #a855f7 50%, #252535 50%);">
+        <span id="volumeLabel" class="text-text-muted text-xs font-mono w-8 text-right">50%</span>
+    </div>
+
+    <div class="fixed inset-0 pointer-events-none">
+        <div class="hero-gradient absolute inset-0"></div>
+        <div id="particles" class="absolute inset-0"></div>
+    </div>
+
+    <section class="relative min-h-screen flex flex-col items-center justify-center bg-grid overflow-hidden">
+        <div class="gradient-orb w-[500px] h-[500px] bg-purple-600/15 top-0 left-1/2 -translate-x-1/2"></div>
+        <div class="gradient-orb w-[300px] h-[300px] bg-violet-500/10 bottom-1/4 right-0"></div>
+
+        <div class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
+            <div class="mb-8 animate-float">
+                <div class="w-28 h-28 sm:w-32 sm:h-32 mx-auto rounded-full bg-gradient-to-br from-purple-600 to-violet-400 p-1 shadow-2xl shadow-purple-500/30">
+                    <img src="herz.jpg" alt="Profil Fotoğrafı" class="w-full h-full rounded-full object-cover">
+                </div>
+            </div>
+
+            <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl font-bold mb-4">
+                <span class="text-gradient">Hoş Geldiniz</span>
+            </h1>
+            <p class="text-text-secondary text-lg sm:text-xl mb-12 max-w-md mx-auto font-light">
+                Beni buralardan takip edebilirsin!
+            </p>
+
+            <div class="grid gap-4 max-w-md mx-auto mb-16">
+                <a href="https://github.com/hgggp918-max" target="_blank" rel="noopener noreferrer"
+                    class="link-card glass-card flex items-center gap-4 px-6 py-4 group">
+                    <div class="w-12 h-12 rounded-xl bg-gray-500/20 flex items-center justify-center flex-shrink-0 group-hover:bg-gray-500/30 transition-colors">
+                        <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                    <div class="text-left flex-1">
+                        <span class="font-semibold text-lg text-text-primary group-hover:text-gray-300 transition-colors">Github</span>
+                        <p class="text-text-muted text-sm">Projelerime göz at</p>
+                    </div>
+                    <svg class="w-5 h-5 text-text-muted group-hover:text-gray-300 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                </a>
+
+                <a href="https://discord.gg/EWB3EmqY" target="_blank" rel="noopener noreferrer"
+                    class="link-card glass-card flex items-center gap-4 px-6 py-4 group">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-500/20 flex items-center justify-center flex-shrink-0 group-hover:bg-indigo-500/30 transition-colors">
+                        <svg class="w-6 h-6 text-indigo-400" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+                        </svg>
+                    </div>
+                    <div class="text-left flex-1">
+                        <span class="font-semibold text-lg text-text-primary group-hover:text-indigo-400 transition-colors">Discord</span>
+                        <p class="text-text-muted text-sm">Topluluğa katıl</p>
+                    </div>
+                    <svg class="w-5 h-5 text-text-muted group-hover:text-indigo-400 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            </div>
+
+            <div class="animate-bounce text-text-muted mt-16">
+                <svg class="w-6 h-6 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+                </svg>
+                <span class="text-sm mt-1 block">Çarkıfelek</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-dark-800 relative border-t border-dark-400" id="carkifelek">
+        <div class="absolute inset-0 bg-grid opacity-50"></div>
+        <div class="gradient-orb w-[400px] h-[400px] bg-purple-600/10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none z-0"></div>
+
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-12">
+                <h2 class="font-display text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+                    <span class="text-gradient">Çarkıfelek</span>
+                </h2>
+                <p class="text-text-secondary text-lg max-w-lg mx-auto">Seçeneklerini ekle, çarkı çevir ve kaderini belirle!</p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+                <div class="glass-card p-6 sm:p-8">
+                    <h3 class="font-display text-xl font-bold mb-6 flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-accent/20 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                            </svg>
+                        </div>
+                        Seçenek Ekle
+                    </h3>
+
+                    <div class="flex gap-3 mb-6">
+                        <input type="text" id="optionInput" placeholder="Bir seçenek yaz..."
+                            class="flex-1 bg-dark-700 border border-dark-400 rounded-xl px-4 py-3 text-text-primary placeholder-text-muted focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent/50 transition-all font-body"
+                            onkeydown="if(event.key==='Enter')addOption()">
+                        <button onclick="addOption()"
+                            class="btn-primary px-5 py-3 rounded-xl font-semibold text-white flex-shrink-0">
+                            <span>Ekle</span>
+                        </button>
+                    </div>
+
+                    <div id="optionsList" class="space-y-2 mb-6 max-h-64 overflow-y-auto pr-1">
+                        <div id="emptyState" class="text-center py-8">
+                            <svg class="w-12 h-12 mx-auto text-text-muted mb-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
+                            </svg>
+                            <p class="text-text-muted text-sm">Henüz seçenek eklenmedi</p>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-3">
+                        <button onclick="spinWheel()"
+                            id="spinBtn"
+                            class="btn-primary flex-1 py-4 rounded-xl font-bold text-lg text-white animate-pulse-glow disabled:opacity-50 disabled:cursor-not-allowed disabled:animate-none"
+                            disabled>
+                            <span class="flex items-center justify-center gap-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                                </svg>
+                                Döndür!
+                            </span>
+                        </button>
+                        <button onclick="clearAll()"
+                            class="px-5 py-4 rounded-xl font-semibold text-text-secondary border border-dark-400 hover:border-red-500/50 hover:text-red-400 transition-all">
+                            Temizle
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex flex-col items-center">
+                    <div class="wheel-container mb-8" id="wheelContainer">
+                        <div class="wheel-pointer"></div>
+                        <canvas id="wheelCanvas" class="wheel-canvas" width="400" height="400"></canvas>
+                        <div class="wheel-center"></div>
+                    </div>
+
+                    <div id="resultBox" class="hidden w-full max-w-sm">
+                        <div class="glass-card p-6 text-center border-accent/30 result-popup">
+                            <p class="text-text-secondary text-sm mb-2 font-medium uppercase tracking-wider">Sonuç</p>
+                            <p id="resultText" class="font-display text-2xl sm:text-3xl font-bold text-gradient"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-dark-900 border-t border-dark-400 py-8 relative">
+        <div class="absolute inset-0 bg-grid opacity-20"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <p class="text-text-muted text-sm">© 2026. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Particles
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 30; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            p.style.left = Math.random() * 100 + '%';
+            p.style.top = Math.random() * 100 + '%';
+            p.style.animationDuration = (4 + Math.random() * 8) + 's';
+            p.style.animationDelay = Math.random() * 5 + 's';
+            p.style.width = (1 + Math.random() * 3) + 'px';
+            p.style.height = p.style.width;
+            particlesContainer.appendChild(p);
+        }
+
+        // Wheel state
+        let options = [];
+        let isSpinning = false;
+        let currentRotation = 0;
+        const canvas = document.getElementById('wheelCanvas');
+        const ctx = canvas.getContext('2d');
+
+        const wheelColors = [
+            '#7c3aed', '#a855f7', '#6d28d9', '#8b5cf6',
+            '#5b21b6', '#c084fc', '#4c1d95', '#d8b4fe',
+            '#581c87', '#9333ea', '#6b21a8', '#a78bfa'
+        ];
+
+        function addOption() {
+            const input = document.getElementById('optionInput');
+            const val = input.value.trim();
+            if (!val) return;
+            if (options.length >= 20) {
+                return;
+            }
+
+            options.push(val);
+            input.value = '';
+            input.focus();
+            renderOptions();
+            drawWheel();
+            updateSpinBtn();
+        }
+
+        function removeOption(index) {
+            options.splice(index, 1);
+            renderOptions();
+            drawWheel();
+            updateSpinBtn();
+        }
+
+        function clearAll() {
+            options = [];
+            renderOptions();
+            drawWheel();
+            updateSpinBtn();
+            document.getElementById('resultBox').classList.add('hidden');
+        }
+
+        function updateSpinBtn() {
+            document.getElementById('spinBtn').disabled = options.length < 2;
+        }
+
+        function renderOptions() {
+            const list = document.getElementById('optionsList');
+            const empty = document.getElementById('emptyState');
+
+            Array.from(list.children).forEach(child => {
+                if (child.id !== 'emptyState') child.remove();
+            });
+
+            if (options.length === 0) {
+                empty.classList.remove('hidden');
+                return;
+            }
+
+            empty.classList.add('hidden');
+
+            options.forEach((opt, i) => {
+                const div = document.createElement('div');
+                div.className = 'tag-item flex items-center gap-3 bg-dark-600 rounded-lg px-4 py-3 group';
+                div.innerHTML = `
+                    <div class="w-3 h-3 rounded-full flex-shrink-0" style="background: ${wheelColors[i % wheelColors.length]}"></div>
+                    <span class="flex-1 text-text-primary text-sm font-medium truncate">${escapeHtml(opt)}</span>
+                    <button onclick="removeOption(${i})" class="text-text-muted hover:text-red-400 transition-colors flex-shrink-0 opacity-0 group-hover:opacity-100">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        function escapeHtml(text) {
+            const d = document.createElement('div');
+            d.textContent = text;
+            return d.innerHTML;
+        }
+
+        function drawWheel() {
+            const size = canvas.width;
+            const center = size / 2;
+            const radius = center - 4;
+            ctx.clearRect(0, 0, size, size);
+
+            if (options.length === 0) {
+                ctx.beginPath();
+                ctx.arc(center, center, radius, 0, 2 * Math.PI);
+                ctx.fillStyle = '#16161f';
+                ctx.fill();
+                ctx.strokeStyle = 'rgba(168,85,247,0.2)';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                ctx.fillStyle = '#5a5a75';
+                ctx.font = '500 16px Inter, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('Seçenek ekle', center, center);
+                return;
+            }
+
+            const sliceAngle = (2 * Math.PI) / options.length;
+
+            options.forEach((opt, i) => {
+                const startAngle = i * sliceAngle;
+                const endAngle = startAngle + sliceAngle;
+
+                ctx.beginPath();
+                ctx.moveTo(center, center);
+                ctx.arc(center, center, radius, startAngle, endAngle);
+                ctx.closePath();
+                ctx.fillStyle = wheelColors[i % wheelColors.length];
+                ctx.fill();
+
+                ctx.strokeStyle = 'rgba(0,0,0,0.3)';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+
+                ctx.save();
+                ctx.translate(center, center);
+                ctx.rotate(startAngle + sliceAngle / 2);
+                ctx.textAlign = 'right';
+                ctx.textBaseline = 'middle';
+                ctx.fillStyle = '#ffffff';
+
+                const fontSize = options.length > 10 ? 11 : options.length > 6 ? 13 : 15;
+                ctx.font = `600 ${fontSize}px Inter, sans-serif`;
+
+                const maxWidth = radius - 40;
+                let displayText = opt;
+                if (ctx.measureText(displayText).width > maxWidth) {
+                    while (ctx.measureText(displayText + '...').width > maxWidth && displayText.length > 0) {
+                        displayText = displayText.slice(0, -1);
+                    }
+                    displayText += '...';
+                }
+                ctx.fillText(displayText, radius - 20, 0);
+                ctx.restore();
+            });
+
+            ctx.beginPath();
+            ctx.arc(center, center, radius, 0, 2 * Math.PI);
+            ctx.strokeStyle = 'rgba(168,85,247,0.4)';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+        }
+
+        function spinWheel() {
+            if (isSpinning || options.length < 2) return;
+            isSpinning = true;
+
+            const container = document.getElementById('wheelContainer');
+            const resultBox = document.getElementById('resultBox');
+            const resultText = document.getElementById('resultText');
+            const spinBtn = document.getElementById('spinBtn');
+
+            resultBox.classList.add('hidden');
+            spinBtn.disabled = true;
+
+            const extraSpins = 5 + Math.floor(Math.random() * 5);
+            const randomDegree = Math.floor(Math.random() * 360);
+            const totalDegree = extraSpins * 360 + randomDegree;
+            
+            container.classList.add('spinning');
+            container.style.setProperty('--spin-deg', `${totalDegree}deg`);
+            container.style.setProperty('--spin-duration', '4s');
+
+            setTimeout(() => {
+                isSpinning = false;
+                container.classList.remove('spinning');
+                
+                const actualDegree = totalDegree % 360;
+                const sliceDegree = 360 / options.length;
+                const winnerIndex = Math.floor((360 - (actualDegree % 360)) / sliceDegree) % options.length;
+                
+                resultText.textContent = options[winnerIndex];
+                resultBox.classList.remove('hidden');
+                spinBtn.disabled = false;
+            }, 4000);
+        }
+
+        // İlk çizim
+        drawWheel();
+    </script>
 </body>
+
 </html>
