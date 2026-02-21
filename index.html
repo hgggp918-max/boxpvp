@@ -63,62 +63,35 @@
         .main-ui { text-align: center; opacity: 0; transition: 1.5s ease; z-index: 5; }
 
         .avatar-box { 
-            position: relative; 
-            width: 280px; 
-            height: 280px; 
-            margin: 0 auto 20px; 
+            position: relative; width: 280px; height: 280px; margin: 0 auto 20px; 
         }
 
         .img-wrapper {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 4px solid var(--color-primary); 
+            width: 100%; height: 100%; border-radius: 50%;
+            overflow: hidden; border: 4px solid var(--color-primary); 
             box-shadow: 0 0 40px rgba(168, 85, 247, 0.4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             background: rgba(168, 85, 247, 0.1);
         }
         
-        .profile-text { 
-            font-size: 3rem;
-            font-weight: 900;
-            color: var(--color-primary);
-        }
+        .profile-text { font-size: 3.5rem; font-weight: 900; color: var(--color-primary); text-transform: uppercase; letter-spacing: 2px; }
 
 		.status-dot { 
-			position: absolute; 
-			bottom: 15px; 
-			right: 15px; 
-			width: 48px; 
-			height: 48px; 
-			border-radius: 50%; 
-			border: 4px solid rgba(255, 255, 255, 0); 
-			z-index: 20; 
-			background-size: cover;
-			background-position: center;
-			background-repeat: no-repeat;
-			backdrop-filter: blur(4px);
+			position: absolute; bottom: 15px; right: 15px; width: 48px; height: 48px; 
+			border-radius: 50%; border: 4px solid rgba(255, 255, 255, 0); 
+			z-index: 20; background-size: cover; backdrop-filter: blur(4px);
 		}
         
         @keyframes rgb-cycle {
-            0%   { color: #ff0000; text-shadow: 0 0 20px rgba(255,0,0,0.6), 0 0 40px rgba(255,0,0,0.3); }
-            17%  { color: #ffff00; text-shadow: 0 0 20px rgba(255,255,0,0.6), 0 0 40px rgba(255,255,0,0.3); }
-            33%  { color: #00ff00; text-shadow: 0 0 20px rgba(0,255,0,0.6), 0 0 40px rgba(0,255,0,0.3); }
-            50%  { color: #00ffff; text-shadow: 0 0 20px rgba(0,255,255,0.6), 0 0 40px rgba(0,255,255,0.3); }
-            67%  { color: #0088ff; text-shadow: 0 0 20px rgba(0,136,255,0.6), 0 0 40px rgba(0,136,255,0.3); }
-            83%  { color: #ff00ff; text-shadow: 0 0 20px rgba(255,0,255,0.6), 0 0 40px rgba(255,0,255,0.3); }
-            100% { color: #ff0000; text-shadow: 0 0 20px rgba(255,0,0,0.6), 0 0 40px rgba(255,0,0,0.3); }
+            0%   { color: #ff0000; text-shadow: 0 0 20px rgba(255,0,0,0.6); }
+            33%  { color: #00ff00; text-shadow: 0 0 20px rgba(0,255,0,0.6); }
+            66%  { color: #0088ff; text-shadow: 0 0 20px rgba(0,136,255,0.6); }
+            100% { color: #ff0000; text-shadow: 0 0 20px rgba(255,0,0,0.6); }
         }
 
         h1 { 
-            font-size: 4rem; 
-            font-weight: 900; 
-            letter-spacing: -2px; 
-            margin-bottom: 5px; 
-            animation: rgb-cycle 4s linear infinite;
+            font-size: 4rem; font-weight: 900; letter-spacing: -2px; 
+            margin-bottom: 5px; animation: rgb-cycle 4s linear infinite;
         }
 
         #activity-card {
@@ -134,7 +107,6 @@
         .user-header { display: flex; align-items: center; gap: 10px; }
         .card-username { font-weight: 800; font-size: 1.15rem; color: #fff; }
         .badge-tag { background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.15); padding: 3px 10px; border-radius: 8px; font-size: 11px; font-weight: 900; display: flex; align-items: center; gap: 5px; color: #fff; text-transform: uppercase; }
-        .badge-tag i { color: #facc15; font-size: 12px; }
         .card-status-text { font-size: 0.9rem; color: #fff; font-weight: 600; }
         .card-subtext { font-size: 0.85rem; color: rgba(255, 255, 255, 0.55); }
 
@@ -150,7 +122,7 @@
     
     <div id="enter-screen" onclick="launch()">
         <canvas id="snow-canvas"></canvas>
-        <span>click to enter...</span>
+        <span>CLICK TO ENTER...</span>
     </div>
 
     <div class="volume-container" id="vol-ui">
@@ -176,17 +148,17 @@
 
         <div id="activity-card">
             <div class="card-img-box">
-                <img src="" class="card-large-img" id="activity-icon">
+                <img src="https://api.lanyard.rest/1430204370250764340.png" class="card-large-img" id="activity-icon" onerror="this.src='https://i.imgur.com/86G9p8X.png'">
             </div>
             <div class="card-text">
                 <div class="user-header">
-                    <span class="card-username">Herz</span>
-                    <div class="badge-tag" id="dynamic-badge" style="display:none;">
-                        <i class="fas fa-bolt"></i> <span id="badge-text">FKNW</span>
+                    <span class="card-username">herz.io</span>
+                    <div class="badge-tag" id="dynamic-badge">
+                        <i class="fas fa-bolt" style="color:#facc15"></i> <span id="badge-text">HERZ</span>
                     </div>
                 </div>
-                <span class="card-status-text" id="activity-name">Loading Activity...</span>
-                <span class="card-subtext" id="activity-detail">Connecting to Discord...</span>
+                <span class="card-status-text" id="activity-name">Herz is here</span>
+                <span class="card-subtext" id="activity-detail">Full Stack Developer</span>
             </div>
         </div>
 
@@ -196,9 +168,52 @@
 
         <div class="socials">
             <a href="https://github.com/cdexecctru" target="_blank"><i class="fab fa-github"></i></a>
-            <div onclick="copyDC()"><i class="fab fa-discord"></i></div>
+            <div onclick="copyDC()" style="cursor: pointer;"><i class="fab fa-discord"></i></div>
         </div>
     </div>
-    
-    </body>
+
+    <script>
+        const video = document.getElementById('bg-video');
+        const slider = document.getElementById('vol-slider');
+        const cursor = document.getElementById('custom-cursor');
+
+        // Mouse takip sistemi
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // Giriş yapma fonksiyonu
+        function launch() {
+            const enterScreen = document.getElementById('enter-screen');
+            const mainContent = document.getElementById('main-content');
+            const volUi = document.getElementById('vol-ui');
+
+            enterScreen.style.opacity = '0';
+            setTimeout(() => {
+                enterScreen.style.display = 'none';
+                mainContent.style.opacity = '1';
+                volUi.style.opacity = '1';
+                video.muted = false;
+                video.play();
+                video.volume = 0.5;
+            }, 800);
+        }
+
+        // Ses kontrolleri
+        slider.addEventListener('input', () => {
+            video.volume = slider.value / 100;
+        });
+
+        function toggleMute() {
+            video.muted = !video.muted;
+            document.getElementById('mute-btn').className = video.muted ? 'fas fa-volume-mute' : 'fas fa-volume-up';
+        }
+
+        function copyDC() {
+            navigator.clipboard.writeText('Herz'); // Kendi DC ismini buraya yazabilirsin
+            alert('Discord adı kopyalandı!');
+        }
+    </script>
+</body>
 </html>
