@@ -4,9 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Herz - Anne</title>
+    <title>Herz - FahriCan</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
@@ -27,7 +29,8 @@
                     },
                     keyframes: {
                         float: { '0%, 100%': { transform: 'translateY(0px)' }, '50%': { transform: 'translateY(-15px)' } },
-                        'pulse-glow': { '0%, 100%': { boxShadow: '0 0 20px rgba(168,85,247,0.25)' }, '50%': { boxShadow: '0 0 40px rgba(168,85,247,0.5)' } }
+                        'pulse-glow': { '0%, 100%': { boxShadow: '0 0 20px rgba(168,85,247,0.25)' }, '50%': { boxShadow: '0 0 40px rgba(168,85,247,0.5)' } },
+                        'spin-wheel': { '0%': { transform: 'rotate(0deg)' }, '100%': { transform: 'rotate(var(--spin-deg, 1800deg))' } }
                     }
                 }
             }
@@ -36,55 +39,259 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { overflow-x: hidden; }
-        .glass-card { background: rgba(20, 20, 35, 0.6); backdrop-filter: blur(20px); border: 1px solid rgba(168, 85, 247, 0.1); border-radius: 1rem; }
-        .bg-grid { background-image: radial-gradient(rgba(168,85,247,0.06) 1px, transparent 1px); background-size: 40px 40px; }
-        .text-gradient { background: linear-gradient(135deg, #a855f7, #c084fc, #e879f9); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .hero-gradient { background: radial-gradient(ellipse at 50% 0%, rgba(168,85,247,0.15) 0%, transparent 60%); }
+
+        .glass-card {
+            background: rgba(20, 20, 35, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(168, 85, 247, 0.1);
+            border-radius: 1rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card:hover {
+            border-color: rgba(168, 85, 247, 0.3);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 60px rgba(168, 85, 247, 0.1);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, #a855f7, #c084fc);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .btn-primary:hover::before { opacity: 1; }
+        .btn-primary span, .btn-primary svg { position: relative; z-index: 1; }
+
+        .gradient-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            pointer-events: none;
+        }
+
+        .bg-grid {
+            background-image: radial-gradient(rgba(168,85,247,0.06) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #a855f7, #c084fc, #e879f9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .link-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .link-card:hover {
+            transform: translateY(-6px) scale(1.02);
+        }
+
+        .hero-gradient {
+            background: radial-gradient(ellipse at 50% 0%, rgba(168,85,247,0.15) 0%, transparent 60%);
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(168, 85, 247, 0.5);
+            border-radius: 50%;
+            animation: particle-float linear infinite;
+        }
+
+        @keyframes particle-float {
+            0% { transform: translateY(0) translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) translateX(50px); opacity: 0; }
+        }
+
+        /* Wheel styles */
+        .wheel-container {
+            position: relative;
+            width: 340px;
+            height: 340px;
+        }
+        @media (min-width: 640px) {
+            .wheel-container {
+                width: 400px;
+                height: 400px;
+            }
+        }
+
+        .wheel-canvas {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 4px solid rgba(168, 85, 247, 0.5);
+            box-shadow: 0 0 40px rgba(168, 85, 247, 0.2), inset 0 0 30px rgba(0,0,0,0.3);
+        }
+
+        .wheel-pointer {
+            position: absolute;
+            top: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 16px solid transparent;
+            border-right: 16px solid transparent;
+            border-top: 32px solid #a855f7;
+            filter: drop-shadow(0 4px 12px rgba(168,85,247,0.5));
+            z-index: 10;
+        }
+
+        .wheel-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
+            box-shadow: 0 0 20px rgba(168,85,247,0.5);
+            z-index: 5;
+        }
+
+        .spinning .wheel-canvas {
+            animation: spin-wheel var(--spin-duration, 4s) cubic-bezier(0.17, 0.67, 0.12, 0.99) forwards;
+        }
+
+        @keyframes spin-wheel {
+            0% { transform: rotate(var(--start-deg, 0deg)); }
+            100% { transform: rotate(var(--spin-deg, 1800deg)); }
+        }
+
+        .result-popup {
+            animation: popup 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        @keyframes popup {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .tag-item {
+            animation: tag-in 0.2s ease-out forwards;
+        }
+        @keyframes tag-in {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0a0a10; }
+        ::-webkit-scrollbar-thumb { background: #35354a; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a855f7; }
     </style>
 </head>
 
 <body class="bg-dark-900 text-text-primary min-h-screen font-body">
-    
-    <div id="musicPlayer" class="fixed bottom-6 right-6 z-50 flex flex-col items-center gap-2 glass-card px-6 py-4">
-        <span class="text-xs font-mono text-accent animate-pulse">Şu an çalıyor: ANNE</span>
-        <audio id="bgMusic" controls class="h-8 opacity-80 hover:opacity-100 transition-opacity">
-            <source src="anne.mp3" type="audio/mpeg">
-            Tarayıcınız desteklemiyor.
-        </audio>
+    <audio id="bgMusic" src="anne.mp3" loop preload="auto" autoplay></audio>
+
+    <div id="musicPlayer" class="fixed bottom-6 left-6 z-50 flex items-center gap-3 glass-card px-4 py-3 cursor-pointer select-none" style="border-color: rgba(168,85,247,0.2);">
+        <button id="musicToggle" onclick="toggleMusic()" class="w-9 h-9 rounded-lg bg-accent/20 flex items-center justify-center hover:bg-accent/30 transition-colors flex-shrink-0">
+            <svg id="iconPlay" class="w-5 h-5 text-accent hidden" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            <svg id="iconPause" class="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+            <svg id="iconMuted" class="w-5 h-5 text-text-muted hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"/></svg>
+        </button>
+        <div class="flex flex-col">
+            <span class="text-[10px] text-accent font-bold uppercase tracking-widest">Şu an çalıyor</span>
+            <span class="text-xs text-text-primary font-mono truncate w-24">anne.mp3</span>
+        </div>
+        <input id="volumeSlider" type="range" min="0" max="100" value="50" oninput="changeVolume(this.value)"
+            class="w-20 sm:w-24 h-1.5 rounded-full appearance-none cursor-pointer"
+            style="background: linear-gradient(to right, #a855f7 50%, #252535 50%);">
     </div>
 
     <div class="fixed inset-0 pointer-events-none">
         <div class="hero-gradient absolute inset-0"></div>
+        <div id="particles" class="absolute inset-0"></div>
     </div>
 
     <section class="relative min-h-screen flex flex-col items-center justify-center bg-grid overflow-hidden">
-        <div class="relative z-10 max-w-4xl mx-auto px-4 text-center">
-            
+        <div class="gradient-orb w-[500px] h-[500px] bg-purple-600/15 top-0 left-1/2 -translate-x-1/2"></div>
+        
+        <div class="relative z-10 max-w-4xl mx-auto px-4 py-16 text-center">
             <div class="mb-8 animate-float">
-                <div class="w-32 h-32 sm:w-40 sm:h-40 mx-auto rounded-full bg-gradient-to-br from-purple-600 to-violet-400 p-1 shadow-2xl shadow-purple-500/30">
-                    <img src="herz.jpg" alt="Herz" class="w-full h-full rounded-full object-cover shadow-inner">
+                <div class="w-28 h-28 sm:w-32 sm:h-32 mx-auto rounded-full bg-gradient-to-br from-purple-600 to-violet-400 p-1 shadow-2xl shadow-purple-500/30 overflow-hidden">
+                    <img src="herz.png" alt="Herz" class="w-full h-full rounded-full object-cover">
                 </div>
             </div>
 
-            <h1 class="font-display text-4xl sm:text-6xl font-bold mb-2">
-                <span class="text-gradient">HERZ</span>
+            <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl font-bold mb-4">
+                <span class="text-gradient">Herz</span>
             </h1>
-            <p class="text-text-secondary text-lg mb-8 font-light italic">"Anne" - Yeni Parça Yayında</p>
+            <p class="text-text-secondary text-lg mb-12 max-w-md mx-auto font-light">
+                FahriCan - Sosyal medya hesaplarım ve eğlenceli araçlar.
+            </p>
 
-            <div class="flex flex-col gap-4 max-w-xs mx-auto">
-                <a href="https://github.com/hgggp918-max" target="_blank" class="glass-card py-3 px-6 hover:bg-white/5 transition-all flex items-center justify-center gap-2">
-                    <span class="font-bold">GITHUB</span>
+            <div class="grid gap-4 max-w-md mx-auto mb-16">
+                <a href="https://www.youtube.com/@KirpyMC" target="_blank" rel="noopener noreferrer"
+                    class="link-card glass-card flex items-center gap-4 px-6 py-4 group">
+                    <div class="w-12 h-12 rounded-xl bg-red-500/20 flex items-center justify-center flex-shrink-0 group-hover:bg-red-500/30 transition-colors">
+                        <svg class="w-6 h-6 text-red-500" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                    </div>
+                    <div class="text-left flex-1">
+                        <span class="font-semibold text-lg text-text-primary group-hover:text-red-400">YouTube</span>
+                    </div>
                 </a>
-                <a href="https://discord.gg/EWB3EmqY" target="_blank" class="glass-card py-3 px-6 hover:bg-indigo-500/20 transition-all flex items-center justify-center gap-2">
-                    <span class="font-bold">DISCORD</span>
+
+                <a href="https://kick.com/fahricaney" target="_blank" rel="noopener noreferrer"
+                    class="link-card glass-card flex items-center gap-4 px-6 py-4 group">
+                    <div class="w-12 h-12 rounded-xl bg-green-500/20 flex items-center justify-center flex-shrink-0 group-hover:bg-green-500/30 transition-colors">
+                        <img src="kicklogo.svg" alt="Kick" class="w-7 h-7">
+                    </div>
+                    <div class="text-left flex-1">
+                        <span class="font-semibold text-lg text-text-primary group-hover:text-green-400">Kick</span>
+                    </div>
                 </a>
+            </div>
+            
+            <div class="animate-bounce text-text-muted mt-8">
+                <span class="text-sm block">Aşağı Kaydır</span>
             </div>
         </div>
     </section>
 
-    <footer class="bg-dark-900 border-t border-dark-400 py-6 text-center">
-        <p class="text-text-muted text-xs font-mono">© 2026 HERZ PROJECT. Tüm Hakları Saklıdır.</p>
-    </footer>
+    <script>
+        const audio = document.getElementById('bgMusic');
+        const iconPlay = document.getElementById('iconPlay');
+        const iconPause = document.getElementById('iconPause');
 
+        function toggleMusic() {
+            if (audio.paused) {
+                audio.play();
+                iconPlay.classList.add('hidden');
+                iconPause.classList.remove('hidden');
+            } else {
+                audio.pause();
+                iconPlay.classList.remove('hidden');
+                iconPause.classList.add('hidden');
+            }
+        }
+
+        function changeVolume(val) {
+            audio.volume = val / 100;
+            document.getElementById('volumeSlider').style.background = `linear-gradient(to right, #a855f7 ${val}%, #252535 ${val}%)`;
+        }
+
+        // Sayfa etkileşimiyle müziği başlatmayı dene (Browser politikaları için)
+        document.addEventListener('click', () => {
+            if(audio.paused) audio.play();
+        }, { once: true });
+
+        // Parçacık sistemi ve Çarkıfelek JS kodlarını buraya ekleyebilirsin (Orijinal kodundaki fonksiyonlar geçerlidir)
+    </script>
 </body>
 </html>
