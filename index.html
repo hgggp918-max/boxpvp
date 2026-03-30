@@ -1,154 +1,87 @@
-<!DOCTYPE html>
+Bu Html Discord botumuz içindir !<!DOCTYPE html>
 <html lang="tr">
-
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>AD SOYAD SORGULAMA TERMINAL</title>
-
-    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
-
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'VT323', monospace; background: #00060f; color: #00f0ff; min-height: 100vh; padding: 1rem; }
-        .container { max-width: 1000px; margin: auto; }
-        .terminal-panel { background: rgba(0,10,20,0.85); border: 1px solid #00f0ff40; margin-bottom: 1.5rem; border-radius: 6px; overflow: hidden; }
-        .panel-header { background: #001428; padding: 1rem; border-bottom: 1px solid #00f0ff40; font-size: 1.4rem; display: flex; gap: .6rem; align-items: center; }
-        .form-content { padding: 1.4rem; }
-        .fields-row { display: flex; gap: 1rem; flex-wrap: wrap; }
-        .field { flex: 1; min-width: 45%; margin-bottom: 1rem; }
-        label { display: block; margin-bottom: .3rem; }
-        input { width: 100%; padding: .7rem; background: #000; border: 1px solid #00f0ff60; color: #00f0ff; font-family: inherit; }
-        .btn { width: 100%; padding: .8rem; border: 2px solid #00f0ff; background: transparent; color: #00f0ff; cursor: pointer; font-size: 1.3rem; }
-        .output-content { padding: 1.4rem; }
-        .result-count { text-align: center; margin-bottom: 1rem; font-size: 1.4rem; }
-        .results-wrapper { display: flex; flex-wrap: wrap; gap: 1rem; }
-        .result-table { width: calc(50% - .5rem); border-collapse: separate; border-spacing: 0 .4rem; background: rgba(0,25,45,0.8); border-radius: 6px; }
-        .result-table td { padding: .6rem .8rem; border-bottom: 1px solid #00f0ff20; word-break: break-word; }
-        .label { width: 35%; color: #88ffff; text-align: right; padding-right: .8rem; font-weight: bold; }
-        .value { color: #e0ffff; }
-        @media (max-width: 900px) { .result-table { width: 100%; } }
-        .error-text { color: #ff6666; text-align: center; }
-        .placeholder-text { text-align: center; color: #557799; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AD SOYAD SORGULAMA</title>
+<style>
+    body { font-family: monospace; background:#00060f; color:#00f0ff; padding:1rem; }
+    .container { max-width: 800px; margin:auto; }
+    .panel { background: rgba(0,10,20,0.85); padding:1rem; margin-bottom:1rem; border-radius:6px; }
+    input { width:100%; padding:0.5rem; margin-bottom:0.5rem; background:#000; border:1px solid #00f0ff; color:#00f0ff; }
+    button { width:100%; padding:0.7rem; border:2px solid #00f0ff; background:transparent; color:#00f0ff; cursor:pointer; }
+    table { width:100%; margin-top:0.5rem; border-collapse: collapse; }
+    td { padding:0.3rem; border-bottom:1px solid #00f0ff33; }
+    .label { width:30%; font-weight:bold; color:#88ffff; text-align:right; padding-right:0.5rem; }
+    .value { color:#e0ffff; }
+    .error { color:#ff6666; text-align:center; }
+</style>
 </head>
-
 <body>
 
 <div class="container">
 
-    <div class="terminal-panel">
-        <div class="panel-header">
-            <i class="ri-user-search-line"></i> AD SOYAD SORGULAMA
-        </div>
-
-        <div class="form-content">
-            <div class="fields-row">
-                <div class="field">
-                    <label>Ad</label>
-                    <input id="ad">
-                </div>
-                <div class="field">
-                    <label>Soyad</label>
-                    <input id="soyad">
-                </div>
-            </div>
-
-            <div class="fields-row">
-                <div class="field">
-                    <label>İl</label>
-                    <input id="il">
-                </div>
-                <div class="field">
-                    <label>İlçe</label>
-                    <input id="ilce">
-                </div>
-            </div>
-
-            <button id="sorgula" class="btn">SORGULA</button>
-        </div>
+    <div class="panel">
+        <h3>AD SOYAD SORGULAMA</h3>
+        <input id="ad" placeholder="Ad">
+        <input id="soyad" placeholder="Soyad">
+        <input id="il" placeholder="İl (opsiyonel)">
+        <input id="ilce" placeholder="İlçe (opsiyonel)">
+        <button id="sorgula">SORGULA</button>
     </div>
 
-    <div class="terminal-panel">
-        <div class="panel-header">
-            <i class="ri-terminal-line"></i> SONUÇ
-        </div>
-
-        <div class="output-content" id="sonucAlani">
-            <div class="placeholder-text">Henüz sorgu yok</div>
-        </div>
+    <div class="panel">
+        <h3>SONUÇ</h3>
+        <div id="sonuc">Henüz sorgu yok</div>
     </div>
 
 </div>
 
 <script>
-$(document).ready(function () {
+document.getElementById("sorgula").addEventListener("click", function() {
+    const ad = document.getElementById("ad").value.trim();
+    const soyad = document.getElementById("soyad").value.trim();
+    const il = document.getElementById("il").value.trim();
+    const ilce = document.getElementById("ilce").value.trim();
 
-    $("#sorgula").click(function () {
+    const sonucAlani = document.getElementById("sonuc");
 
-        let ad = $("#ad").val().trim();
-        let soyad = $("#soyad").val().trim();
-        let il = $("#il").val().trim();
-        let ilce = $("#ilce").val().trim();
+    if(!ad && !soyad){
+        sonucAlani.innerHTML = '<div class="error">Ad veya Soyad gir</div>';
+        return;
+    }
 
-        if (!ad || !soyad) {
-            $("#sonucAlani").html('<div class="error-text">Ad ve Soyad girmeniz gerekiyor</div>');
-            return;
-        }
+    sonucAlani.innerHTML = 'Sorgulanıyor...';
 
-        $("#sonucAlani").html('Sorgulanıyor...');
+    // Sahte veri üret
+    const data = [{
+        ADI: ad,
+        SOYADI: soyad,
+        TCKN: "12345678901",
+        DG: "01/01/1990",
+        SS: il || "İstanbul",
+        ANNEADI: "Ayşe",
+        BABAADI: "Mehmet",
+        ADRES: `${ilce || "Kadıköy"}, ${il || "İstanbul"}`
+    }];
 
-        $.ajax({
-            url: "https://bedavapanel.site/panel/req/adsoyad.php",
-            type: "POST",
-            dataType: "json",
-            data: { ad, soyad, il, ilce },
-
-            success: function (response) {
-
-                if (!response.success || !response.data || !response.data.status) {
-                    $("#sonucAlani").html('<div class="error-text">Sonuç bulunamadı</div>');
-                    return;
-                }
-
-                let data = response.data.data;
-
-                if (!Array.isArray(data)) data = Object.values(data);
-
-                if (data.length === 0) {
-                    $("#sonucAlani").html('<div class="error-text">Sonuç bulunamadı</div>');
-                    return;
-                }
-
-                let html = `<div class="result-count">Toplam ${data.length} kayıt</div><div class="results-wrapper">`;
-
-                data.forEach((item, i) => {
-                    html += `
-                    <table class="result-table">
-                        <tr><td class="label">#</td><td class="value">${i+1}</td></tr>
-                        <tr><td class="label">Ad</td><td class="value">${item.ADI || '-'}</td></tr>
-                        <tr><td class="label">Soyad</td><td class="value">${item.SOYADI || '-'}</td></tr>
-                        <tr><td class="label">TCKN</td><td class="value">${item.TCKN || '-'}</td></tr>
-                        <tr><td class="label">Doğum</td><td class="value">${item.DG || '-'}</td></tr>
-                        <tr><td class="label">İl</td><td class="value">${item.SS || '-'}</td></tr>
-                        <tr><td class="label">Anne</td><td class="value">${item.ANNEADI || '-'}</td></tr>
-                        <tr><td class="label">Baba</td><td class="value">${item.BABAADI || '-'}</td></tr>
-                        <tr><td class="label">Adres</td><td class="value">${item.ADRES || '-'}</td></tr>
-                    </table>`;
-                });
-
-                html += `</div>`;
-                $("#sonucAlani").html(html);
-            },
-
-            error: function () {
-                $("#sonucAlani").html('<div class="error-text">Sunucu hatası</div>');
-            }
-        });
+    // HTML oluştur
+    let html = `<div>Toplam ${data.length} kayıt</div>`;
+    data.forEach((item, i) => {
+        html += `<table>
+            <tr><td class="label">#</td><td class="value">${i+1}</td></tr>
+            <tr><td class="label">Ad</td><td class="value">${item.ADI}</td></tr>
+            <tr><td class="label">Soyad</td><td class="value">${item.SOYADI}</td></tr>
+            <tr><td class="label">TCKN</td><td class="value">${item.TCKN}</td></tr>
+            <tr><td class="label">Doğum</td><td class="value">${item.DG}</td></tr>
+            <tr><td class="label">İl</td><td class="value">${item.SS}</td></tr>
+            <tr><td class="label">Anne</td><td class="value">${item.ANNEADI}</td></tr>
+            <tr><td class="label">Baba</td><td class="value">${item.BABAADI}</td></tr>
+            <tr><td class="label">Adres</td><td class="value">${item.ADRES}</td></tr>
+        </table>`;
     });
+
+    sonucAlani.innerHTML = html;
 });
 </script>
 
